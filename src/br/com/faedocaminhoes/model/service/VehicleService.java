@@ -5,11 +5,11 @@
  */
 package br.com.faedocaminhoes.model.service;
 
-import br.com.faedocaminhoes.model.Person;
 import br.com.faedocaminhoes.model.Vehicle;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
 import br.com.faedocaminhoes.model.dao.implement.VehicleDaoJPA;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -90,6 +90,26 @@ public class VehicleService {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Vehicle> findByName(String pName){
+        if(pName != null){
+            try{
+                List<Vehicle> listPessoa = vehicleDao.findByName(pName);
+                if(!listPessoa.isEmpty()){
+                    return listPessoa;                
+                }else{
+                    JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null, "Variable is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }

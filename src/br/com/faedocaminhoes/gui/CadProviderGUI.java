@@ -10,6 +10,10 @@ import br.com.faedocaminhoes.gui.tablemodel.renderer.ProviderTableRenderer;
 import br.com.faedocaminhoes.model.Provider;
 import br.com.faedocaminhoes.model.service.ProviderService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
+import br.com.faedocaminhoes.uteis.UpperCase;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -28,6 +32,7 @@ public class CadProviderGUI extends javax.swing.JDialog {
     public CadProviderGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initComp();
     }
     
     public CadProviderGUI(java.awt.Frame parent, boolean modal, ProviderService providerService) {
@@ -35,6 +40,23 @@ public class CadProviderGUI extends javax.swing.JDialog {
         initComponents();
         setProviderService(providerService);
         initComp();
+        
+        txtSearch.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent arg0) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent arg0) {
+                //findWithParameterIncrement(txtSearch.getText().trim());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent arg0) {
+                
+            }
+        });
     }
 
     /**
@@ -85,8 +107,19 @@ public class CadProviderGUI extends javax.swing.JDialog {
         });
 
         btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Deletar");
+        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Salvar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +183,17 @@ public class CadProviderGUI extends javax.swing.JDialog {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Localizar Fabricante", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
         btnSearch.setText("Buscar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
 
         tableProvider.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,6 +206,19 @@ public class CadProviderGUI extends javax.swing.JDialog {
 
             }
         ));
+        tableProvider.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableProviderMousePressed(evt);
+            }
+        });
+        tableProvider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableProviderKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableProviderKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProvider);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -234,6 +291,36 @@ public class CadProviderGUI extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        erasedComponents();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void tableProviderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProviderKeyReleased
+        
+    }//GEN-LAST:event_tableProviderKeyReleased
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tableProviderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProviderKeyPressed
+        
+    }//GEN-LAST:event_tableProviderKeyPressed
+
+    private void tableProviderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProviderMousePressed
+        getTable();
+    }//GEN-LAST:event_tableProviderMousePressed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        findWithParameter(txtSearch.getText().trim());
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            findWithParameter(txtSearch.getText().trim());
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -245,7 +332,7 @@ public class CadProviderGUI extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -308,6 +395,18 @@ public class CadProviderGUI extends javax.swing.JDialog {
         findAll();
     }
     
+    private void delete(){
+        provider = new Provider();
+        completeData();
+        if(providerService == null){
+            JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        providerService.deleteById(provider);
+        erasedComponents();
+        findAll();
+        btnDelete.setEnabled(false);
+    }
+    
     private void findAll(){
         if(providerService == null){
             JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
@@ -324,6 +423,46 @@ public class CadProviderGUI extends javax.swing.JDialog {
         }
     }
     
+    private void findWithParameterIncrement(String pParam){
+        if(providerService == null){
+            JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        List<Provider> list = providerService.findByName(pParam);        
+        if(list.isEmpty()){
+            //findAll();
+        }else{
+            tableModel.removeAll();
+            for(Provider p : list){
+                tableModel.addRow(p);
+            }  
+        }        
+    }
+    
+    private void findWithParameter(String pParam){
+        if(providerService == null){
+            JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        List<Provider> list = providerService.findByName(pParam);        
+        if(list.isEmpty()){
+            findAll();
+        }else{
+            tableModel.removeAll();
+            for(Provider p : list){
+                tableModel.addRow(p);
+            }  
+        }        
+    }
+    
+    private void getTable(){
+        provider = new Provider();
+        if(tableProvider.getSelectedRow() != -1){
+            provider = tableModel.getObject(tableProvider.getSelectedRow());
+            txtCod.setText(provider.getId().toString());
+            txtName.setText(provider.getNome());
+            btnDelete.setEnabled(true);
+        }
+    }
+    
     private void completeData(){
         provider = new Provider();
         provider.setId(ParseInteger.tryParseToInt(txtCod.getText()));
@@ -333,13 +472,17 @@ public class CadProviderGUI extends javax.swing.JDialog {
     private void erasedComponents(){
         txtCod.setText("");
         txtName.setText("");
-        btnSave.setEnabled(false);
+        txtName.requestFocus();
+        
     }
     
     private void initComp(){
         setModel();
         findAll();
+        txtName.setDocument(new UpperCase());
+        txtSearch.setDocument(new UpperCase());
         txtName.requestFocus();
+        
     }
     
     private boolean verifyComp(){        

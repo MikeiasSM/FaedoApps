@@ -10,6 +10,7 @@ import br.com.faedocaminhoes.model.Provider;
 import java.util.List;
 import br.com.faedocaminhoes.model.dao.ProviderDao;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -76,8 +77,10 @@ public class ProviderDaoJPA implements ProviderDao{
                 throw new IllegalAccessError("Object 'pProvider' was null!/br Next impossible.");
             }
             
+            Provider provider = em.find(Provider.class, pProvider.getId());
+            
             em.getTransaction().begin();
-            em.remove(pProvider);
+            em.remove(provider);
             em.getTransaction().commit();
             
             JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
@@ -85,6 +88,7 @@ public class ProviderDaoJPA implements ProviderDao{
         }catch(Exception e){
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }finally{
             if(em != null){
                 em.close();
@@ -147,4 +151,22 @@ public class ProviderDaoJPA implements ProviderDao{
         }
     }
     
+    public List<Provider> findByName(String pName){
+        EntityManager em = new ConnectionFactory().getConection();
+        List<Provider> list = null;
+        try{
+            String query = "SELECT p FROM Provider p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+           
+            list = em.createQuery(query).getResultList();
+
+            return list;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
 }

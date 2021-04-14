@@ -12,6 +12,9 @@ import br.com.faedocaminhoes.model.Vehicle;
 import br.com.faedocaminhoes.model.service.ProviderService;
 import br.com.faedocaminhoes.model.service.VehicleService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
+import br.com.faedocaminhoes.uteis.UpperCase;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -41,6 +44,24 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         setVehicleService(vehicleService);
         setProviderService(providerService);
         initComp();
+        
+        txtSearch.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent arg0) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent arg0) {
+                //findWithParameterIncrement(txtSearch.getText().trim());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent arg0) {
+                
+            }
+        });
+        
     }
 
     /**
@@ -115,6 +136,11 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
 
         btnDelete.setText("Deletar");
         btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnExit.setText("Sair");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -218,9 +244,25 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
 
             }
         ));
+        tableVehicle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableVehicleMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableVehicle);
 
         btnSearch.setText("Buscar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -300,6 +342,24 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            findWithParameter(txtSearch.getText().trim());
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        findWithParameter(txtSearch.getText().trim());
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void tableVehicleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableVehicleMousePressed
+        getTable();
+    }//GEN-LAST:event_tableVehicleMousePressed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,6 +446,18 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         findAll();
     }
     
+    private void delete(){
+        vehicle = new Vehicle();
+        completeData();
+        if(vehicleService == null){
+            JOptionPane.showMessageDialog(this, "VehicleService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        vehicleService.deleteById(vehicle);
+        erasedComponents();
+        findAll();
+        btnDelete.setEnabled(false);
+    }
+    
     private void findAll(){
         if(vehicleService == null){
             JOptionPane.showMessageDialog(this, "VehicleService was null", "Error", JOptionPane.ERROR_MESSAGE);
@@ -402,12 +474,55 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         }
     }
     
+     private void findWithParameterIncrement(String pParam){
+        if(vehicleService == null){
+            JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        List<Vehicle> list = vehicleService.findByName(pParam);        
+        if(list.isEmpty()){
+            //findAll();
+        }else{
+            tableModel.removeAll();
+            for(Vehicle p : list){
+                tableModel.addRow(p);
+            }  
+        }        
+    }
+    
+    private void findWithParameter(String pParam){
+        if(vehicleService == null){
+            JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        List<Vehicle> list = vehicleService.findByName(pParam);        
+        if(list.isEmpty()){
+            findAll();
+        }else{
+            tableModel.removeAll();
+            for(Vehicle p : list){
+                tableModel.addRow(p);
+            }  
+        }        
+    }
+    
     private void popProvider(){
         cbProvider.removeAllItems();
         for(Provider p: providerService.findAll()){
             cbProvider.addItem(p);
         }
         cbProvider.setSelectedItem(null);
+    }
+    
+    private void getTable(){
+        vehicle = new Vehicle();
+        if(tableVehicle.getSelectedRow() != -1){
+            vehicle = tableModel.getObject(tableVehicle.getSelectedRow());
+            txtCodVehicle.setText(vehicle.getId().toString());
+            txtModelo.setText(vehicle.getModelo());
+            txtCor.setText(vehicle.getCor());
+            txtPlaca.setText(vehicle.getPlaca());
+            cbProvider.setSelectedItem((Provider)vehicle.getProvider());
+            btnDelete.setEnabled(true);
+        }
     }
     
     private void completeData(){
@@ -429,13 +544,17 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         txtCor.setText("");
         txtPlaca.setText("");
         cbProvider.setSelectedItem(null);
-        btnSave.setEnabled(false);
+        txtModelo.requestFocus();
     }
     
     private void initComp(){
         setModel();
         findAll();
         popProvider();
+        txtModelo.setDocument(new UpperCase());
+        txtCor.setDocument(new UpperCase());
+        txtPlaca.setDocument(new UpperCase());
+        txtSearch.setDocument(new UpperCase());
         txtModelo.requestFocus();
     }
     

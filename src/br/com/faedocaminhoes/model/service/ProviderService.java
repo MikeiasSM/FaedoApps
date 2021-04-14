@@ -9,6 +9,7 @@ import br.com.faedocaminhoes.model.Provider;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
 import br.com.faedocaminhoes.model.dao.implement.ProviderDaoJPA;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -89,6 +90,26 @@ public class ProviderService {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Provider> findByName(String pName){
+        if(pName != null){
+            try{
+                List<Provider> listPessoa = providerDao.findByName(pName);
+                if(!listPessoa.isEmpty()){
+                    return listPessoa;                
+                }else{
+                    JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null, "Variable is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }

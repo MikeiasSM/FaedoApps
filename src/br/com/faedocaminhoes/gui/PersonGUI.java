@@ -15,6 +15,7 @@ import br.com.faedocaminhoes.model.service.PersonService;
 import br.com.faedocaminhoes.model.service.ProviderService;
 import br.com.faedocaminhoes.model.service.VehicleService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
+import br.com.faedocaminhoes.uteis.UpperCase;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -406,6 +407,10 @@ public class PersonGUI extends javax.swing.JFrame {
         setModel();
         setModelVehicle();
         findAll();
+        txtNome.setDocument(new UpperCase());
+        txtCpf.setDocument(new UpperCase());
+        txtTelefone.setDocument(new UpperCase());
+        txtSearch.setDocument(new UpperCase());
         txtNome.requestFocus();
     }
     

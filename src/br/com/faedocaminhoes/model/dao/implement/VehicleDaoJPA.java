@@ -67,16 +67,18 @@ public class VehicleDaoJPA implements VehicleDao{
     }
 
     @Override
-    public void delete(Vehicle pVeiculo) {
+    public void delete(Vehicle pVehicle) {
         EntityManager em = new ConnectionFactory().getConection();
         
         try{
-            if(pVeiculo == null){
+            if(pVehicle == null){
                 throw new IllegalAccessError("Object 'pVehicle' was null!/br Next impossible.");
             }
             
+            Vehicle vehicle = em.find(Vehicle.class, pVehicle.getId());
+            
             em.getTransaction().begin();
-            em.remove(pVeiculo);
+            em.remove(vehicle);
             em.getTransaction().commit();
             
             JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
@@ -139,6 +141,25 @@ public class VehicleDaoJPA implements VehicleDao{
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return vehicle;
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
+    
+    public List<Vehicle> findByName(String pName){
+        EntityManager em = new ConnectionFactory().getConection();
+        List<Vehicle> list = null;
+        try{
+            String query = "SELECT p FROM Vehicle p WHERE 1 = 1 AND p.modelo LIKE '%"+pName+"%'";
+           
+            list = em.createQuery(query).getResultList();
+
+            return list;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            return null;
         }finally{
             if(em != null){
                 em.close();
