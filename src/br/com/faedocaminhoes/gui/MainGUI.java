@@ -5,26 +5,50 @@
  */
 package br.com.faedocaminhoes.gui;
 
-import br.com.faedocaminhoes.connection.ConnectionFactory;
+import  br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.service.PersonService;
-import br.com.faedocaminhoes.model.service.ProviderService;
-import br.com.faedocaminhoes.model.service.VehicleService;
+import br.com.faedocaminhoes.uteis.DimensionFrame;
+import java.awt.Color;
+import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.LineBorder;
 
 /**
  *
- * @author Poison
+ * @author Mikeias
  */
-public class MainGUI extends javax.swing.JFrame {
+public class MainGUI extends DimensionFrame {
 
     /**
-     * Creates new form gui
+     * Creates new form Main
      */
     public MainGUI() {
         initComponents();
-        //Initi Hibernate
+        setIco();
+
+        //INICIAR CONEXÃO COM BANCO DE DADOS
         EntityManager em = new ConnectionFactory().getConection();
+
+        // LISTENER FECHAR APLICAÇÃO
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                int conf = JOptionPane.showConfirmDialog(MainGUI.this, "Deseja sair da aplicação?", "FAEDO CAMINHÕES ©", JOptionPane.YES_NO_OPTION);
+                if (conf == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else {
+                    e.getOldState();
+                }
+            }
+
+        });
     }
 
     /**
@@ -36,185 +60,283 @@ public class MainGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        lblConfig = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
-        jPanel4 = new javax.swing.JPanel();
-        lblPessoa = new javax.swing.JLabel();
-        lblVehicle = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        lblProvider = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        panePrincipal = new javax.swing.JPanel();
+        paneMenu = new javax.swing.JPanel();
+        Menu = new javax.swing.JTabbedPane();
+        abaArquivo = new javax.swing.JPanel();
+        lblArqParametros = new javax.swing.JLabel();
+        lblArqSair = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
-        lblExit = new javax.swing.JLabel();
+        lblArqBackup = new javax.swing.JLabel();
+        abaPessas = new javax.swing.JPanel();
+        lblCadPessoa = new javax.swing.JLabel();
+        lblCadUsuario = new javax.swing.JLabel();
+        lblCadCidade = new javax.swing.JLabel();
+        lblCadEstados = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jPanel1 = new javax.swing.JPanel();
+        lblGas = new javax.swing.JLabel();
+        abaProdutos = new javax.swing.JPanel();
+        lblCadProduto = new javax.swing.JLabel();
+        lblCadCategoria = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        lblCadMovimentacao = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        abaLancamentos = new javax.swing.JPanel();
+        lblLancamento = new javax.swing.JLabel();
+        lblBaixa = new javax.swing.JLabel();
+        abaOS = new javax.swing.JPanel();
+        abaRelatorios = new javax.swing.JPanel();
+        paneApp = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Nextsoft Software");
+        setBackground(new java.awt.Color(255, 255, 255));
+        setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        panePrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        panePrincipal.setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
-        jTabbedPane1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        paneMenu.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        Menu.setBackground(new java.awt.Color(255, 255, 255));
+        Menu.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
-        lblConfig.setBackground(new java.awt.Color(153, 255, 255));
-        lblConfig.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        lblConfig.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/gui/icons/icons8_engineering_55px.png"))); // NOI18N
-        lblConfig.setText("Preferências");
-        lblConfig.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblConfig.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblConfig.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblConfigMousePressed(evt);
+        abaArquivo.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblArqParametros.setBackground(new java.awt.Color(255, 255, 255));
+        lblArqParametros.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblArqParametros.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblArqParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Parametros_36px.png"))); // NOI18N
+        lblArqParametros.setText("Parâmetros");
+        lblArqParametros.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblArqParametros.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblArqParametros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblArqParametrosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblArqParametrosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblArqParametrosMouseExited(evt);
             }
         });
 
-        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        lblArqSair.setBackground(new java.awt.Color(255, 255, 255));
+        lblArqSair.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblArqSair.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblArqSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_SignOut_36px.png"))); // NOI18N
+        lblArqSair.setText("Sair");
+        lblArqSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblArqSair.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblArqSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblArqSairMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblArqSairMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblArqSairMouseExited(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(lblConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jSeparator5.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        lblArqBackup.setBackground(new java.awt.Color(255, 255, 255));
+        lblArqBackup.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblArqBackup.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblArqBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Backup_36px.png"))); // NOI18N
+        lblArqBackup.setText("Backup");
+        lblArqBackup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblArqBackup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblArqBackup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblArqBackupMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblArqBackupMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblArqBackupMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout abaArquivoLayout = new javax.swing.GroupLayout(abaArquivo);
+        abaArquivo.setLayout(abaArquivoLayout);
+        abaArquivoLayout.setHorizontalGroup(
+            abaArquivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaArquivoLayout.createSequentialGroup()
+                .addComponent(lblArqParametros, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1246, Short.MAX_VALUE))
+                .addComponent(lblArqBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblArqSair, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 940, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 1, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Arquivo", jPanel3);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        lblPessoa.setBackground(new java.awt.Color(255, 255, 255));
-        lblPessoa.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        lblPessoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPessoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/gui/icons/icons8_user_55px.png"))); // NOI18N
-        lblPessoa.setText("Pessoa");
-        lblPessoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblPessoa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblPessoa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblPessoaMousePressed(evt);
-            }
-        });
-
-        lblVehicle.setBackground(new java.awt.Color(255, 255, 255));
-        lblVehicle.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        lblVehicle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblVehicle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/gui/icons/icons8_car_rental_55px.png"))); // NOI18N
-        lblVehicle.setText("Veiculo");
-        lblVehicle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblVehicle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblVehicle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblVehicleMousePressed(evt);
-            }
-        });
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        lblProvider.setBackground(new java.awt.Color(255, 255, 255));
-        lblProvider.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        lblProvider.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblProvider.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/gui/icons/icons8_honda_55px.png"))); // NOI18N
-        lblProvider.setText("Fabricante");
-        lblProvider.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblProvider.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblProvider.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblProviderMousePressed(evt);
-            }
-        });
-
-        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(lblPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblProvider, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1098, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblProvider, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+        abaArquivoLayout.setVerticalGroup(
+            abaArquivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaArquivoLayout.createSequentialGroup()
+                .addGroup(abaArquivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblArqSair, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblArqParametros, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblArqBackup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cadastro", jPanel4);
+        Menu.addTab("Arquivo", abaArquivo);
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        abaPessas.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1345, Short.MAX_VALUE)
+        lblCadPessoa.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadPessoa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadPessoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadPessoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Team_36px.png"))); // NOI18N
+        lblCadPessoa.setText("Pessoa");
+        lblCadPessoa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadPessoa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadPessoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadPessoaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadPessoaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadPessoaMouseExited(evt);
+            }
+        });
+
+        lblCadUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadUsuario.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_User_36px.png"))); // NOI18N
+        lblCadUsuario.setText("Usuario");
+        lblCadUsuario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadUsuario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadUsuarioMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadUsuarioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadUsuarioMouseExited(evt);
+            }
+        });
+
+        lblCadCidade.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadCidade.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadCidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Cidade_36px.png"))); // NOI18N
+        lblCadCidade.setText("Cidade");
+        lblCadCidade.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadCidade.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadCidade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadCidadeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadCidadeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadCidadeMouseExited(evt);
+            }
+        });
+
+        lblCadEstados.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadEstados.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadEstados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadEstados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Cidade_36px.png"))); // NOI18N
+        lblCadEstados.setText("Estado");
+        lblCadEstados.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadEstados.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadEstados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadEstadosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadEstadosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadEstadosMouseExited(evt);
+            }
+        });
+
+        jSeparator3.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator4.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout abaPessasLayout = new javax.swing.GroupLayout(abaPessas);
+        abaPessas.setLayout(abaPessasLayout);
+        abaPessasLayout.setHorizontalGroup(
+            abaPessasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaPessasLayout.createSequentialGroup()
+                .addComponent(lblCadPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 863, Short.MAX_VALUE))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 89, Short.MAX_VALUE)
+        abaPessasLayout.setVerticalGroup(
+            abaPessasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaPessasLayout.createSequentialGroup()
+                .addGroup(abaPessasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCadPessoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblCadUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblCadCidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblCadEstados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Lancamento", jPanel5);
+        Menu.addTab("Pessoas", abaPessas);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        lblExit.setBackground(new java.awt.Color(153, 255, 255));
-        lblExit.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        lblExit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/gui/icons/icons8_exit_sign_55px.png"))); // NOI18N
-        lblExit.setText("Sair");
-        lblExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblExitMousePressed(evt);
+        lblGas.setBackground(new java.awt.Color(255, 255, 255));
+        lblGas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblGas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_gas_station_36px.png"))); // NOI18N
+        lblGas.setText("Combustivel");
+        lblGas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblGas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblGas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblGasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblGasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblGasMouseExited(evt);
             }
         });
 
@@ -223,82 +345,472 @@ public class MainGUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblExit, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1246, Short.MAX_VALUE))
+                .addComponent(lblGas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1081, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblExit, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addComponent(lblGas, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Sistema", jPanel1);
+        Menu.addTab("Consumo", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+        abaProdutos.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblCadProduto.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadProduto.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadProduto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Produto_36px.png"))); // NOI18N
+        lblCadProduto.setText("Produto");
+        lblCadProduto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadProduto.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadProdutoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadProdutoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadProdutoMouseExited(evt);
+            }
+        });
+
+        lblCadCategoria.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadCategoria.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadCategoria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Categoria_36px.png"))); // NOI18N
+        lblCadCategoria.setText("Categoria");
+        lblCadCategoria.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadCategoria.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadCategoriaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadCategoriaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadCategoriaMouseExited(evt);
+            }
+        });
+
+        jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        lblCadMovimentacao.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadMovimentacao.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadMovimentacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadMovimentacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Movimentacao_36px.png"))); // NOI18N
+        lblCadMovimentacao.setText(" Movimentações ");
+        lblCadMovimentacao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadMovimentacao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadMovimentacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadMovimentacaoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadMovimentacaoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadMovimentacaoMouseExited(evt);
+            }
+        });
+
+        jSeparator6.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout abaProdutosLayout = new javax.swing.GroupLayout(abaProdutos);
+        abaProdutos.setLayout(abaProdutosLayout);
+        abaProdutosLayout.setHorizontalGroup(
+            abaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaProdutosLayout.createSequentialGroup()
+                .addComponent(lblCadProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadMovimentacao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 908, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, Short.MAX_VALUE)
-                .addGap(0, 780, Short.MAX_VALUE))
+        abaProdutosLayout.setVerticalGroup(
+            abaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaProdutosLayout.createSequentialGroup()
+                .addGroup(abaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(abaProdutosLayout.createSequentialGroup()
+                        .addGroup(abaProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCadMovimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCadCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCadProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator6)
+                    .addComponent(jSeparator2))
+                .addContainerGap())
         );
+
+        Menu.addTab("Estoque", abaProdutos);
+
+        abaLancamentos.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblLancamento.setBackground(new java.awt.Color(255, 255, 255));
+        lblLancamento.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblLancamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLancamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_List_36px.png"))); // NOI18N
+        lblLancamento.setText("Lancamento");
+        lblLancamento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblLancamento.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblLancamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLancamentoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblLancamentoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblLancamentoMouseExited(evt);
+            }
+        });
+
+        lblBaixa.setBackground(new java.awt.Color(255, 255, 255));
+        lblBaixa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblBaixa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Pagamento_36px.png"))); // NOI18N
+        lblBaixa.setText("Baixa");
+        lblBaixa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblBaixa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblBaixa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBaixaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblBaixaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblBaixaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout abaLancamentosLayout = new javax.swing.GroupLayout(abaLancamentos);
+        abaLancamentos.setLayout(abaLancamentosLayout);
+        abaLancamentosLayout.setHorizontalGroup(
+            abaLancamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(abaLancamentosLayout.createSequentialGroup()
+                .addComponent(lblLancamento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1014, Short.MAX_VALUE))
+        );
+        abaLancamentosLayout.setVerticalGroup(
+            abaLancamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        Menu.addTab("Financeiro", abaLancamentos);
+
+        abaOS.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout abaOSLayout = new javax.swing.GroupLayout(abaOS);
+        abaOS.setLayout(abaOSLayout);
+        abaOSLayout.setHorizontalGroup(
+            abaOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        abaOSLayout.setVerticalGroup(
+            abaOSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        Menu.addTab("Ordem de Serviços", abaOS);
+
+        abaRelatorios.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout abaRelatoriosLayout = new javax.swing.GroupLayout(abaRelatorios);
+        abaRelatorios.setLayout(abaRelatoriosLayout);
+        abaRelatoriosLayout.setHorizontalGroup(
+            abaRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1151, Short.MAX_VALUE)
+        );
+        abaRelatoriosLayout.setVerticalGroup(
+            abaRelatoriosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        Menu.addTab("Relatorios", abaRelatorios);
+
+        javax.swing.GroupLayout paneMenuLayout = new javax.swing.GroupLayout(paneMenu);
+        paneMenu.setLayout(paneMenuLayout);
+        paneMenuLayout.setHorizontalGroup(
+            paneMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Menu)
+        );
+        paneMenuLayout.setVerticalGroup(
+            paneMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneMenuLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+
+        panePrincipal.add(paneMenu, java.awt.BorderLayout.NORTH);
+
+        paneApp.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(105, 105, 105));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/NFC_Logo_Preto_250px.png"))); // NOI18N
+        jLabel1.setText("Next Software");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel1.setOpaque(true);
+        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        paneApp.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        panePrincipal.add(paneApp, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lblPessoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPessoaMousePressed
-        PersonGUI gui = new PersonGUI(new PersonService());
-        gui.setLocationRelativeTo(this);
-        gui.setVisible(true);
-    }//GEN-LAST:event_lblPessoaMousePressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.setExtendedState(MAXIMIZED_BOTH);
+        //LoginGUI login = new LoginGUI(this, true);
+        //login.setLocationRelativeTo(this);
+        //login.setVisible(true);
+
     }//GEN-LAST:event_formWindowOpened
 
-    private void lblConfigMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfigMousePressed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void lblBaixaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaixaMouseExited
+        lblBaixa.setBackground(new Color(255, 255, 255));
+        lblBaixa.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblBaixaMouseExited
+
+    private void lblBaixaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaixaMouseEntered
+        lblBaixa.setBackground(new Color(234, 236, 238));
+        lblBaixa.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblBaixaMouseEntered
+
+    private void lblLancamentoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLancamentoMouseExited
+        lblLancamento.setBackground(new Color(255, 255, 255));
+        lblLancamento.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblLancamentoMouseExited
+
+    private void lblLancamentoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLancamentoMouseEntered
+        lblLancamento.setBackground(new Color(234, 236, 238));
+        lblLancamento.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblLancamentoMouseEntered
+
+    private void lblCadCategoriaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCategoriaMouseExited
+        lblCadCategoria.setBackground(new Color(255, 255, 255));
+        lblCadCategoria.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadCategoriaMouseExited
+
+    private void lblCadCategoriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCategoriaMouseEntered
+        lblCadCategoria.setBackground(new Color(234, 236, 238));
+        lblCadCategoria.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadCategoriaMouseEntered
+
+    private void lblCadProdutoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadProdutoMouseExited
+        lblCadProduto.setBackground(new Color(255, 255, 255));
+        lblCadProduto.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadProdutoMouseExited
+
+    private void lblCadProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadProdutoMouseEntered
+        lblCadProduto.setBackground(new Color(234, 236, 238));
+        lblCadProduto.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadProdutoMouseEntered
+
+    private void lblCadUsuarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadUsuarioMouseExited
+        lblCadUsuario.setBackground(new Color(255, 255, 255));
+        lblCadUsuario.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadUsuarioMouseExited
+
+    private void lblCadUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadUsuarioMouseEntered
+        lblCadUsuario.setBackground(new Color(234, 236, 238));
+        lblCadUsuario.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadUsuarioMouseEntered
+
+    private void lblCadPessoaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadPessoaMouseExited
+        lblCadPessoa.setBackground(new Color(255, 255, 255));
+        lblCadPessoa.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadPessoaMouseExited
+
+    private void lblCadPessoaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadPessoaMouseEntered
+        lblCadPessoa.setBackground(new Color(234, 236, 238));
+        lblCadPessoa.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
         
-    }//GEN-LAST:event_lblConfigMousePressed
+    }//GEN-LAST:event_lblCadPessoaMouseEntered
 
-    private void lblVehicleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVehicleMousePressed
-        CadVeiculosGUI gui = new CadVeiculosGUI(null, true, new VehicleService(), new ProviderService());
-        gui.setLocationRelativeTo(this);
-        gui.setVisible(true);
-    }//GEN-LAST:event_lblVehicleMousePressed
+    private void lblCadPessoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadPessoaMouseClicked
+        CadPessoaGUI cadCliente = new CadPessoaGUI(new PersonService());
+        cadCliente.setLocationRelativeTo(cadCliente);
+        cadCliente.setVisible(true);
+    }//GEN-LAST:event_lblCadPessoaMouseClicked
 
-    private void lblProviderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProviderMousePressed
-        CadProviderGUI gui = new CadProviderGUI(null, true, new ProviderService());
-        gui.setLocationRelativeTo(this);
-        gui.setVisible(true);
-    }//GEN-LAST:event_lblProviderMousePressed
+    private void lblCadUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadUsuarioMouseClicked
+        CadUsuarioGUI cadUsuario = new CadUsuarioGUI(this, true);
+        cadUsuario.setLocationRelativeTo(cadUsuario);
+        cadUsuario.setVisible(true);
+    }//GEN-LAST:event_lblCadUsuarioMouseClicked
 
-    private void lblExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMousePressed
-        int i = JOptionPane.showConfirmDialog(this, "Deseja sair do sistema?","FAEDO CAMINHÕES", JOptionPane.YES_NO_OPTION);
-        if(i == JOptionPane.YES_OPTION){
-            System.exit(0);            
+    private void lblCadProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadProdutoMouseClicked
+        /*
+        CadProdutoGUI cadProduto = new CadProdutoGUI(this, true);
+        cadProduto.setLocationRelativeTo(cadProduto);
+        cadProduto.setCategoriaService(new CategoriaService());
+        cadProduto.setProdutoService(new ProdutoService());
+        cadProduto.setVisible(true);
+        */
+    }//GEN-LAST:event_lblCadProdutoMouseClicked
+
+    private void lblCadCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCategoriaMouseClicked
+        /*
+        CadCategoriaGUI cadCategoria = new CadCategoriaGUI(this, true);
+        cadCategoria.setLocationRelativeTo(cadCategoria);
+        cadCategoria.setVisible(true);
+        */
+    }//GEN-LAST:event_lblCadCategoriaMouseClicked
+
+    private void lblLancamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLancamentoMouseClicked
+        /*
+        LancamentoGUI lancamento = new LancamentoGUI(this, true);
+        lancamento.setLocationRelativeTo(lancamento);
+        lancamento.setVisible(true);
+        */
+    }//GEN-LAST:event_lblLancamentoMouseClicked
+
+    private void lblBaixaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaixaMouseClicked
+        /*
+        BaixaLancamentoGUI baixaLancamento = new BaixaLancamentoGUI(this, true);
+        baixaLancamento.setLocationRelativeTo(baixaLancamento);
+        baixaLancamento.setVisible(true);
+        */
+    }//GEN-LAST:event_lblBaixaMouseClicked
+
+    private void lblCadCidadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCidadeMouseClicked
+        /*
+        CadCidade cadCidade = new CadCidade(this, true);
+        cadCidade.setLocationRelativeTo(cadCidade);
+        cadCidade.setVisible(true);
+        */
+    }//GEN-LAST:event_lblCadCidadeMouseClicked
+
+    private void lblCadCidadeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCidadeMouseEntered
+        lblCadCidade.setBackground(new Color(234, 236, 238));
+        lblCadCidade.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadCidadeMouseEntered
+
+    private void lblCadCidadeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCidadeMouseExited
+        lblCadCidade.setBackground(new Color(255, 255, 255));
+        lblCadCidade.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadCidadeMouseExited
+
+    private void lblCadEstadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadEstadosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblCadEstadosMouseClicked
+
+    private void lblCadEstadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadEstadosMouseEntered
+        lblCadEstados.setBackground(new Color(234, 236, 238));
+        lblCadEstados.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadEstadosMouseEntered
+
+    private void lblCadEstadosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadEstadosMouseExited
+        lblCadEstados.setBackground(new Color(255, 255, 255));
+        lblCadEstados.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadEstadosMouseExited
+
+    private void lblArqParametrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqParametrosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblArqParametrosMouseClicked
+
+    private void lblArqParametrosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqParametrosMouseEntered
+        lblArqParametros.setBackground(new Color(234, 236, 238));
+        lblArqParametros.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblArqParametrosMouseEntered
+
+    private void lblArqParametrosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqParametrosMouseExited
+        lblArqParametros.setBackground(new Color(255, 255, 255));
+        lblArqParametros.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblArqParametrosMouseExited
+
+    private void lblArqSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqSairMouseClicked
+        int conf = JOptionPane.showConfirmDialog(MainGUI.this, "Deseja sair da aplicação?", "FAEDO CAMINHÕES ©", JOptionPane.YES_NO_OPTION);
+        if (conf == JOptionPane.YES_OPTION) {
+            System.exit(0);
         }
-    }//GEN-LAST:event_lblExitMousePressed
+    }//GEN-LAST:event_lblArqSairMouseClicked
+
+    private void lblArqSairMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqSairMouseEntered
+        lblArqSair.setBackground(new Color(234, 236, 238));
+        lblArqSair.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblArqSairMouseEntered
+
+    private void lblArqSairMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqSairMouseExited
+        lblArqSair.setBackground(new Color(255, 255, 255));
+        lblArqSair.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblArqSairMouseExited
+
+    private void lblCadMovimentacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadMovimentacaoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblCadMovimentacaoMouseClicked
+
+    private void lblCadMovimentacaoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadMovimentacaoMouseEntered
+        lblCadMovimentacao.setBackground(new Color(234, 236, 238));
+        lblCadMovimentacao.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadMovimentacaoMouseEntered
+
+    private void lblCadMovimentacaoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadMovimentacaoMouseExited
+        lblCadMovimentacao.setBackground(new Color(255, 255, 255));
+        lblCadMovimentacao.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadMovimentacaoMouseExited
+
+    private void lblArqBackupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqBackupMouseClicked
+        BackupGUI bkp = new BackupGUI();
+        bkp.setLocationRelativeTo(bkp);
+        bkp.setVisible(true);
+    }//GEN-LAST:event_lblArqBackupMouseClicked
+
+    private void lblArqBackupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqBackupMouseEntered
+        lblArqBackup.setBackground(new Color(234, 236, 238));
+        lblArqBackup.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblArqBackupMouseEntered
+
+    private void lblArqBackupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqBackupMouseExited
+        lblArqBackup.setBackground(new Color(255, 255, 255));
+        lblArqBackup.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblArqBackupMouseExited
+
+    private void lblGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblGasMouseClicked
+
+    private void lblGasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblGasMouseEntered
+
+    private void lblGasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblGasMouseExited
 
     /**
      * @param args the command line arguments
@@ -308,27 +820,48 @@ public class MainGUI extends javax.swing.JFrame {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-        Mac OS X
-        Windows
          */
+        
+        /*
+        //Synthetica
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            //Configurar se deve aplicar o look a borda do JFrame  
+            // No caso esta programado para não aplicar (Boolean.FALSE)  
+            UIManager.put("Synthetica.window.decoration", Boolean.TRUE);
+            //Configura qual Look você quer usar no projeto  
+            UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //</editor-fold>
-        //</editor-fold>
+        
+        JTattoo
+        try {  
+           //Configura o logo String dos JMenu's  
+           Properties props = new Properties();  
+           props.put("logoString", "FAEDO CAMINHÕES ©");  
+           AeroLookAndFeel.setCurrentTheme(props);  
+           //Configura o Look que deseja usar da Biblioteca JTattoo  
+           UIManager.setLookAndFeel(new AeroLookAndFeel());  
+        } catch (Exception erro) {  
+           erro.printStackTrace();  
+        }  
+        */
+         
+        //Padrao para linux e windows
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
+         
         //</editor-fold>
         //</editor-fold>
 
@@ -341,21 +874,40 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane Menu;
+    private javax.swing.JPanel abaArquivo;
+    private javax.swing.JPanel abaLancamentos;
+    private javax.swing.JPanel abaOS;
+    private javax.swing.JPanel abaPessas;
+    private javax.swing.JPanel abaProdutos;
+    private javax.swing.JPanel abaRelatorios;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblConfig;
-    private javax.swing.JLabel lblExit;
-    private javax.swing.JLabel lblPessoa;
-    private javax.swing.JLabel lblProvider;
-    private javax.swing.JLabel lblVehicle;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JLabel lblArqBackup;
+    private javax.swing.JLabel lblArqParametros;
+    private javax.swing.JLabel lblArqSair;
+    private javax.swing.JLabel lblBaixa;
+    private javax.swing.JLabel lblCadCategoria;
+    private javax.swing.JLabel lblCadCidade;
+    private javax.swing.JLabel lblCadEstados;
+    private javax.swing.JLabel lblCadMovimentacao;
+    private javax.swing.JLabel lblCadPessoa;
+    private javax.swing.JLabel lblCadProduto;
+    private javax.swing.JLabel lblCadUsuario;
+    private javax.swing.JLabel lblGas;
+    private javax.swing.JLabel lblLancamento;
+    private javax.swing.JPanel paneApp;
+    private javax.swing.JPanel paneMenu;
+    private javax.swing.JPanel panePrincipal;
     // End of variables declaration//GEN-END:variables
+
+    private void setIco() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
 }

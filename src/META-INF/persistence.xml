@@ -5,8 +5,10 @@
     <!-- Implementação do JPA -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Lista de entidades -->
-    <class>br.com.faedocaminhoes.model.Person</class>
-    <class>br.com.faedocaminhoes.model.Vehicle</class>
+    <class>br.com.faedocaminhoes.model.Pessoa</class>
+    <class>br.com.faedocaminhoes.model.Fabricante</class>
+    <class>br.com.faedocaminhoes.model.Usuario</class>
+    <class>br.com.faedocaminhoes.model.Veiculo</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

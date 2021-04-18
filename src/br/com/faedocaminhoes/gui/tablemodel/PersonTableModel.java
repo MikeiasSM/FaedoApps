@@ -5,7 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
-import br.com.faedocaminhoes.model.Person;
+import br.com.faedocaminhoes.model.Pessoa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PersonTableModel extends AbstractTableModel{
 
-    private final List<Person> dados = new ArrayList<>();
+    private final List<Pessoa> dados = new ArrayList<>();
     private final String[] colunas = {"Código",
                                       "Nome",
                                       "CPF/CNPJ",
@@ -73,7 +73,7 @@ public class PersonTableModel extends AbstractTableModel{
             }
     }
     
-    public void addRow(Person pPessoa){
+    public void addRow(Pessoa pPessoa){
         this.dados.add(pPessoa);
         this.fireTableDataChanged();
     }
@@ -86,8 +86,8 @@ public class PersonTableModel extends AbstractTableModel{
         this.fireTableDataChanged();
     }
     
-    public Person getObject(int linha){
-        Person pessoa = this.dados.get(linha);
+    public Pessoa getObject(int linha){
+        Pessoa pessoa = this.dados.get(linha);
         return pessoa;
     }
 }

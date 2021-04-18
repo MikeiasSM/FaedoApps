@@ -5,7 +5,7 @@
  */
 package br.com.faedocaminhoes.model.dao;
 
-import br.com.faedocaminhoes.model.Provider;
+import br.com.faedocaminhoes.model.Fabricante;
 import java.util.List;
 
 /**
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface ProviderDao {
     
-    public void insert(Provider pProvider);
-    public void update(Provider pProvider);
-    public void delete(Provider pProvider);
-    public List<Provider> findAll();
-    public Provider findById(Provider pProvider);
+    public void insert(Fabricante pProvider);
+    public void update(Fabricante pProvider);
+    public void delete(Fabricante pProvider);
+    public List<Fabricante> findAll();
+    public Fabricante findById(Fabricante pProvider);
     
 }

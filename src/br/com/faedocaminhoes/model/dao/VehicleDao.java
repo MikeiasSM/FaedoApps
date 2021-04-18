@@ -5,7 +5,7 @@
  */
 package br.com.faedocaminhoes.model.dao;
 
-import br.com.faedocaminhoes.model.Vehicle;
+import br.com.faedocaminhoes.model.Veiculo;
 import java.util.List;
 
 /**
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface VehicleDao {
     
-    public void insert(Vehicle pVehicle);
-    public void update(Vehicle pVehicle);
-    public void delete(Vehicle pVehicle);
-    public List<Vehicle> findAll();
-    public Vehicle findById(Vehicle pVehicle);
+    public void insert(Veiculo pVehicle);
+    public void update(Veiculo pVehicle);
+    public void delete(Veiculo pVehicle);
+    public List<Veiculo> findAll();
+    public Veiculo findById(Veiculo pVehicle);
     
 }

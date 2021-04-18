@@ -5,8 +5,8 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
-import br.com.faedocaminhoes.model.Provider;
-import br.com.faedocaminhoes.model.Vehicle;
+import br.com.faedocaminhoes.model.Fabricante;
+import br.com.faedocaminhoes.model.Veiculo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class VehicleTableModel extends AbstractTableModel{
 
-    private final List<Vehicle> dados = new ArrayList<>();
+    private final List<Veiculo> dados = new ArrayList<>();
     private final String[] colunas = {"Código",
                                       "Modelo",
                                       "Fabricante",
@@ -66,7 +66,7 @@ public class VehicleTableModel extends AbstractTableModel{
             case 1:
                 dados.get(linhaIndex).setModelo((String) valor);
             case 2:
-                dados.get(linhaIndex).setProvider((Provider) valor);
+                dados.get(linhaIndex).setProvider((Fabricante) valor);
             case 3:
                 dados.get(linhaIndex).setCor((String) valor);
             case 4:
@@ -74,7 +74,7 @@ public class VehicleTableModel extends AbstractTableModel{
             }
     }
     
-    public void addRow(Vehicle pVehicle){
+    public void addRow(Veiculo pVehicle){
         this.dados.add(pVehicle);
         this.fireTableDataChanged();
     }
@@ -87,13 +87,13 @@ public class VehicleTableModel extends AbstractTableModel{
         this.fireTableDataChanged();
     }
     
-    public Vehicle getObject(int linha){
-        Vehicle vehicle = this.dados.get(linha);
+    public Veiculo getObject(int linha){
+        Veiculo vehicle = this.dados.get(linha);
         return vehicle;
     }
     
-    public List<Vehicle> getList(){
-        List<Vehicle> vehicles = this.dados;
+    public List<Veiculo> getList(){
+        List<Veiculo> vehicles = this.dados;
         return vehicles;
     }
 }

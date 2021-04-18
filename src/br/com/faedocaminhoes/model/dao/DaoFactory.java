@@ -5,9 +5,10 @@
  */
 package br.com.faedocaminhoes.model.dao;
 
-import br.com.faedocaminhoes.model.dao.implement.PersonDaoJPA;
-import br.com.faedocaminhoes.model.dao.implement.ProviderDaoJPA;
-import br.com.faedocaminhoes.model.dao.implement.VehicleDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.PessoaDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.FabricanteDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.UsuarioDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.VeiculoDaoJPA;
 
 /**
  *
@@ -15,16 +16,20 @@ import br.com.faedocaminhoes.model.dao.implement.VehicleDaoJPA;
  */
 public class DaoFactory {
     
-    public static PersonDaoJPA createPersonDao(){
-        return new PersonDaoJPA();
+    public static PessoaDaoJPA createPersonDao(){
+        return new PessoaDaoJPA();
     }
     
-    public static VehicleDaoJPA createVehicleDao(){
-        return new VehicleDaoJPA();
+    public static VeiculoDaoJPA createVehicleDao(){
+        return new VeiculoDaoJPA();
     }
     
-    public static ProviderDaoJPA createProviderDao(){
-        return new ProviderDaoJPA();
+    public static FabricanteDaoJPA createProviderDao(){
+        return new FabricanteDaoJPA();
+    }
+    
+    public static UsuarioDaoJPA createUserDao(){
+        return new UsuarioDaoJPA();
     }
     
 }

@@ -5,9 +5,9 @@
  */
 package br.com.faedocaminhoes.model.service;
 
-import br.com.faedocaminhoes.model.Vehicle;
+import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
-import br.com.faedocaminhoes.model.dao.implement.VehicleDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.VeiculoDaoJPA;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -16,10 +16,10 @@ import javax.swing.JOptionPane;
  * @author Poison
  */
 public class VehicleService {
-    Vehicle vehicle;
-    VehicleDaoJPA vehicleDao = DaoFactory.createVehicleDao();
+    Veiculo vehicle;
+    VeiculoDaoJPA vehicleDao = DaoFactory.createVehicleDao();
     
-    public void insertOrUpdate(Vehicle pVehicle){
+    public void insertOrUpdate(Veiculo pVehicle){
     	vehicle = pVehicle;
         if(pVehicle != null && vehicle != null){
             if(pVehicle.getId() == null) {
@@ -32,7 +32,7 @@ public class VehicleService {
         }
     }
     
-    public void insert(Vehicle pVehicle){
+    public void insert(Veiculo pVehicle){
         vehicle = pVehicle;
         if(vehicle != null){
             vehicleDao.insert(pVehicle);
@@ -41,7 +41,7 @@ public class VehicleService {
         }
     }
     
-    public void update(Vehicle pVehicle){
+    public void update(Veiculo pVehicle){
         vehicle = pVehicle;
         if(vehicle != null){
             vehicleDao.update(vehicle);
@@ -50,7 +50,7 @@ public class VehicleService {
         }        
     }
     
-    public void deleteById(Vehicle pVehicle){
+    public void deleteById(Veiculo pVehicle){
         vehicle = pVehicle;
         if(vehicle != null){
             vehicleDao.delete(vehicle);
@@ -59,9 +59,9 @@ public class VehicleService {
         }
     }
 
-    public Vehicle findById(Vehicle pVehicle){
+    public Veiculo findById(Veiculo pVehicle){
         if(vehicle != null){
-           Vehicle ve = vehicleDao.findById(pVehicle);
+           Veiculo ve = vehicleDao.findById(pVehicle);
            return ve;
         } else {
             JOptionPane.showMessageDialog(null, "Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -69,15 +69,15 @@ public class VehicleService {
         }
     }
     
-    public List<Vehicle> findAll(){
-        List<Vehicle> listPessoa = vehicleDao.findAll();
+    public List<Veiculo> findAll(){
+        List<Veiculo> listPessoa = vehicleDao.findAll();
         return listPessoa;                
     }
     
-    public List<Vehicle> findByName(String pName){
+    public List<Veiculo> findByName(String pName){
         if(pName != null && vehicleDao != null){
             try{
-                List<Vehicle> listPessoa = vehicleDao.findByName(pName);
+                List<Veiculo> listPessoa = vehicleDao.findByName(pName);
                 if(!listPessoa.isEmpty()){
                     return listPessoa;                
                 }else{

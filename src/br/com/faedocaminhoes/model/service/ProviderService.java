@@ -5,9 +5,9 @@
  */
 package br.com.faedocaminhoes.model.service;
 
-import br.com.faedocaminhoes.model.Provider;
+import br.com.faedocaminhoes.model.Fabricante;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
-import br.com.faedocaminhoes.model.dao.implement.ProviderDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.FabricanteDaoJPA;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -16,10 +16,10 @@ import javax.swing.JOptionPane;
  * @author Poison
  */
 public class ProviderService {
-    Provider provider;
-    ProviderDaoJPA providerDao = DaoFactory.createProviderDao();
+    Fabricante provider;
+    FabricanteDaoJPA providerDao = DaoFactory.createProviderDao();
     
-    public void insertOrUpdate(Provider pProvider) {
+    public void insertOrUpdate(Fabricante pProvider) {
         provider = pProvider;
         if (pProvider != null && provider != null) {
             if (pProvider.getId() == null) {
@@ -33,7 +33,7 @@ public class ProviderService {
 
     }
     
-    public void insert(Provider pProvider) {
+    public void insert(Fabricante pProvider) {
         provider = pProvider;
         if(pProvider != null && provider != null){
             providerDao.insert(pProvider);
@@ -42,14 +42,14 @@ public class ProviderService {
         }
     }
     
-    public void update(Provider pProvider){
+    public void update(Fabricante pProvider){
         provider = pProvider;
         if(pProvider != null && provider != null){
             providerDao.update(pProvider);
         }       
     }
     
-    public void deleteById(Provider pProvider){
+    public void deleteById(Fabricante pProvider){
         provider = pProvider;
         if(pProvider!= null){
             providerDao.delete(provider);
@@ -58,9 +58,9 @@ public class ProviderService {
         }
     }
 
-    public Provider findById(Provider pProvider){
+    public Fabricante findById(Fabricante pProvider){
         if(pProvider != null && provider != null){
-           Provider p = providerDao.findById(pProvider);
+           Fabricante p = providerDao.findById(pProvider);
            return p;
         }else{
             JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -68,9 +68,9 @@ public class ProviderService {
         }                
     }
     
-    public List<Provider> findAll() {
+    public List<Fabricante> findAll() {
         if(providerDao != null){
-        List<Provider> listPessoa = providerDao.findAll();
+        List<Fabricante> listPessoa = providerDao.findAll();
         return listPessoa;
         } else{
             JOptionPane.showMessageDialog(null, "Service is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -78,10 +78,10 @@ public class ProviderService {
         }
     }
     
-    public List<Provider> findByName(String pName){
+    public List<Fabricante> findByName(String pName){
         if(pName != null && providerDao != null){
             try{
-                List<Provider> listPessoa = providerDao.findByName(pName);
+                List<Fabricante> listPessoa = providerDao.findByName(pName);
                 return listPessoa;
             }catch(Exception e){
                 e.printStackTrace();

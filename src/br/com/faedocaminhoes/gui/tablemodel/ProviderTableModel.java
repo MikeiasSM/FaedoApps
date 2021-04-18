@@ -5,7 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
-import br.com.faedocaminhoes.model.Provider;
+import br.com.faedocaminhoes.model.Fabricante;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ProviderTableModel extends AbstractTableModel{
 
-    private final List<Provider> dados = new ArrayList<>();
+    private final List<Fabricante> dados = new ArrayList<>();
     private final String[] colunas = {"Código",
                                       "Nome"};
 
@@ -58,7 +58,7 @@ public class ProviderTableModel extends AbstractTableModel{
             }
     }
     
-    public void addRow(Provider pProvider){
+    public void addRow(Fabricante pProvider){
         this.dados.add(pProvider);
         this.fireTableDataChanged();
     }
@@ -71,8 +71,8 @@ public class ProviderTableModel extends AbstractTableModel{
         this.fireTableDataChanged();
     }
     
-    public Provider getObject(int linha){
-        Provider provider = this.dados.get(linha);
+    public Fabricante getObject(int linha){
+        Fabricante provider = this.dados.get(linha);
         return provider;
     }
 }

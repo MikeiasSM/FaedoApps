@@ -5,9 +5,9 @@
  */
 package br.com.faedocaminhoes.model.service;
 
-import br.com.faedocaminhoes.model.Person;
+import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
-import br.com.faedocaminhoes.model.dao.implement.PersonDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.PessoaDaoJPA;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -16,10 +16,10 @@ import javax.swing.JOptionPane;
  * @author Poison
  */
 public class PersonService {
-    Person person;
-    PersonDaoJPA personDao = DaoFactory.createPersonDao();
+    Pessoa person;
+    PessoaDaoJPA personDao = DaoFactory.createPersonDao();
     
-    public boolean insertOrUpdate(Person pPessoa){
+    public boolean insertOrUpdate(Pessoa pPessoa){
     	person = pPessoa;
         try{
             if(pPessoa.getId() == null) {
@@ -35,7 +35,7 @@ public class PersonService {
         
     }
     
-    public boolean insert(Person pPessoa){
+    public boolean insert(Pessoa pPessoa){
         person = pPessoa;
         try{
             personDao.insert(pPessoa);
@@ -46,7 +46,7 @@ public class PersonService {
         }
         
     }
-    public boolean update(Person pPessoa){
+    public boolean update(Pessoa pPessoa){
         person = pPessoa;
         try{
             personDao.update(person);
@@ -57,7 +57,7 @@ public class PersonService {
         }
         
     }
-    public boolean deleteById(Person pPessoa){
+    public boolean deleteById(Pessoa pPessoa){
         person = pPessoa;
         try{
             personDao.delete(person);
@@ -69,9 +69,9 @@ public class PersonService {
         
     }
 
-    public Person findById(Person pPessoa){
+    public Pessoa findById(Pessoa pPessoa){
         try{
-           Person pe = personDao.findById(pPessoa);
+           Pessoa pe = personDao.findById(pPessoa);
            return pe;
         }catch(Exception e){
             e.printStackTrace();
@@ -80,9 +80,9 @@ public class PersonService {
         
     }
     
-    public List<Person> findAll(){
+    public List<Pessoa> findAll(){
         try{
-            List<Person> listPessoa = personDao.findAll();
+            List<Pessoa> listPessoa = personDao.findAll();
             if(!listPessoa.isEmpty()){
                 return listPessoa;                
             }else{
@@ -94,10 +94,10 @@ public class PersonService {
         }
     }
     
-    public List<Person> findByName(String pName){
+    public List<Pessoa> findByName(String pName){
         if(pName != null){
             try{
-                List<Person> listPessoa = personDao.findByName(pName);
+                List<Pessoa> listPessoa = personDao.findByName(pName);
                 if(!listPessoa.isEmpty()){
                     return listPessoa;                
                 }else{

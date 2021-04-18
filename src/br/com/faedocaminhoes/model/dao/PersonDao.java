@@ -5,7 +5,7 @@
  */
 package br.com.faedocaminhoes.model.dao;
 
-import br.com.faedocaminhoes.model.Person;
+import br.com.faedocaminhoes.model.Pessoa;
 import java.util.List;
 
 /**
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface PersonDao {
     
-    public void insert(Person pessoa);
-    public void update(Person pessoa);
-    public void delete(Person pessoa);
-    public List<Person> findAll();
-    public Person findById(Person pessoa);
+    public void insert(Pessoa pessoa);
+    public void update(Pessoa pessoa);
+    public void delete(Pessoa pessoa);
+    public List<Pessoa> findAll();
+    public Pessoa findById(Pessoa pessoa);
     
 }
