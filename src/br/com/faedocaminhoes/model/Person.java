@@ -6,14 +6,15 @@
 package br.com.faedocaminhoes.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -29,9 +30,9 @@ public class Person implements Serializable{
     private String cpf_cnpj;
     private String telefone;
     private String email;
-    @ManyToOne
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "idVehicle")
-    private Vehicle veiculo;
+    private List<Vehicle> vehicles;
     
     public Person(){
         
@@ -85,12 +86,12 @@ public class Person implements Serializable{
         this.email = email;
     }
     
-    public Vehicle getVeiculo() {
-        return veiculo;
+    public List<Vehicle> getVeiculos() {
+        return vehicles;
     }
 
-    public void setVeiculo(Vehicle veiculo) {
-        this.veiculo = veiculo;
+    public void setVeiculos(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 
     @Override

@@ -239,6 +239,11 @@ public class PersonGUI extends javax.swing.JFrame {
 
             }
         ));
+        tablePessoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablePessoaMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablePessoa);
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -333,12 +338,16 @@ public class PersonGUI extends javax.swing.JFrame {
         CadVeiculosGUI vehicle = new CadVeiculosGUI(null, true, new VehicleService(), new ProviderService());
         vehicle.setLocationRelativeTo(this);
         vehicle.setVisible(true);
-        importObject(vehicle.returnObject());
+        importObject(vehicle.getObject());
     }//GEN-LAST:event_btnAddVehicleActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void tablePessoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePessoaMousePressed
+        getTable();
+    }//GEN-LAST:event_tablePessoaMousePressed
 
     /**
      * @param args the command line arguments
@@ -423,8 +432,9 @@ public class PersonGUI extends javax.swing.JFrame {
         if(personService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        if(vehicle != null){
-            person.setVeiculo(vehicle);
+        List<Vehicle> listVehicle = tableModelVehicle.getList();
+        if(!listVehicle.isEmpty()){
+            person.setVeiculos(listVehicle);
         }
         personService.insertOrUpdate(person);
         erasedPersonComponents();
@@ -438,6 +448,7 @@ public class PersonGUI extends javax.swing.JFrame {
         }
         personService.deleteById(person);
         erasedPersonComponents();
+        findAll();
     }
     
     private void findAll(){
@@ -457,7 +468,7 @@ public class PersonGUI extends javax.swing.JFrame {
     }
     
     private void importObject(Vehicle pVehicle){
-        vehicle = new Vehicle();
+        vehicle = pVehicle;
         if(pVehicle == null){
             throw new IllegalAccessError("pVehicle was null");
         }
@@ -484,6 +495,25 @@ public class PersonGUI extends javax.swing.JFrame {
         tablePessoa.getColumnModel().getColumn(2).setPreferredWidth(200); //CPF
         tablePessoa.getColumnModel().getColumn(3).setPreferredWidth(200); //TELEFONE
         tablePessoa.getColumnModel().getColumn(4).setPreferredWidth(300); //EMAIL
+    }
+    
+    private void getTable(){
+        person = new Person();
+        if(tablePessoa.getSelectedRow() != -1){
+            person = tableModel.getObject(tablePessoa.getSelectedRow());
+            txtCod.setText(person.getId().toString());
+            txtNome.setText(person.getNome());
+            txtCpf.setText(person.getCpf_cnpj());
+            txtEmail.setText(person.getEmail());
+            txtTelefone.setText(person.getTelefone());
+            
+            tableModelVehicle.removeAll();
+            for(Vehicle v: person.getVeiculos()){
+                tableModelVehicle.addRow(v);
+            }
+            
+            btnDelete.setEnabled(true);
+        }
     }
     
     private void setModelVehicle(){

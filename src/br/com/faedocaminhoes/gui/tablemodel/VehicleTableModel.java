@@ -47,8 +47,8 @@ public class VehicleTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getId();
             case 1:
                 return dados.get(linhaIndex).getModelo();
-            case 2:
-                return dados.get(linhaIndex).getProvider().getNome();
+            case 2:    
+                return dados.get(linhaIndex).getProvider();
             case 3:
                 return dados.get(linhaIndex).getCor();
             case 4:
@@ -90,5 +90,10 @@ public class VehicleTableModel extends AbstractTableModel{
     public Vehicle getObject(int linha){
         Vehicle vehicle = this.dados.get(linha);
         return vehicle;
+    }
+    
+    public List<Vehicle> getList(){
+        List<Vehicle> vehicles = this.dados;
+        return vehicles;
     }
 }

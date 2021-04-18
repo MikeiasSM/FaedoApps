@@ -9,8 +9,9 @@ import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Person;
 import java.util.List;
 import br.com.faedocaminhoes.model.dao.PersonDao;
+import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,13 +20,12 @@ import javax.swing.JOptionPane;
  */
 public class PersonDaoJPA implements PersonDao{
 
+    private static EntityManager em;
+    
     @Override
     public void insert(Person pPerson) {
-        EntityManager em = new ConnectionFactory().getConection();
+        em = new ConnectionFactory().getConection();
         try{
-            if(pPerson == null){
-             throw new IllegalAccessError("Object 'pPerson' was null!/br Next impossible.");   
-            }    
             em.getTransaction().begin();
             em.persist(pPerson);
             em.getTransaction().commit();
@@ -34,7 +34,8 @@ public class PersonDaoJPA implements PersonDao{
             
         }catch(Exception e){
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
         }finally{
             if(em != null){
                 em.close();
@@ -44,13 +45,9 @@ public class PersonDaoJPA implements PersonDao{
 
     @Override
     public void update(Person pPerson) {
-        EntityManager em = new ConnectionFactory().getConection();
+        em = new ConnectionFactory().getConection();
         
         try{
-            if(pPerson == null){
-                throw new IllegalAccessError("Object 'pPerson' was null!/br Next impossible.");
-            }
-            
             em.getTransaction().begin();
             em.merge(pPerson);
             em.getTransaction().commit();
@@ -59,33 +56,36 @@ public class PersonDaoJPA implements PersonDao{
             
         }catch(Exception e){
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
         }finally{
             if(em != null){
                 em.close();
             }
         }
-        
     }
 
     @Override
     public void delete(Person pPerson) {
-        EntityManager em = new ConnectionFactory().getConection();
+        em = new ConnectionFactory().getConection();
         
         try{
-            if(pPerson == null){
-                throw new IllegalAccessError("Object 'pPerson' was null!/br Next impossible.");
-            }
+            Person vehicle = em.find(Person.class, pPerson.getId());
             
             em.getTransaction().begin();
-            em.remove(pPerson);
+            em.remove(vehicle);
             em.getTransaction().commit();
             
             JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
             
+        }catch(RollbackException ex){
+            em.getTransaction().rollback();
+            JOptionPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", ex);
+            ex.printStackTrace();
         }catch(Exception e){
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", e);
+            e.printStackTrace();
         }finally{
             if(em != null){
                 em.close();
@@ -95,22 +95,24 @@ public class PersonDaoJPA implements PersonDao{
 
     @Override
     public List<Person> findAll() {
-        EntityManager em = new ConnectionFactory().getConection();
-        List<Person> persons = null;
+        em = new ConnectionFactory().getConection();
+        List<Person> vehicle = null;
         
         try{
+            //"SELECT p FROM Person p LEFT JOIN FETCH disc.linhas where disc.paragrafo = ?"
+            vehicle = em.createQuery("SELECT p FROM Person p").getResultList();
             
-            persons = em.createQuery("SELECT p FROM Person p").getResultList();
-            
-            if(persons.isEmpty()){
+            if(vehicle.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Date or table not found!");
             }
             
-            return persons;
+            return vehicle;
         }catch(Exception e){
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-            return persons;
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+            return null;
         }finally{
             if(em != null){
                 em.close();
@@ -120,27 +122,22 @@ public class PersonDaoJPA implements PersonDao{
 
     @Override
     public Person findById(Person pPerson) {
-        EntityManager em = new ConnectionFactory().getConection();
+        em = new ConnectionFactory().getConection();
         Person person = null;
-        if(pPerson == null){
-            throw new IllegalAccessError("Object 'pPerson' was null");
-        }
         
-        person = em.find(Person.class, pPerson);
-        /*
-        Query query = em.createQuery("FROM Person WHERE Person.id = :id");
-        query.setParameter("id", pPerson.getId());
-        person = (Person) query.getSingleResult();
-        */
         try{
+            person = em.find(Person.class, pPerson);
+        
             if(person == null){
+                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalAccessError("Register not found!");
             }
             return person;                
         }catch(Exception e){
             em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-            return person;
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+            return null;
         }finally{
             if(em != null){
                 em.close();
@@ -148,4 +145,27 @@ public class PersonDaoJPA implements PersonDao{
         }
     }
     
+    public List<Person> findByName(String pName){
+        em = new ConnectionFactory().getConection();
+        List<Person> list = null;
+        try{
+            String query = "SELECT p FROM Person p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+           
+            list = em.createQuery(query).getResultList();
+            if (!list.isEmpty()) {
+                return list;
+            } else {
+                JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
+        }catch(Exception e){
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+            return null;
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
 }

@@ -19,97 +19,77 @@ public class ProviderService {
     Provider provider;
     ProviderDaoJPA providerDao = DaoFactory.createProviderDao();
     
-    public boolean insertOrUpdate(Provider pProvider){
-    	provider = pProvider;
-        try{
-            if(pProvider.getId() == null) {
-                providerDao.insert(provider);        		
-            }else {
+    public void insertOrUpdate(Provider pProvider) {
+        provider = pProvider;
+        if (pProvider != null && provider != null) {
+            if (pProvider.getId() == null) {
+                providerDao.insert(provider);
+            } else {
                 providerDao.update(provider);
             }
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        }else{
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }
     
-    public boolean insert(Provider pProvider){
+    public void insert(Provider pProvider) {
         provider = pProvider;
-        try{
+        if(pProvider != null && provider != null){
             providerDao.insert(pProvider);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        }else{
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
-    public boolean update(Provider pProvider){
+    
+    public void update(Provider pProvider){
         provider = pProvider;
-        try{
-            providerDao.update(provider);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        
+        if(pProvider != null && provider != null){
+            providerDao.update(pProvider);
+        }       
     }
-    public boolean deleteById(Provider pProvider){
+    
+    public void deleteById(Provider pProvider){
         provider = pProvider;
-        try{
+        if(pProvider!= null){
             providerDao.delete(provider);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        }else{
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
 
     public Provider findById(Provider pProvider){
-        try{
+        if(pProvider != null && provider != null){
            Provider p = providerDao.findById(pProvider);
            return p;
-        }catch(Exception e){
-            e.printStackTrace();
+        }else{
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
-        }
-        
+        }                
     }
     
-    public List<Provider> findAll(){
-        try{
-            List<Provider> listPessoa = providerDao.findAll();
-            if(!listPessoa.isEmpty()){
-                return listPessoa;                
-            }else{
-                throw new IllegalAccessError("List was null");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
+    public List<Provider> findAll() {
+        if(providerDao != null){
+        List<Provider> listPessoa = providerDao.findAll();
+        return listPessoa;
+        } else{
+            JOptionPane.showMessageDialog(null, "Service is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
     
     public List<Provider> findByName(String pName){
-        if(pName != null){
+        if(pName != null && providerDao != null){
             try{
                 List<Provider> listPessoa = providerDao.findByName(pName);
-                if(!listPessoa.isEmpty()){
-                    return listPessoa;                
-                }else{
-                    JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                    return null;
-                }
+                return listPessoa;
             }catch(Exception e){
                 e.printStackTrace();
                 return null;
             }            
         }else{
-            JOptionPane.showMessageDialog(null, "Variable is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            System.out.println(provider);
             return null;
         }
     }

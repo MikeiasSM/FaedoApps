@@ -19,83 +19,63 @@ public class VehicleService {
     Vehicle vehicle;
     VehicleDaoJPA vehicleDao = DaoFactory.createVehicleDao();
     
-    public boolean insertOrUpdate(Vehicle pVehicle){
+    public void insertOrUpdate(Vehicle pVehicle){
     	vehicle = pVehicle;
-        try{
+        if(pVehicle != null && vehicle != null){
             if(pVehicle.getId() == null) {
                 vehicleDao.insert(vehicle);        		
             }else {
                 vehicleDao.update(vehicle);
             }
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        } else {
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
     
-    public boolean insert(Vehicle pVehicle){
+    public void insert(Vehicle pVehicle){
         vehicle = pVehicle;
-        try{
+        if(vehicle != null){
             vehicleDao.insert(pVehicle);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        } else {
+            JOptionPane.showMessageDialog(null, "Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
-    public boolean update(Vehicle pVehicle){
+    
+    public void update(Vehicle pVehicle){
         vehicle = pVehicle;
-        try{
+        if(vehicle != null){
             vehicleDao.update(vehicle);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        
+        } else {
+            JOptionPane.showMessageDialog(null, "Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+        }        
     }
-    public boolean deleteById(Vehicle pVehicle){
+    
+    public void deleteById(Vehicle pVehicle){
         vehicle = pVehicle;
-        try{
+        if(vehicle != null){
             vehicleDao.delete(vehicle);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
+        } else {
+            JOptionPane.showMessageDialog(null, "Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
 
     public Vehicle findById(Vehicle pVehicle){
-        try{
+        if(vehicle != null){
            Vehicle ve = vehicleDao.findById(pVehicle);
            return ve;
-        }catch(Exception e){
-            e.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(null, "Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
         }
-        
     }
     
     public List<Vehicle> findAll(){
-        try{
-            List<Vehicle> listPessoa = vehicleDao.findAll();
-            if(!listPessoa.isEmpty()){
-                return listPessoa;                
-            }else{
-                throw new IllegalAccessError("List was null");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        List<Vehicle> listPessoa = vehicleDao.findAll();
+        return listPessoa;                
     }
     
     public List<Vehicle> findByName(String pName){
-        if(pName != null){
+        if(pName != null && vehicleDao != null){
             try{
                 List<Vehicle> listPessoa = vehicleDao.findByName(pName);
                 if(!listPessoa.isEmpty()){
@@ -109,7 +89,8 @@ public class VehicleService {
                 return null;
             }            
         }else{
-            JOptionPane.showMessageDialog(null, "Variable is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            System.out.println(vehicle);
             return null;
         }
     }

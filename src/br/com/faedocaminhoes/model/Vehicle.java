@@ -6,12 +6,14 @@
 package br.com.faedocaminhoes.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -26,10 +28,12 @@ public class Vehicle implements Serializable{
     private Integer id;
     private String modelo;
     @ManyToOne
-    @JoinColumn(name = "id_provider")
+    @JoinColumn(name = "idProvider")
     private Provider provider;
     private String cor;
     private String placa;
+    @ManyToMany(mappedBy = "vehicles")
+    private List<Person> persons;
 
     public Vehicle() {
         
@@ -83,6 +87,14 @@ public class Vehicle implements Serializable{
         this.placa = placa;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -110,7 +122,7 @@ public class Vehicle implements Serializable{
 
     @Override
     public String toString() {
-        return this.getId() +" - "+getModelo()+" - "+getProvider().getNome()+" - "+this.getPlaca()+" - "+getCor();
+        return this.getId() +" - "+getModelo()+" - "+this.getPlaca()+" - "+getCor();
 
     }
 }

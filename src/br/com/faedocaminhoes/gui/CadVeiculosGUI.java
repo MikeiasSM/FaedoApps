@@ -331,6 +331,9 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         CadProviderGUI prov = new CadProviderGUI(null, true, new ProviderService());
         prov.setLocationRelativeTo(this);
         prov.setVisible(true);
+        popProvider();
+        setObject(prov.getObject());
+        cbProvider.setSelectedItem((Provider)provider);
     }//GEN-LAST:event_btnAddProviderActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -354,6 +357,10 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tableVehicleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableVehicleMousePressed
+        if(evt.getClickCount() == 2){
+            getTable();
+            this.dispose();
+        }
         getTable();
     }//GEN-LAST:event_tableVehicleMousePressed
 
@@ -525,6 +532,12 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         }
     }
     
+    private void setObject(Provider pProvider){
+        if(pProvider != null){
+            provider = pProvider;
+        }
+    }
+    
     private void completeData(){
         vehicle = new Vehicle();
         vehicle.setId(ParseInteger.tryParseToInt(txtCodVehicle.getText()));
@@ -534,7 +547,7 @@ public class CadVeiculosGUI extends javax.swing.JDialog {
         vehicle.setPlaca(txtPlaca.getText());        
     }
     
-    public Vehicle returnObject(){
+    public Vehicle getObject(){
         return vehicle;        
     }
     

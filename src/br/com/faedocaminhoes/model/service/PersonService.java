@@ -9,22 +9,23 @@ import br.com.faedocaminhoes.model.Person;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
 import br.com.faedocaminhoes.model.dao.implement.PersonDaoJPA;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Poison
  */
 public class PersonService {
-    Person pessoa;
-    PersonDaoJPA pessoaDao = DaoFactory.createPersonDao();
+    Person person;
+    PersonDaoJPA personDao = DaoFactory.createPersonDao();
     
     public boolean insertOrUpdate(Person pPessoa){
-    	pessoa = pPessoa;
+    	person = pPessoa;
         try{
             if(pPessoa.getId() == null) {
-                pessoaDao.insert(pessoa);        		
+                personDao.insert(person);        		
             }else {
-                pessoaDao.update(pessoa);
+                personDao.update(person);
             }
             return true;
         }catch(Exception e){
@@ -35,9 +36,9 @@ public class PersonService {
     }
     
     public boolean insert(Person pPessoa){
-        pessoa = pPessoa;
+        person = pPessoa;
         try{
-            pessoaDao.insert(pPessoa);
+            personDao.insert(pPessoa);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -46,9 +47,9 @@ public class PersonService {
         
     }
     public boolean update(Person pPessoa){
-        pessoa = pPessoa;
+        person = pPessoa;
         try{
-            pessoaDao.update(pessoa);
+            personDao.update(person);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -57,9 +58,9 @@ public class PersonService {
         
     }
     public boolean deleteById(Person pPessoa){
-        pessoa = pPessoa;
+        person = pPessoa;
         try{
-            pessoaDao.delete(pessoa);
+            personDao.delete(person);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class PersonService {
 
     public Person findById(Person pPessoa){
         try{
-           Person pe = pessoaDao.findById(pPessoa);
+           Person pe = personDao.findById(pPessoa);
            return pe;
         }catch(Exception e){
             e.printStackTrace();
@@ -81,7 +82,7 @@ public class PersonService {
     
     public List<Person> findAll(){
         try{
-            List<Person> listPessoa = pessoaDao.findAll();
+            List<Person> listPessoa = personDao.findAll();
             if(!listPessoa.isEmpty()){
                 return listPessoa;                
             }else{
@@ -89,6 +90,26 @@ public class PersonService {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Person> findByName(String pName){
+        if(pName != null){
+            try{
+                List<Person> listPessoa = personDao.findByName(pName);
+                if(!listPessoa.isEmpty()){
+                    return listPessoa;                
+                }else{
+                    JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null, "Variable is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }

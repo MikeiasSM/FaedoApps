@@ -86,7 +86,7 @@ public class PersonTableModel extends AbstractTableModel{
         this.fireTableDataChanged();
     }
     
-    public Person getProperty(int linha){
+    public Person getObject(int linha){
         Person pessoa = this.dados.get(linha);
         return pessoa;
     }

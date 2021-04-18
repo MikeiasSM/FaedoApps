@@ -308,6 +308,10 @@ public class CadProviderGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_tableProviderKeyPressed
 
     private void tableProviderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProviderMousePressed
+        if(evt.getClickCount() == 2){
+            getTable();
+            this.dispose();
+        }
         getTable();
     }//GEN-LAST:event_tableProviderMousePressed
 
@@ -461,6 +465,10 @@ public class CadProviderGUI extends javax.swing.JDialog {
             txtName.setText(provider.getNome());
             btnDelete.setEnabled(true);
         }
+    }
+
+    public Provider getObject(){
+        return provider;
     }
     
     private void completeData(){
