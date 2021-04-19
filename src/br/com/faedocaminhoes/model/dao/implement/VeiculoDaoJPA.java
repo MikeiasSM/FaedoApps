@@ -8,17 +8,17 @@ package br.com.faedocaminhoes.model.dao.implement;
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Veiculo;
 import java.util.List;
-import br.com.faedocaminhoes.model.dao.VehicleDao;
 import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
+import br.com.faedocaminhoes.model.dao.VeiculoDao;
 
 /**
  *
  * @author Poison
  */
-public class VeiculoDaoJPA implements VehicleDao{
+public class VeiculoDaoJPA implements VeiculoDao{
 
     private static EntityManager em;
     
@@ -99,7 +99,7 @@ public class VeiculoDaoJPA implements VehicleDao{
         List<Veiculo> vehicle = null;
         
         try{
-            vehicle = em.createQuery("SELECT v FROM Vehicle v").getResultList();
+            vehicle = em.createQuery("SELECT v FROM Veiculo v").getResultList();
             
             if(vehicle.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +148,7 @@ public class VeiculoDaoJPA implements VehicleDao{
         em = new ConnectionFactory().getConection();
         List<Veiculo> list = null;
         try{
-            String query = "SELECT p FROM Vehicle p WHERE 1 = 1 AND p.modelo LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Veiculo p WHERE 1 = 1 AND p.modelo LIKE '%"+pName+"%'";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

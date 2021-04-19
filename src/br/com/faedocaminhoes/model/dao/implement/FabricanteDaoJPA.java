@@ -8,17 +8,17 @@ package br.com.faedocaminhoes.model.dao.implement;
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Fabricante;
 import java.util.List;
-import br.com.faedocaminhoes.model.dao.ProviderDao;
 import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
+import br.com.faedocaminhoes.model.dao.FabricanteDao;
 
 /**
  *
  * @author Poison
  */
-public class FabricanteDaoJPA implements ProviderDao {
+public class FabricanteDaoJPA implements FabricanteDao {
 
     private static EntityManager em;
     
@@ -99,7 +99,7 @@ public class FabricanteDaoJPA implements ProviderDao {
         List<Fabricante> providers = null;
 
         try {
-            providers = em.createQuery("SELECT p FROM Provider p").getResultList();
+            providers = em.createQuery("SELECT p FROM Fabricante p").getResultList();
 
             if (providers.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +148,7 @@ public class FabricanteDaoJPA implements ProviderDao {
         em = new ConnectionFactory().getConection();
         List<Fabricante> list = null;
         try {
-            String query = "SELECT p FROM Provider p WHERE 1 = 1 AND p.nome LIKE '%" + pName + "%'";
+            String query = "SELECT p FROM Fabricante p WHERE 1 = 1 AND p.nome LIKE '%" + pName + "%'";
 
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

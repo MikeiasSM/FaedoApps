@@ -13,7 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,18 +28,22 @@ public class Abastecimento implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDate data_abastecimento;
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "idFornecedor")
     private Fornecedor fornecedor;
-    @OneToMany
-    private Combustivel combustivel;
+    @ManyToOne
+    private Produto produto;
+    @JoinColumn(name = "idProduto")
     private Double quantidade;
     private Integer n_requisicao;
     private Integer n_cupom;
     private BigDecimal vlr_unitario;
     private BigDecimal vlr_total;
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "idPessoa")
     private Pessoa pessoa;
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "idVeiculo")
     private Veiculo veiculo;
     private String responsavel;
     
@@ -46,11 +51,11 @@ public class Abastecimento implements Serializable{
         
     }
 
-    public Abastecimento(Integer id, LocalDate data_abastecimento, Fornecedor fornecedor, Combustivel combustivel, Double quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel) {
+    public Abastecimento(Integer id, LocalDate data_abastecimento, Fornecedor fornecedor, Produto produto, Double quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel) {
         this.id = id;
         this.data_abastecimento = data_abastecimento;
         this.fornecedor = fornecedor;
-        this.combustivel = combustivel;
+        this.produto = produto;
         this.quantidade = quantidade;
         this.n_requisicao = n_requisicao;
         this.n_cupom = n_cupom;
@@ -85,12 +90,12 @@ public class Abastecimento implements Serializable{
         this.fornecedor = fornecedor;
     }
 
-    public Combustivel getCombustivel() {
-        return combustivel;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setCombustivel(Combustivel combustivel) {
-        this.combustivel = combustivel;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public Double getQuantidade() {

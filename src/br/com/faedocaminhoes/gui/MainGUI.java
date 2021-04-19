@@ -6,7 +6,13 @@
 package br.com.faedocaminhoes.gui;
 
 import  br.com.faedocaminhoes.connection.ConnectionFactory;
-import br.com.faedocaminhoes.model.service.PersonService;
+import br.com.faedocaminhoes.model.service.AbastecimentoService;
+import br.com.faedocaminhoes.model.service.CategoriaService;
+import br.com.faedocaminhoes.model.service.FornecedorService;
+import br.com.faedocaminhoes.model.service.PessoaService;
+import br.com.faedocaminhoes.model.service.ProdutoService;
+import br.com.faedocaminhoes.model.service.UsuarioService;
+import br.com.faedocaminhoes.model.service.VeiculoService;
 import br.com.faedocaminhoes.uteis.DimensionFrame;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
@@ -69,6 +75,7 @@ public class MainGUI extends DimensionFrame {
         lblArqSair = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
         lblArqBackup = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
         abaPessas = new javax.swing.JPanel();
         lblCadPessoa = new javax.swing.JLabel();
         lblCadUsuario = new javax.swing.JLabel();
@@ -76,8 +83,10 @@ public class MainGUI extends DimensionFrame {
         lblCadEstados = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
+        lblCadFornecedor = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        lblGas = new javax.swing.JLabel();
+        lblConsumoGas = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
         abaProdutos = new javax.swing.JPanel();
         lblCadProduto = new javax.swing.JLabel();
         lblCadCategoria = new javax.swing.JLabel();
@@ -87,6 +96,7 @@ public class MainGUI extends DimensionFrame {
         abaLancamentos = new javax.swing.JPanel();
         lblLancamento = new javax.swing.JLabel();
         lblBaixa = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
         abaOS = new javax.swing.JPanel();
         abaRelatorios = new javax.swing.JPanel();
         paneApp = new javax.swing.JPanel();
@@ -175,6 +185,9 @@ public class MainGUI extends DimensionFrame {
             }
         });
 
+        jSeparator8.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout abaArquivoLayout = new javax.swing.GroupLayout(abaArquivo);
         abaArquivo.setLayout(abaArquivoLayout);
         abaArquivoLayout.setHorizontalGroup(
@@ -187,7 +200,9 @@ public class MainGUI extends DimensionFrame {
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblArqSair, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 940, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 934, Short.MAX_VALUE))
         );
         abaArquivoLayout.setVerticalGroup(
             abaArquivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +211,8 @@ public class MainGUI extends DimensionFrame {
                     .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblArqSair, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                     .addComponent(lblArqParametros, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                    .addComponent(lblArqBackup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                    .addComponent(lblArqBackup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -247,6 +263,7 @@ public class MainGUI extends DimensionFrame {
         lblCadCidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCadCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Cidade_36px.png"))); // NOI18N
         lblCadCidade.setText("Cidade");
+        lblCadCidade.setEnabled(false);
         lblCadCidade.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblCadCidade.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblCadCidade.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -266,6 +283,7 @@ public class MainGUI extends DimensionFrame {
         lblCadEstados.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCadEstados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Cidade_36px.png"))); // NOI18N
         lblCadEstados.setText("Estado");
+        lblCadEstados.setEnabled(false);
         lblCadEstados.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblCadEstados.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblCadEstados.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -286,12 +304,33 @@ public class MainGUI extends DimensionFrame {
         jSeparator4.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        lblCadFornecedor.setBackground(new java.awt.Color(255, 255, 255));
+        lblCadFornecedor.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblCadFornecedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCadFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Team_36px.png"))); // NOI18N
+        lblCadFornecedor.setText("Fornecedor");
+        lblCadFornecedor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblCadFornecedor.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblCadFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCadFornecedorMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCadFornecedorMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCadFornecedorMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout abaPessasLayout = new javax.swing.GroupLayout(abaPessas);
         abaPessas.setLayout(abaPessasLayout);
         abaPessasLayout.setHorizontalGroup(
             abaPessasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaPessasLayout.createSequentialGroup()
                 .addComponent(lblCadPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCadFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblCadUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -302,7 +341,7 @@ public class MainGUI extends DimensionFrame {
                 .addComponent(lblCadEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 863, Short.MAX_VALUE))
+                .addGap(0, 792, Short.MAX_VALUE))
         );
         abaPessasLayout.setVerticalGroup(
             abaPessasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +352,8 @@ public class MainGUI extends DimensionFrame {
                     .addComponent(lblCadPessoa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                     .addComponent(lblCadUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                     .addComponent(lblCadCidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                    .addComponent(lblCadEstados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                    .addComponent(lblCadEstados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(lblCadFornecedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
                 .addGap(0, 2, Short.MAX_VALUE))
         );
 
@@ -321,38 +361,44 @@ public class MainGUI extends DimensionFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblGas.setBackground(new java.awt.Color(255, 255, 255));
-        lblGas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        lblGas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_gas_station_36px.png"))); // NOI18N
-        lblGas.setText("Combustivel");
-        lblGas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblGas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        lblGas.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblConsumoGas.setBackground(new java.awt.Color(255, 255, 255));
+        lblConsumoGas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblConsumoGas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblConsumoGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_gas_station_36px_1.png"))); // NOI18N
+        lblConsumoGas.setText("Combustivel");
+        lblConsumoGas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblConsumoGas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lblConsumoGas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblGasMouseClicked(evt);
+                lblConsumoGasMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblGasMouseEntered(evt);
+                lblConsumoGasMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblGasMouseExited(evt);
+                lblConsumoGasMouseExited(evt);
             }
         });
+
+        jSeparator7.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblGas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1081, Short.MAX_VALUE))
+                .addComponent(lblConsumoGas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1075, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lblGas, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblConsumoGas, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 2, Short.MAX_VALUE))
+            .addComponent(jSeparator7)
         );
 
         Menu.addTab("Consumo", jPanel1);
@@ -405,6 +451,7 @@ public class MainGUI extends DimensionFrame {
         lblCadMovimentacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCadMovimentacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Movimentacao_36px.png"))); // NOI18N
         lblCadMovimentacao.setText(" Movimentações ");
+        lblCadMovimentacao.setEnabled(false);
         lblCadMovimentacao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblCadMovimentacao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblCadMovimentacao.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -462,6 +509,7 @@ public class MainGUI extends DimensionFrame {
         lblLancamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLancamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_List_36px.png"))); // NOI18N
         lblLancamento.setText("Lancamento");
+        lblLancamento.setEnabled(false);
         lblLancamento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblLancamento.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblLancamento.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -481,6 +529,7 @@ public class MainGUI extends DimensionFrame {
         lblBaixa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Pagamento_36px.png"))); // NOI18N
         lblBaixa.setText("Baixa");
+        lblBaixa.setEnabled(false);
         lblBaixa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblBaixa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblBaixa.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -495,6 +544,9 @@ public class MainGUI extends DimensionFrame {
             }
         });
 
+        jSeparator9.setForeground(new java.awt.Color(153, 153, 153));
+        jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout abaLancamentosLayout = new javax.swing.GroupLayout(abaLancamentos);
         abaLancamentos.setLayout(abaLancamentosLayout);
         abaLancamentosLayout.setHorizontalGroup(
@@ -503,12 +555,15 @@ public class MainGUI extends DimensionFrame {
                 .addComponent(lblLancamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1014, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1008, Short.MAX_VALUE))
         );
         abaLancamentosLayout.setVerticalGroup(
             abaLancamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(lblBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jSeparator9)
         );
 
         Menu.addTab("Financeiro", abaLancamentos);
@@ -662,33 +717,29 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblCadPessoaMouseEntered
 
     private void lblCadPessoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadPessoaMouseClicked
-        CadPessoaGUI cadCliente = new CadPessoaGUI(new PersonService());
+        CadPessoaGUI cadCliente = new CadPessoaGUI(this, true, new PessoaService());
         cadCliente.setLocationRelativeTo(cadCliente);
         cadCliente.setVisible(true);
     }//GEN-LAST:event_lblCadPessoaMouseClicked
 
     private void lblCadUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadUsuarioMouseClicked
-        CadUsuarioGUI cadUsuario = new CadUsuarioGUI(this, true);
+        CadUsuarioGUI cadUsuario = new CadUsuarioGUI(this, true, new UsuarioService());
         cadUsuario.setLocationRelativeTo(cadUsuario);
         cadUsuario.setVisible(true);
     }//GEN-LAST:event_lblCadUsuarioMouseClicked
 
     private void lblCadProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadProdutoMouseClicked
-        /*
-        CadProdutoGUI cadProduto = new CadProdutoGUI(this, true);
+        CadProdutoGUI cadProduto = new CadProdutoGUI(this, true, new ProdutoService(), new CategoriaService());
         cadProduto.setLocationRelativeTo(cadProduto);
-        cadProduto.setCategoriaService(new CategoriaService());
-        cadProduto.setProdutoService(new ProdutoService());
         cadProduto.setVisible(true);
-        */
+        
     }//GEN-LAST:event_lblCadProdutoMouseClicked
 
     private void lblCadCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadCategoriaMouseClicked
-        /*
-        CadCategoriaGUI cadCategoria = new CadCategoriaGUI(this, true);
+        CadCategoriaGUI cadCategoria = new CadCategoriaGUI(this, true, new CategoriaService());
         cadCategoria.setLocationRelativeTo(cadCategoria);
         cadCategoria.setVisible(true);
-        */
+        
     }//GEN-LAST:event_lblCadCategoriaMouseClicked
 
     private void lblLancamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLancamentoMouseClicked
@@ -800,17 +851,43 @@ public class MainGUI extends DimensionFrame {
         lblArqBackup.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
     }//GEN-LAST:event_lblArqBackupMouseExited
 
-    private void lblGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblGasMouseClicked
+    private void lblConsumoGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConsumoGasMouseClicked
+        CadAbastecimentoGUI cadAbastecimento = new CadAbastecimentoGUI(this, 
+                                                                        true, 
+                                                                        new AbastecimentoService(),
+                                                                        new FornecedorService(),
+                                                                        new ProdutoService(),
+                                                                        new PessoaService(),
+                                                                        new VeiculoService());
+        cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
+        cadAbastecimento.setVisible(true);
+    }//GEN-LAST:event_lblConsumoGasMouseClicked
 
-    private void lblGasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblGasMouseEntered
+    private void lblConsumoGasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConsumoGasMouseEntered
+        lblConsumoGas.setBackground(new Color(234, 236, 238));
+        lblConsumoGas.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblConsumoGasMouseEntered
 
-    private void lblGasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGasMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblGasMouseExited
+    private void lblConsumoGasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConsumoGasMouseExited
+        lblConsumoGas.setBackground(new Color(255, 255, 255));
+        lblConsumoGas.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblConsumoGasMouseExited
+
+    private void lblCadFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadFornecedorMouseClicked
+        CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(this, true, new FornecedorService());
+        cadFornecedor.setLocationRelativeTo(cadFornecedor);
+        cadFornecedor.setVisible(true);
+    }//GEN-LAST:event_lblCadFornecedorMouseClicked
+
+    private void lblCadFornecedorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadFornecedorMouseEntered
+        lblCadFornecedor.setBackground(new Color(234, 236, 238));
+        lblCadFornecedor.setBorder(new LineBorder(new Color(160, 160, 160), 1, true));
+    }//GEN-LAST:event_lblCadFornecedorMouseEntered
+
+    private void lblCadFornecedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadFornecedorMouseExited
+        lblCadFornecedor.setBackground(new Color(255, 255, 255));
+        lblCadFornecedor.setBorder(new LineBorder(new Color(160, 160, 160), 0, true));
+    }//GEN-LAST:event_lblCadFornecedorMouseExited
 
     /**
      * @param args the command line arguments
@@ -889,6 +966,9 @@ public class MainGUI extends DimensionFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel lblArqBackup;
     private javax.swing.JLabel lblArqParametros;
     private javax.swing.JLabel lblArqSair;
@@ -896,11 +976,12 @@ public class MainGUI extends DimensionFrame {
     private javax.swing.JLabel lblCadCategoria;
     private javax.swing.JLabel lblCadCidade;
     private javax.swing.JLabel lblCadEstados;
+    private javax.swing.JLabel lblCadFornecedor;
     private javax.swing.JLabel lblCadMovimentacao;
     private javax.swing.JLabel lblCadPessoa;
     private javax.swing.JLabel lblCadProduto;
     private javax.swing.JLabel lblCadUsuario;
-    private javax.swing.JLabel lblGas;
+    private javax.swing.JLabel lblConsumoGas;
     private javax.swing.JLabel lblLancamento;
     private javax.swing.JPanel paneApp;
     private javax.swing.JPanel paneMenu;

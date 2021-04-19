@@ -5,14 +5,15 @@
  */
 package br.com.faedocaminhoes.gui;
 
-import br.com.faedocaminhoes.gui.tablemodel.VehicleTableModel;
-import br.com.faedocaminhoes.gui.tablemodel.renderer.VehicleTableRenderer;
+import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
+import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
 import br.com.faedocaminhoes.model.Fabricante;
 import br.com.faedocaminhoes.model.Veiculo;
-import br.com.faedocaminhoes.model.service.ProviderService;
-import br.com.faedocaminhoes.model.service.VehicleService;
+import br.com.faedocaminhoes.model.service.FabricanteService;
+import br.com.faedocaminhoes.model.service.VeiculoService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -25,10 +26,10 @@ import javax.swing.JOptionPane;
 public class CadVeiculoGUI extends javax.swing.JDialog {
 
     private Veiculo vehicle;
-    private VehicleService vehicleService;
+    private VeiculoService vehicleService;
     private Fabricante provider;
-    private ProviderService providerService;
-    private final VehicleTableModel tableModel = new VehicleTableModel();
+    private FabricanteService providerService;
+    private final VeiculoTableModel tableModel = new VeiculoTableModel();
     
     /**
      * Creates new form CadVeiculosGUI
@@ -38,7 +39,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadVeiculoGUI(java.awt.Frame parent, boolean modal, VehicleService vehicleService, ProviderService providerService) {
+    public CadVeiculoGUI(java.awt.Frame parent, boolean modal, VeiculoService vehicleService, FabricanteService providerService) {
         super(parent, modal);
         initComponents();
         setVehicleService(vehicleService);
@@ -328,7 +329,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddProviderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProviderActionPerformed
-        CadFabricanteGUI prov = new CadFabricanteGUI(null, true, new ProviderService());
+        CadFabricanteGUI prov = new CadFabricanteGUI(null, true, new FabricanteService());
         prov.setLocationRelativeTo(this);
         prov.setVisible(true);
         popProvider();
@@ -438,11 +439,15 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private VehicleService setVehicleService(VehicleService vehicleService){
+    private void setIco() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
+    
+    private VeiculoService setVehicleService(VeiculoService vehicleService){
         return this.vehicleService = vehicleService;
     }
     
-    private ProviderService setProviderService(ProviderService providerService){
+    private FabricanteService setProviderService(FabricanteService providerService){
         return this.providerService = providerService;
     }
     
@@ -564,6 +569,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     }
     
     private void initComp(){
+        setIco();
         setModel();
         findAll();
         popProvider();
@@ -576,7 +582,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     
     private void setModel(){
         tableVehicle.setModel(tableModel);   
-        tableVehicle.setDefaultRenderer(Object.class, new VehicleTableRenderer());
+        tableVehicle.setDefaultRenderer(Object.class, new VeiculoTableRenderer());
     }
     
     private boolean verifyComp(){        

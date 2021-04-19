@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -34,6 +35,8 @@ public class Veiculo implements Serializable{
     private String placa;
     @ManyToMany(mappedBy = "vehicles")
     private List<Pessoa> persons;
+    @OneToMany(mappedBy = "veiculo")
+    private List<Abastecimento> abastecimentos;
 
     public Veiculo() {
         
@@ -122,7 +125,7 @@ public class Veiculo implements Serializable{
 
     @Override
     public String toString() {
-        return this.getId() +" - "+getModelo()+" - "+this.getPlaca()+" - "+getCor();
+        return getProvider().getNome()+" - "+getModelo()+" - "+this.getPlaca()+" - "+getCor();
 
     }
 }

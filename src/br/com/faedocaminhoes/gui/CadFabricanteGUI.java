@@ -5,12 +5,13 @@
  */
 package br.com.faedocaminhoes.gui;
 
-import br.com.faedocaminhoes.gui.tablemodel.ProviderTableModel;
-import br.com.faedocaminhoes.gui.tablemodel.renderer.ProviderTableRenderer;
+import br.com.faedocaminhoes.gui.tablemodel.FabricanteTableModel;
+import br.com.faedocaminhoes.gui.tablemodel.renderer.FabricanteTableRenderer;
 import br.com.faedocaminhoes.model.Fabricante;
-import br.com.faedocaminhoes.model.service.ProviderService;
+import br.com.faedocaminhoes.model.service.FabricanteService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,8 +23,8 @@ import javax.swing.JOptionPane;
 public class CadFabricanteGUI extends javax.swing.JDialog {
 
     private Fabricante provider;
-    private ProviderService providerService;
-    private final ProviderTableModel tableModel = new ProviderTableModel();
+    private FabricanteService providerService;
+    private final FabricanteTableModel tableModel = new FabricanteTableModel();
     /**
      * Creates new form CadProviderGUI
      */
@@ -33,7 +34,7 @@ public class CadFabricanteGUI extends javax.swing.JDialog {
         initComp();
     }
     
-    public CadFabricanteGUI(java.awt.Frame parent, boolean modal, ProviderService providerService) {
+    public CadFabricanteGUI(java.awt.Frame parent, boolean modal, FabricanteService providerService) {
         super(parent, modal);
         initComponents();
         setProviderService(providerService);
@@ -368,18 +369,23 @@ public class CadFabricanteGUI extends javax.swing.JDialog {
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
-    private ProviderService setProviderService(ProviderService providerService){
+    private void setIco() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
+    
+    private FabricanteService setProviderService(FabricanteService providerService){
         return this.providerService = providerService;
     }
     
     private void setModel(){
         tableProvider.setModel(tableModel);   
-        tableProvider.setDefaultRenderer(Object.class, new ProviderTableRenderer());
+        tableProvider.setDefaultRenderer(Object.class, new FabricanteTableRenderer());
         tableProvider.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
         tableProvider.getColumnModel().getColumn(1).setPreferredWidth(300); //NOME
     } 
     
     private void initComp(){
+        setIco();
         setModel();
         findAll();
         txtName.setDocument(new UpperCase());

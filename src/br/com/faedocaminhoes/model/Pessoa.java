@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -33,6 +34,8 @@ public class Pessoa implements Serializable{
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "idVehicle")
     private List<Veiculo> vehicles;
+    @OneToMany(mappedBy = "pessoa")
+    private List<Abastecimento> abastecimentos;
     
     public Pessoa(){
         

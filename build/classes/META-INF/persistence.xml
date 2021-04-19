@@ -5,8 +5,12 @@
     <!-- Implementação do JPA -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Lista de entidades -->
-    <class>br.com.faedocaminhoes.model.Pessoa</class>
+    <class>br.com.faedocaminhoes.model.Abastecimento</class>
+    <class>br.com.faedocaminhoes.model.CategoriaProd</class>
     <class>br.com.faedocaminhoes.model.Fabricante</class>
+    <class>br.com.faedocaminhoes.model.Fornecedor</class>
+    <class>br.com.faedocaminhoes.model.Pessoa</class>
+    <class>br.com.faedocaminhoes.model.Produto</class>
     <class>br.com.faedocaminhoes.model.Usuario</class>
     <class>br.com.faedocaminhoes.model.Veiculo</class>
     <properties>

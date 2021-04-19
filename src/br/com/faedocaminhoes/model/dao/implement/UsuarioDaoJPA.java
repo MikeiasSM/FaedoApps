@@ -8,23 +8,23 @@ package br.com.faedocaminhoes.model.dao.implement;
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Usuario;
 import java.util.List;
-import br.com.faedocaminhoes.model.dao.UserDao;
 import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
+import br.com.faedocaminhoes.model.dao.UsuarioDao;
 
 /**
  *
  * @author Poison
  */
-public class UsuarioDaoJPA implements UserDao{
+public class UsuarioDaoJPA implements UsuarioDao{
 
     private static EntityManager em;
     
     @Override
-    public void save(Usuario pUser) {
+    public void insert(Usuario pUser) {
         em = new ConnectionFactory().getConection();
         try{
             em.getTransaction().begin();
@@ -100,7 +100,7 @@ public class UsuarioDaoJPA implements UserDao{
         List<Usuario> user = null;
         
         try{
-            user = em.createQuery("SELECT u FROM User u").getResultList();
+            user = em.createQuery("SELECT u FROM Usuario u").getResultList();
             
             if(user.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class UsuarioDaoJPA implements UserDao{
         em = new ConnectionFactory().getConection();
         List<Usuario> list = null;
         try{
-            String query = "SELECT p FROM User p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Usuario p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {
@@ -174,7 +174,7 @@ public class UsuarioDaoJPA implements UserDao{
         em = new ConnectionFactory().getConection();
         Usuario us = null;
         try{
-            Query query = em.createQuery("SELECT u FROM User u WHERE u.nome = :nome and u.senha1 = :senha");
+            Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.nome = :nome and u.senha1 = :senha");
             query.setParameter("nome", user);
             query.setParameter("senha", password);
             us = (Usuario) query.getSingleResult();

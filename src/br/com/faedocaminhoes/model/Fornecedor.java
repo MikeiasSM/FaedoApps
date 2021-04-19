@@ -6,11 +6,13 @@
 package br.com.faedocaminhoes.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -28,6 +30,8 @@ public class Fornecedor implements Serializable{
     private String cpf_cnpj;
     private String telefone;
     private String email;
+    @OneToMany(mappedBy = "fornecedor")
+    private List<Abastecimento> abastecimentos;
     
     public Fornecedor(){
         
@@ -90,6 +94,14 @@ public class Fornecedor implements Serializable{
         this.email = email;
     }
 
+    public List<Abastecimento> getAbastecimentos() {
+        return abastecimentos;
+    }
+
+    public void setAbastecimentos(List<Abastecimento> abastecimentos) {
+        this.abastecimentos = abastecimentos;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -117,6 +129,6 @@ public class Fornecedor implements Serializable{
 
     @Override
     public String toString() {
-        return "Fornecedor{" + "id=" + id + ", razao=" + razao + ", fantasia=" + fantasia + '}';
+        return getRazao();
     }
 }

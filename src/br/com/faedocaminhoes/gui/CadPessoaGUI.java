@@ -5,17 +5,18 @@
  */
 package br.com.faedocaminhoes.gui;
 
-import br.com.faedocaminhoes.gui.tablemodel.PersonTableModel;
-import br.com.faedocaminhoes.gui.tablemodel.VehicleTableModel;
-import br.com.faedocaminhoes.gui.tablemodel.renderer.PersonTableRenderer;
-import br.com.faedocaminhoes.gui.tablemodel.renderer.VehicleTableRenderer;
+import br.com.faedocaminhoes.gui.tablemodel.PessoaTableModel;
+import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
+import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
+import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Veiculo;
-import br.com.faedocaminhoes.model.service.PersonService;
-import br.com.faedocaminhoes.model.service.ProviderService;
-import br.com.faedocaminhoes.model.service.VehicleService;
+import br.com.faedocaminhoes.model.service.PessoaService;
+import br.com.faedocaminhoes.model.service.FabricanteService;
+import br.com.faedocaminhoes.model.service.VeiculoService;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
+import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -23,25 +24,26 @@ import javax.swing.JOptionPane;
  *
  * @author Poison
  */
-public class CadPessoaGUI extends javax.swing.JFrame {
+public class CadPessoaGUI extends javax.swing.JDialog {
 
     private Pessoa person;
     private Veiculo vehicle;
-    private PersonService personService;
-    private final PersonTableModel tableModel = new PersonTableModel();
-    private final VehicleTableModel tableModelVehicle = new VehicleTableModel();
+    private PessoaService personService;
+    private final PessoaTableModel tableModel = new PessoaTableModel();
+    private final VeiculoTableModel tableModelVehicle = new VeiculoTableModel();
     
     /**
      * Creates new form PessoaGui
      */
-    public CadPessoaGUI(){
+    public CadPessoaGUI(java.awt.Frame parent, boolean modal){
+        super(parent, modal);
         initComponents();
-        initProps();
     }
     
-    public CadPessoaGUI(PersonService pService) {
+    public CadPessoaGUI(java.awt.Frame parent, boolean modal, PessoaService pService) {
+        super(parent, modal);
         initComponents();
-        this.personService = pService;
+        setPessoaService(personService);
         
         initProps();
     }
@@ -74,6 +76,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
         btnAddVehicle = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableVehicle = new javax.swing.JTable();
+        btnRemoVeiculo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePessoa = new javax.swing.JTable();
@@ -87,7 +90,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Dados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Dados da Pessoa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Codigo.:");
@@ -155,6 +158,13 @@ public class CadPessoaGUI extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableVehicle);
 
+        btnRemoVeiculo.setText("Remover Veiculo");
+        btnRemoVeiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoVeiculoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -162,6 +172,10 @@ public class CadPessoaGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAddVehicle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoVeiculo))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -191,10 +205,12 @@ public class CadPessoaGUI extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)))
-                    .addComponent(btnAddVehicle)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAddVehicle, btnRemoVeiculo});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -216,7 +232,9 @@ public class CadPessoaGUI extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddVehicle)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddVehicle)
+                    .addComponent(btnRemoVeiculo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -228,8 +246,10 @@ public class CadPessoaGUI extends javax.swing.JFrame {
                 .addGap(0, 10, Short.MAX_VALUE))
         );
 
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAddVehicle, btnRemoVeiculo});
+
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Cadastros de Pessoas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Listagem de Pessoas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
         tablePessoa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -335,7 +355,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehicleActionPerformed
-        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VehicleService(), new ProviderService());
+        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VeiculoService(), new FabricanteService());
         vehicle.setLocationRelativeTo(this);
         vehicle.setVisible(true);
         importObject(vehicle.getObject());
@@ -348,6 +368,10 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     private void tablePessoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePessoaMousePressed
         getTable();
     }//GEN-LAST:event_tablePessoaMousePressed
+
+    private void btnRemoVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoVeiculoActionPerformed
+        removeVeiculo();
+    }//GEN-LAST:event_btnRemoVeiculoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,7 +410,14 @@ public class CadPessoaGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadPessoaGUI().setVisible(true);
+                CadPessoaGUI dialog = new CadPessoaGUI(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -396,6 +427,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnRemoVeiculo;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
@@ -418,7 +450,12 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 
+    private void setIco() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
+    
     private void initProps() {
+        setIco();
         setModel();
         setModelVehicle();
         findAll();
@@ -429,7 +466,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
         txtNome.requestFocus();
     }
     
-    public PersonService setPessoaService(PersonService personService){
+    public PessoaService setPessoaService(PessoaService personService){
         return this.personService = personService;
     }
     
@@ -495,7 +532,7 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     
     private void setModel(){
         tablePessoa.setModel(tableModel);   
-        tablePessoa.setDefaultRenderer(Object.class, new PersonTableRenderer());
+        tablePessoa.setDefaultRenderer(Object.class, new PessoaTableRenderer());
         tablePessoa.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
         tablePessoa.getColumnModel().getColumn(1).setPreferredWidth(300); //NOME
         tablePessoa.getColumnModel().getColumn(2).setPreferredWidth(200); //CPF
@@ -524,7 +561,13 @@ public class CadPessoaGUI extends javax.swing.JFrame {
     
     private void setModelVehicle(){
         tableVehicle.setModel(tableModelVehicle);   
-        tableVehicle.setDefaultRenderer(Object.class, new VehicleTableRenderer());
+        tableVehicle.setDefaultRenderer(Object.class, new VeiculoTableRenderer());
+    }
+    
+    private void removeVeiculo(){
+        if(tableVehicle.getSelectedRow() != -1){
+            tableModelVehicle.removeRow(tableVehicle.getSelectedRow());
+        }
     }
     
     private void erasedPersonComponents(){
