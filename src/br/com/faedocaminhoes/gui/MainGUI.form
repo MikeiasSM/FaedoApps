@@ -7,7 +7,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="Nextsoft Software"/>
+    <Property name="title" type="java.lang.String" value="Nextsoft Software &#x20a2;"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
@@ -155,9 +155,9 @@
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/br/com/faedocaminhoes/icons/Add_Parametros_36px.png"/>
+                          <Image iconType="3" name="/br/com/faedocaminhoes/icons/Info_info_36px.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Par&#xe2;metros"/>
+                        <Property name="text" type="java.lang.String" value="Sobre"/>
                         <Property name="horizontalTextPosition" type="int" value="0"/>
                         <Property name="verticalTextPosition" type="int" value="3"/>
                       </Properties>

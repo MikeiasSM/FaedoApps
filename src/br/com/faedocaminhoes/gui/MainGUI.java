@@ -14,11 +14,13 @@ import br.com.faedocaminhoes.model.service.ProdutoService;
 import br.com.faedocaminhoes.model.service.UsuarioService;
 import br.com.faedocaminhoes.model.service.VeiculoService;
 import br.com.faedocaminhoes.uteis.DimensionFrame;
+import com.jtattoo.plaf.graphite.GraphiteLookAndFeel;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -104,7 +106,7 @@ public class MainGUI extends DimensionFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Nextsoft Software");
+        setTitle("Nextsoft Software ₢");
         setBackground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -129,8 +131,8 @@ public class MainGUI extends DimensionFrame {
         lblArqParametros.setBackground(new java.awt.Color(255, 255, 255));
         lblArqParametros.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblArqParametros.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblArqParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Parametros_36px.png"))); // NOI18N
-        lblArqParametros.setText("Parâmetros");
+        lblArqParametros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Info_info_36px.png"))); // NOI18N
+        lblArqParametros.setText("Sobre");
         lblArqParametros.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblArqParametros.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lblArqParametros.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -815,7 +817,9 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblCadEstadosMouseExited
 
     private void lblArqParametrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqParametrosMouseClicked
-        // TODO add your handling code here:
+        SobreGUI sobre = new SobreGUI(this, true);
+        sobre.setLocationRelativeTo(this);
+        sobre.setVisible(true);
     }//GEN-LAST:event_lblArqParametrosMouseClicked
 
     private void lblArqParametrosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblArqParametrosMouseEntered
@@ -940,31 +944,38 @@ public class MainGUI extends DimensionFrame {
          */
         
         /*
-        //Synthetica
+        //JTatoo
         try {
-            //Configurar se deve aplicar o look a borda do JFrame  
-            // No caso esta programado para não aplicar (Boolean.FALSE)  
-            UIManager.put("Synthetica.window.decoration", Boolean.TRUE);
-            //Configura qual Look você quer usar no projeto  
-            UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            //Configura o logo String dos JMenu's  
+            Properties props = new Properties();
+            props.put("logoString", "Next Software ₢");
+            
+            GraphiteLookAndFeel.setCurrentTheme(props);
+            //Configura o Look que deseja usar da Biblioteca JTattoo  
+            
+            UIManager.setLookAndFeel(new GraphiteLookAndFeel());
+            //Chama a interface do seu programa  
+            //(new InterfaceCadastro()).show();  
+        } catch (Exception erro) {
+            erro.printStackTrace();
         }
-        
-        JTattoo
+        */
+        /* 
+        //Synthetica Não compativel com java 11
         try {  
-           //Configura o logo String dos JMenu's  
-           Properties props = new Properties();  
-           props.put("logoString", "FAEDO CAMINHÕES ©");  
-           AeroLookAndFeel.setCurrentTheme(props);  
-           //Configura o Look que deseja usar da Biblioteca JTattoo  
-           UIManager.setLookAndFeel(new AeroLookAndFeel());  
+           //Configurar se deve aplicar o look a borda do JFrame  
+           // No caso esta programado para não aplicar (Boolean.FALSE)  
+           UIManager.put("Synthetica.window.decoration", Boolean.FALSE);  
+           //Configura qual Look você quer usar no projeto  
+           UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());  
+           //Chama a interface do seu programa  
+           //(new MainGUI()).show();  
         } catch (Exception erro) {  
            erro.printStackTrace();  
-        }  
+        } 
         */
-         
+        
+        
         //Padrao para linux e windows
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -977,8 +988,6 @@ public class MainGUI extends DimensionFrame {
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        
-         
         //</editor-fold>
         //</editor-fold>
 

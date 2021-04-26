@@ -97,7 +97,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Faedo Caminhões - Cadastro de Pessoas");
+        setTitle("Next Software ₢ - Cadastro de Pessoas");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -270,14 +270,14 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
                     .addComponent(btnAddVehicle)
                     .addComponent(btnRemoVeiculo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExit)
                     .addComponent(btnCancel)
                     .addComponent(btnDelete)
                     .addComponent(btnSave))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAddVehicle, btnRemoVeiculo});
@@ -341,7 +341,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
                     .addComponent(btnSearch)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, txtSearch});
@@ -544,6 +544,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED){
+                    txtCpf.setValue(null);
                     lblCpf.setText("CPF.:");
                     txtCpf.setFormatterFactory(new DefaultFormatterFactory(maskCpf));                    
                 }
@@ -554,6 +555,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED){
+                    txtCpf.setValue(null);
                     lblCpf.setText("CNPJ.:");
                     txtCpf.setFormatterFactory(new DefaultFormatterFactory(maskCnpj));                    
                 }

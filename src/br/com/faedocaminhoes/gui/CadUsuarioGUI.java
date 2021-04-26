@@ -81,7 +81,7 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Usuarios");
+        setTitle("Next Software ₢ - Cadastro de Usuarios");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

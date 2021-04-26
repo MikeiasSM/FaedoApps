@@ -68,6 +68,7 @@ public class CadFabricanteGUI extends javax.swing.JDialog {
         tableProvider = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Next Software ₢ - Cadastro de Fabricantes");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

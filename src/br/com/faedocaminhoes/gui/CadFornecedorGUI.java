@@ -82,7 +82,7 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Faedo Caminhões - Cadastro de Fornecedor");
+        setTitle("Next Software ₢ - Cadastro de Fornecedor");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

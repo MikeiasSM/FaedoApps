@@ -81,6 +81,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         tableProduto = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Next Software ₢ - Cadastro de Produtos");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

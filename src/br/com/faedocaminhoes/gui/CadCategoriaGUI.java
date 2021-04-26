@@ -67,7 +67,7 @@ public class CadCategoriaGUI extends javax.swing.JDialog {
         btnSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Categorias");
+        setTitle("Next Software ₢ - Cadastro de Categorias");
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 

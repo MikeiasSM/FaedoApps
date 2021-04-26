@@ -114,7 +114,7 @@ public class BackupGUI extends javax.swing.JFrame {
         rdoSemanal = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Backup Acess");
+        setTitle("Next Software ₢ - Backup Restore");
         setResizable(false);
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -239,7 +239,7 @@ public class BackupGUI extends javax.swing.JFrame {
         );
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/Add_Backup_36px.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/nextsoft/icons/Add_Backup_36px.png"))); // NOI18N
 
         rdoRestore.setBackground(new java.awt.Color(255, 255, 255));
         gpRdo.add(rdoRestore);

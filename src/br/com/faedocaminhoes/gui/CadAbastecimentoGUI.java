@@ -125,7 +125,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Next Software - Lançamento de Abastecimento");
+        setTitle("Next Software ₢ - Lançamento de Abastecimento");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

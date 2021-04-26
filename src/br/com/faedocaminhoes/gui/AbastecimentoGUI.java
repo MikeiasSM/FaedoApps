@@ -127,7 +127,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Next Software - Busca de Abastecimento");
+        setTitle("Next Software ₢ - Busca de Abastecimento");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
