@@ -99,7 +99,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
         List<Veiculo> vehicle = null;
         
         try{
-            vehicle = em.createQuery("SELECT v FROM Veiculo v").getResultList();
+            vehicle = em.createQuery("SELECT v FROM Veiculo v ORDER BY v.id").getResultList();
             
             if(vehicle.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +148,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
         em = new ConnectionFactory().getConection();
         List<Veiculo> list = null;
         try{
-            String query = "SELECT p FROM Veiculo p WHERE 1 = 1 AND p.modelo LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Veiculo p WHERE 1 = 1 AND p.modelo LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

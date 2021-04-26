@@ -69,6 +69,16 @@ public class FornecedorService {
         }                
     }
     
+    public Fornecedor findByIdInteger(Integer id){
+        if(id != null && fornecedorDao != null){
+           Fornecedor p = fornecedorDao.findByIdInteger(id);
+           return p;
+        }else{
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }                
+    }
+    
     public List<Fornecedor> findAll() {
         if(fornecedorDao != null){
         List<Fornecedor> listPessoa = fornecedorDao.findAll();

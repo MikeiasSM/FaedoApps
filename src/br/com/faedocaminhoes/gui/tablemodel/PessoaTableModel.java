@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Pessoa;
+import br.com.faedocaminhoes.model.enumerado.TipoPessoa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -21,7 +22,8 @@ public class PessoaTableModel extends AbstractTableModel{
                                       "Nome",
                                       "CPF/CNPJ",
                                       "Telefone",
-                                      "E-mail"};
+                                      "E-mail",
+                                      "Tipo"};
 
     
     @Override
@@ -52,6 +54,8 @@ public class PessoaTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getTelefone();
             case 4:
                 return dados.get(linhaIndex).getEmail();
+            case 5:
+                return dados.get(linhaIndex).getTipo_pessoa();
             default:
                 return null;
         }
@@ -70,6 +74,8 @@ public class PessoaTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setTelefone((String) valor);
             case 4:
                 dados.get(linhaIndex).setEmail((String) valor);
+            case 5:
+                dados.get(linhaIndex).setTipo_pessoa((TipoPessoa) valor);
             }
     }
     

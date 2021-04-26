@@ -5,6 +5,7 @@
  */
 package br.com.faedocaminhoes.model;
 
+import br.com.faedocaminhoes.model.enumerado.TipoPessoa;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -36,17 +37,19 @@ public class Pessoa implements Serializable{
     private List<Veiculo> vehicles;
     @OneToMany(mappedBy = "pessoa")
     private List<Abastecimento> abastecimentos;
+    private Integer tipo_pessoa;
     
     public Pessoa(){
         
     }
     
-    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email){
+    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email, Integer tipo_pessoa){
         this.id = id;
         this.nome = nome;
         this.cpf_cnpj = cpf_cnpj;
         this.telefone = telefone;
         this.email = email;
+        this.tipo_pessoa = tipo_pessoa;
     }
 
     public Integer getId() {
@@ -87,6 +90,14 @@ public class Pessoa implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TipoPessoa getTipo_pessoa() {
+        return TipoPessoa.toEnum(tipo_pessoa);
+    }
+
+    public void setTipo_pessoa(TipoPessoa tipo_pessoa) {
+        this.tipo_pessoa = tipo_pessoa.getCod();
     }
     
     public List<Veiculo> getVeiculos() {

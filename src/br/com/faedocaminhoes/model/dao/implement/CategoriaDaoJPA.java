@@ -100,7 +100,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
         List<CategoriaProd> categorias = null;
         
         try{
-            categorias = em.createQuery("SELECT u FROM CategoriaProd u").getResultList();
+            categorias = em.createQuery("SELECT u FROM CategoriaProd u ORDER BY u.id").getResultList();
             
             if(categorias.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
         em = new ConnectionFactory().getConection();
         List<CategoriaProd> list = null;
         try{
-            String query = "SELECT p FROM CategoriaProd p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM CategoriaProd p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

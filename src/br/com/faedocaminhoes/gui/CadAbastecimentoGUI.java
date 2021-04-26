@@ -16,9 +16,23 @@ import br.com.faedocaminhoes.model.service.FornecedorService;
 import br.com.faedocaminhoes.model.service.PessoaService;
 import br.com.faedocaminhoes.model.service.ProdutoService;
 import br.com.faedocaminhoes.model.service.VeiculoService;
+import br.com.faedocaminhoes.uteis.JOptionPaneError;
+import br.com.faedocaminhoes.uteis.JTextFieldLetras;
+import br.com.faedocaminhoes.uteis.JTextFieldNumeros;
+import br.com.faedocaminhoes.uteis.ParseInteger;
+import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,11 +44,15 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     
     private Abastecimento abastecimento;
     private AbastecimentoService abastecimentoService;
+    private Fornecedor fornecedor;
     private FornecedorService fornecedorService;
+    private Produto produto;
     private ProdutoService produtoService;
+    private Pessoa pessoa;
     private PessoaService pessoaService;
     private VeiculoService veiculoService;
     
+    private Locale c = Locale.US;
     /**
      * Creates new form CadAbastecimento
      */
@@ -82,7 +100,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         cbVeiculo = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        txtResponse = new javax.swing.JTextField();
+        txtResponse = new JTextFieldLetras(100);
         btnAddPessoa = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -91,24 +109,23 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtQtd = new javax.swing.JTextField();
-        txtValorUnit = new javax.swing.JTextField();
-        txtValorTot = new javax.swing.JTextField();
         cbProduto = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtRequisicao = new javax.swing.JTextField();
-        txtCupom = new javax.swing.JTextField();
+        txtRequisicao = new JTextFieldNumeros(10);
+        txtCupom = new JTextFieldNumeros(10);
         btnAddCombustivel = new javax.swing.JButton();
         btnAddFornecedor = new javax.swing.JButton();
+        txtQtd = new JNumberField.JNumberField();
+        txtValorTot = new JNumberField.JNumberField();
+        txtValorUnit = new JNumberField.JNumberField();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnFind = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Faedo Caminhões - Lançamento de Abastecimento");
+        setTitle("Next Software - Lançamento de Abastecimento");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -119,6 +136,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
 
         txtId.setEnabled(false);
 
+        dtaDate.setDateFormatString("dd/MM/yyyy");
         dtaDate.setEnabled(false);
 
         jLabel2.setText("Dta. Abastecimento.:");
@@ -212,8 +230,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Quantidade.:");
 
-        txtValorTot.setEnabled(false);
-
         jLabel11.setText("Nº Requisição.:");
 
         jLabel12.setText("Nº Cupom.:");
@@ -231,6 +247,8 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 btnAddFornecedorActionPerformed(evt);
             }
         });
+
+        txtValorTot.setEditable(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -250,7 +268,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtValorUnit))
+                                .addComponent(txtValorUnit, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
@@ -265,7 +283,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddCombustivel)
                         .addGap(4, 4, 4)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,12 +292,13 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                                         .addComponent(jLabel12)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCupom, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtCupom, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                    .addComponent(txtQtd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtValorTot, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtValorTot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -295,8 +314,8 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(cbProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddCombustivel))
+                    .addComponent(btnAddCombustivel)
+                    .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -304,11 +323,11 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                     .addComponent(txtRequisicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCupom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel5)
-                    .addComponent(txtValorUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(txtValorTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValorTot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValorUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -316,12 +335,22 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAddFornecedor, cbFornecedor, jLabel3});
 
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel5, jLabel6, txtValorTot, txtValorUnit});
+
         btnSave.setText("Salvar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Deletar");
         btnDelete.setEnabled(false);
-
-        btnFind.setText("Localizar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -360,8 +389,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -385,7 +412,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnDelete)
-                    .addComponent(btnFind)
                     .addComponent(btnCancel)
                     .addComponent(btnExit))
                 .addContainerGap())
@@ -435,19 +461,40 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(null, true, new FornecedorService());
         cadFornecedor.setLocationRelativeTo(cadFornecedor);
         cadFornecedor.setVisible(true);
+        popFornecedor();
+        setFornecedor(cadFornecedor.getFornecedor());
+        cbFornecedor.setSelectedItem((Fornecedor) fornecedor);
     }//GEN-LAST:event_btnAddFornecedorActionPerformed
 
     private void btnAddCombustivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCombustivelActionPerformed
         CadProdutoGUI cadProduto = new CadProdutoGUI(null, true, new ProdutoService(), new CategoriaService());
         cadProduto.setLocationRelativeTo(cadProduto);
         cadProduto.setVisible(true);
+        popProduto();
+        setProduto(cadProduto.getProduto());
+        cbProduto.setSelectedItem((Produto) produto);
     }//GEN-LAST:event_btnAddCombustivelActionPerformed
 
     private void btnAddPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPessoaActionPerformed
-        CadPessoaGUI cadCliente = new CadPessoaGUI(null, true, new PessoaService());
-        cadCliente.setLocationRelativeTo(cadCliente);
-        cadCliente.setVisible(true);
+        CadPessoaGUI cadPessoa = new CadPessoaGUI(null, true, new PessoaService());
+        cadPessoa.setLocationRelativeTo(cadPessoa);
+        cadPessoa.setVisible(true);
+        popPessoa();
+        setPessoa(cadPessoa.getPessoa());
+        cbPessoa.setSelectedItem((Pessoa) pessoa);
     }//GEN-LAST:event_btnAddPessoaActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if(verifyComp()){
+            save();
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(verifyComp()){
+            delete();
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,7 +548,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnFind;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<Object> cbFornecedor;
     private javax.swing.JComboBox<Object> cbPessoa;
@@ -527,11 +573,11 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField txtCupom;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtQtd;
+    private JNumberField.JNumberField txtQtd;
     private javax.swing.JTextField txtRequisicao;
     private javax.swing.JTextField txtResponse;
-    private javax.swing.JTextField txtValorTot;
-    private javax.swing.JTextField txtValorUnit;
+    private JNumberField.JNumberField txtValorTot;
+    private JNumberField.JNumberField txtValorUnit;
     // End of variables declaration//GEN-END:variables
 
     private void setIco() {
@@ -554,32 +600,144 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         return this.veiculoService = veiculoService;
     }
     
-    private void initComp(){
+    private void initComp() {
         setIco();
         popFornecedor();
         popPessoa();
         popProduto();
-        
-        cbPessoa.addActionListener(new ActionListener(){
+        txtResponse.setDocument(new UpperCase());
+        dtaDate.setDate(new Date());
+        cbFornecedor.requestFocus();
+        NumberFormat moeda = new DecimalFormat("#,##0.00");
+        txtQtd.setNumberFormat(new DecimalFormat("0.00"));
+        txtValorUnit.setNumberFormat(new DecimalFormat("0.00"));
+        txtValorTot.setNumberFormat(new DecimalFormat("0.00"));
+        cbPessoa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(cbPessoa.getSelectedItem() != null){
+                if (cbPessoa.getSelectedItem() != null) {
                     popVeiculo();
                 }
             }
         });
         
+        
+        txtQtd.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    BigDecimal vQtd = txtQtd.getValue();
+                    BigDecimal vUnt = txtValorUnit.getValue();
+                    BigDecimal soma = vUnt.multiply(vQtd);
+                    txtValorTot.setText(moeda.format(soma));
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String caracteres = ".0987654321";
+                if (!caracteres.contains(e.getKeyChar() + "")) {
+                    e.consume();
+                }
+                BigDecimal vQtd = txtQtd.getValue();
+                BigDecimal vUnt = txtValorUnit.getValue();
+                BigDecimal soma = vUnt.multiply(vQtd); 
+                txtValorTot.setText(moeda.format(soma));
+            }
+        });
+        txtValorUnit.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    BigDecimal vQtd = txtQtd.getValue();
+                    BigDecimal vUnt = txtValorUnit.getValue();
+                    BigDecimal soma = vUnt.multiply(vQtd);
+                    System.out.println("---QTD---");
+                    System.out.println(vQtd);
+                    System.out.println("---UNT---");
+                    System.out.println(vUnt);
+                    System.out.println("---TOT---");
+                    System.out.println(soma);
+                    txtValorTot.setText(moeda.format(soma));
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String caracteres = ".0987654321";
+                if (!caracteres.contains(e.getKeyChar() + "")) {
+                    e.consume();
+                }
+                BigDecimal vQtd = txtQtd.getValue();
+                BigDecimal vUnt = txtValorUnit.getValue();
+                BigDecimal soma = vUnt.multiply(vQtd);
+                txtValorTot.setText(moeda.format(soma));
+            }
+        });
+        
+        BigDecimal e = txtQtd.getValue();
+        
+    }
+    
+    private void save(){
+        completeData();
+        if(abastecimentoService == null && abastecimento != null){
+            JOptionPane.showMessageDialog(this, "AbastecimentoService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        abastecimentoService.insertOrUpdate(abastecimento);
+        erasedComponents();
+    }
+    
+    private void delete(){
+        completeData();
+        if(abastecimentoService == null && abastecimento != null){
+            JOptionPane.showMessageDialog(this, "AbastecimentoService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        abastecimentoService.insertOrUpdate(abastecimento);
+        erasedComponents();
+    }
+    
+    private void completeData(){
+        try{
+            abastecimento = new Abastecimento();
+            abastecimento.setId(ParseInteger.tryParseToInt(txtId.getText()));
+            abastecimento.setFornecedor((Fornecedor) cbFornecedor.getSelectedItem());
+            abastecimento.setProduto((Produto) cbProduto.getSelectedItem());
+            abastecimento.setN_requisicao(Integer.parseInt(txtRequisicao.getText()));
+            abastecimento.setN_cupom(Integer.parseInt(txtCupom.getText()));
+            abastecimento.setPessoa((Pessoa) cbPessoa.getSelectedItem());
+            abastecimento.setVeiculo((Veiculo) cbVeiculo.getSelectedItem());
+            abastecimento.setResponsavel(txtResponse.getText());
+            abastecimento.setQuantidade(txtQtd.getValue());
+            abastecimento.setVlr_unitario(txtValorUnit.getValue());    
+            abastecimento.setVlr_total(txtValorTot.getValue()); 
+            Date date = dtaDate.getDate();
+            LocalDate dateF = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            abastecimento.setData_abastecimento(dateF);
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+        }
     }
     
     private void erasedComponents(){
         cbFornecedor.setSelectedItem(null);
         cbProduto.setSelectedItem(null);
+        txtId.setText("");
         txtQtd.setText("");
         txtRequisicao.setText("");
         txtCupom.setText("");
         txtResponse.setText("");
-        txtValorUnit.setText("0.00");
-        txtValorTot.setText("0.00");
+        txtValorUnit.setText("");
+        txtValorTot.setText("");
         cbPessoa.setSelectedItem(null);
         cbProduto.setSelectedItem(null);
         cbVeiculo.removeAllItems();
@@ -587,7 +745,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         btnDelete.setEnabled(false);
     }
     
-    private final void popFornecedor(){
+    private void popFornecedor(){
         if(fornecedorService == null){
             JOptionPane.showMessageDialog(this, "FornecedorService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -598,7 +756,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         cbFornecedor.setSelectedItem(null);
     }
     
-    private final void popProduto(){
+    private void popProduto(){
         if(produtoService == null){
             JOptionPane.showMessageDialog(this, "ProdutoService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -609,7 +767,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         cbProduto.setSelectedItem(null);
     }
     
-    private final void popPessoa(){
+    private void popPessoa(){
         if(pessoaService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -620,7 +778,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         cbPessoa.setSelectedItem(null);
     }
     
-    private final void popVeiculo(){
+    private void popVeiculo(){
         if(pessoaService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -633,4 +791,77 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         cbVeiculo.setEnabled(true);
     }
     
+    public void importData(Abastecimento abas){
+        if(abas != null){
+            abastecimento = abas;
+            txtId.setText(String.valueOf(abastecimento.getId()));
+            Date date = Date.from(abastecimento.getData_abastecimento().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            dtaDate.setDate(date);
+            cbFornecedor.setSelectedItem((Fornecedor) abastecimento.getFornecedor());
+            cbProduto.setSelectedItem((Produto) abastecimento.getProduto());
+            txtQtd.setValue(abastecimento.getQuantidade());
+            txtRequisicao.setText(String.valueOf(abastecimento.getN_requisicao()));
+            txtCupom.setText(String.valueOf(abastecimento.getN_cupom()));
+            txtValorUnit.setValue(abastecimento.getVlr_unitario());
+            txtValorTot.setValue(abastecimento.getVlr_total());
+            cbPessoa.setSelectedItem((Pessoa) abastecimento.getPessoa());
+            cbVeiculo.setSelectedItem((Veiculo) abastecimento.getVeiculo());
+            txtResponse.setText(abastecimento.getResponsavel());
+        }
+    }
+    
+    public void setFornecedor(Fornecedor fornecedor){
+        this.fornecedor = fornecedor;
+    }
+    
+    public void setProduto(Produto produto){
+        this.produto = produto;
+    }
+    
+    public void setPessoa(Pessoa pessoa){
+        this.pessoa = pessoa;
+    }
+    
+    private boolean verifyComp(){        
+        String err = "";
+        if(cbFornecedor.getSelectedItem() == null){
+            err += "O campo Fornecedor é obrigatório!\n";
+        }
+        if(cbProduto.getSelectedItem() == null){
+            err += "O campo Combustivel é obrigatório!\n";
+        }
+        if(txtRequisicao.getText().isEmpty() || txtRequisicao.getText().length() <= 0){
+            err += "O campo Nº Requisição  é obrigatório!\n";
+        }
+        if(txtCupom.getText().isEmpty() || txtCupom.getText().length() <= 0){
+            err += "O campo Nº Cupom  é obrigatório!\n";
+        }
+        if(txtQtd.getText().equals("0,00") || txtQtd.getText().length() <= 0){
+            err += "O campo Quantidade é obrigatório!\n";
+        }
+        if(txtValorUnit.getText().equals("0,00") || txtValorUnit.getText().length() <= 0){
+            err += "O campo Valor unitário é obrigatório!\n";
+        }
+        if(cbPessoa.getSelectedItem() == null){
+            err += "O campo Pessoa é obrigatório!\n";
+        }
+        if(cbVeiculo.getSelectedItem() == null){
+            err += "O campo Veiculo é obrigatório!\n";
+        }
+        if(txtResponse.getText().isEmpty() || txtResponse.getText().length() <= 0){
+            err += "O campo Responsável é obrigatório!\n";
+        }
+        if(err.length() <= 0){
+            return true;            
+        }else{
+            JOptionPane.showMessageDialog(null, err,"FAEDO CAMINHÕES", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }        
+    }
+    
+    private Double getFormatedDate(String str){
+        str = str.replace(",", ".");
+        str = str.replace(".", "");
+        return new Double(str);
+    }
 }

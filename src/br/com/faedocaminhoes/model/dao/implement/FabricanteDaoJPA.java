@@ -99,7 +99,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
         List<Fabricante> providers = null;
 
         try {
-            providers = em.createQuery("SELECT p FROM Fabricante p").getResultList();
+            providers = em.createQuery("SELECT p FROM Fabricante p ORDER BY p.id").getResultList();
 
             if (providers.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +148,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
         em = new ConnectionFactory().getConection();
         List<Fabricante> list = null;
         try {
-            String query = "SELECT p FROM Fabricante p WHERE 1 = 1 AND p.nome LIKE '%" + pName + "%'";
+            String query = "SELECT p FROM Fabricante p WHERE 1 = 1 AND p.nome LIKE '%" + pName + "%' ORDER BY p.id";
 
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

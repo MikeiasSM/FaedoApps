@@ -32,9 +32,9 @@ public class Abastecimento implements Serializable{
     @JoinColumn(name = "idFornecedor")
     private Fornecedor fornecedor;
     @ManyToOne
-    private Produto produto;
     @JoinColumn(name = "idProduto")
-    private Double quantidade;
+    private Produto produto;
+    private BigDecimal quantidade;
     private Integer n_requisicao;
     private Integer n_cupom;
     private BigDecimal vlr_unitario;
@@ -51,7 +51,7 @@ public class Abastecimento implements Serializable{
         
     }
 
-    public Abastecimento(Integer id, LocalDate data_abastecimento, Fornecedor fornecedor, Produto produto, Double quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel) {
+    public Abastecimento(Integer id, LocalDate data_abastecimento, Fornecedor fornecedor, Produto produto, BigDecimal quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel) {
         this.id = id;
         this.data_abastecimento = data_abastecimento;
         this.fornecedor = fornecedor;
@@ -98,11 +98,11 @@ public class Abastecimento implements Serializable{
         this.produto = produto;
     }
 
-    public Double getQuantidade() {
+    public BigDecimal getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Double quantidade) {
+    public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
     }
 

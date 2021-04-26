@@ -93,7 +93,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         txtCod.setEnabled(false);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Nome.:");
+        jLabel2.setText("Descrição.:");
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -522,7 +522,6 @@ public class CadProdutoGUI extends javax.swing.JDialog {
     }
     
     private void popCategoria(){
-        categoria = new CategoriaProd();
         if(categoriaService == null){
             JOptionPane.showMessageDialog(this, "CategoriaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -559,8 +558,13 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         }
     }
 
-    public Produto getObject(){
-        return produto;
+    public Produto getProduto(){
+        if(produto != null){
+            return produto;
+        }else{
+            System.out.println("ERRO");
+            return null;
+        }
     }
    
     private boolean verifyComp(){        

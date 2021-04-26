@@ -99,7 +99,7 @@ public class FornecedorDaoJPA implements FornecedorDao{
         List<Fornecedor> fornecedor = null;
         
         try{
-            fornecedor = em.createQuery("SELECT u FROM Fornecedor u").getResultList();
+            fornecedor = em.createQuery("SELECT u FROM Fornecedor u ORDER BY u.id").getResultList();
             
             if(fornecedor.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -144,11 +144,35 @@ public class FornecedorDaoJPA implements FornecedorDao{
         }
     }
     
+    public Fornecedor findByIdInteger(Integer id) {
+        em = new ConnectionFactory().getConection();
+        Fornecedor fornecedor = null;
+        
+        try{
+            fornecedor = (Fornecedor) em.createQuery("SELECT u FROM Fornecedor u WHERE 1=1 AND u.id = "+id+" ORDER BY u.id").getSingleResult();
+            System.out.println(fornecedor);
+            if(fornecedor == null){
+                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Register not found!");
+            }
+            return fornecedor;                
+        }catch(Exception e){
+            em.getTransaction().rollback();
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+            return null;
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
+    
     public List<Fornecedor> findByName(String pName){
         em = new ConnectionFactory().getConection();
         List<Fornecedor> list = null;
         try{
-            String query = "SELECT p FROM Fornecedor p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Fornecedor p WHERE 1 = 1 AND p.razao LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

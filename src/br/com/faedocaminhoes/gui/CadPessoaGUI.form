@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="gpTipoPessoa">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Faedo Caminh&#xf5;es - Cadastro de Pessoas"/>
@@ -116,8 +120,14 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtCod" min="-2" pref="80" max="-2" attributes="0"/>
                                       <Component id="txtNome" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="txtCod" min="-2" pref="80" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="rdoFisica" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                                          <Component id="rdoJuridica" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -126,10 +136,10 @@
                                   <Component id="txtEmail" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel3" min="-2" pref="70" max="-2" attributes="0"/>
+                                  <Component id="lblCpf" min="-2" pref="70" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="txtCpf" min="-2" pref="290" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="txtCpf" min="-2" pref="296" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" pref="70" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtTelefone" pref="291" max="32767" attributes="0"/>
@@ -147,6 +157,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtCod" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdoFisica" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdoJuridica" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -154,11 +166,11 @@
                           <Component id="txtNome" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="txtCpf" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTelefone" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCpf" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -202,15 +214,13 @@
                 <Property name="text" type="java.lang.String" value="Nome.:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
+            <Component class="javax.swing.JLabel" name="lblCpf">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="CPF/CNPJ.:"/>
+                <Property name="text" type="java.lang.String" value="CPF.:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNome">
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtCpf">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
@@ -223,8 +233,6 @@
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="E-mail.:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtTelefone">
             </Component>
             <Component class="javax.swing.JTextField" name="txtEmail">
             </Component>
@@ -298,6 +306,35 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoVeiculoActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rdoFisica">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="gpTipoPessoa"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Fisica"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rdoJuridica">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="gpTipoPessoa"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Juridica"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="txtCpf">
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCpfFocusLost"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="txtTelefone">
             </Component>
           </SubComponents>
         </Container>
@@ -379,6 +416,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtSearch">
               <Properties>
@@ -388,6 +428,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyPressed"/>
               </Events>
             </Component>
           </SubComponents>

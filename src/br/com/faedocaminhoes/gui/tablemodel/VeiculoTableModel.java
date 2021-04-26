@@ -78,8 +78,10 @@ public class VeiculoTableModel extends AbstractTableModel{
         this.dados.add(pVehicle);
         this.fireTableDataChanged();
     }
+    
     public void removeRow(int linha){
-        this.fireTableRowsDeleted(linha, linha);
+        this.dados.remove(linha);
+        this.fireTableDataChanged();
     }
     
     public void removeAll(){

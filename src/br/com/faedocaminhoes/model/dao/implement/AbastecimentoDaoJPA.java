@@ -7,7 +7,6 @@ package br.com.faedocaminhoes.model.dao.implement;
 
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Abastecimento;
-import br.com.faedocaminhoes.model.CategoriaProd;
 import br.com.faedocaminhoes.model.dao.AbastecimentoDao;
 import java.util.List;
 import br.com.faedocaminhoes.uteis.JOptionPaneError;
@@ -100,7 +99,7 @@ public class AbastecimentoDaoJPA implements AbastecimentoDao{
         List<Abastecimento> abastecimentos = null;
         
         try{
-            abastecimentos = em.createQuery("SELECT u FROM Abastecimento u").getResultList();
+            abastecimentos = em.createQuery("SELECT u FROM Abastecimento u ORDER BY u.id").getResultList();
             
             if(abastecimentos.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -145,11 +144,35 @@ public class AbastecimentoDaoJPA implements AbastecimentoDao{
         }
     }
     
+    public Abastecimento findByIdInteger(Integer id) {
+        em = new ConnectionFactory().getConection();
+        Abastecimento abastecimento = null;
+        
+        try{
+            abastecimento = em.find(Abastecimento.class, id);
+        
+            if(abastecimento == null){
+                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Register not found!");
+            }
+            return abastecimento;                
+        }catch(Exception e){
+            em.getTransaction().rollback();
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+            return null;
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
+    
     public List<Abastecimento> findByName(String pName){
         em = new ConnectionFactory().getConection();
         List<Abastecimento> list = null;
         try{
-            String query = "SELECT p FROM Abastecimento p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Abastecimento p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

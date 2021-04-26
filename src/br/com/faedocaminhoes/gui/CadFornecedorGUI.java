@@ -9,21 +9,29 @@ import br.com.faedocaminhoes.gui.tablemodel.FornecedorTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.service.FornecedorService;
+import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
+import br.com.faedocaminhoes.uteis.ValidaDocumento;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
  * @author Poison
  */
-public class CadFornecedorGUI extends javax.swing.JDialog {
+public final class CadFornecedorGUI extends javax.swing.JDialog {
 
     private Fornecedor fornecedor;
     private FornecedorService fornecedorService;
     private final FornecedorTableModel tableModel = new FornecedorTableModel();
+    private MaskFormatter maskTelefone;
+    private MaskFormatter maskCnpj;
+    private ValidaDocumento validaDocumento = new ValidaDocumento();
     
     /**
      * Creates new form PessoaGui
@@ -56,10 +64,8 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtRazao = new javax.swing.JTextField();
-        txtCpf_Cnpj = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtTelefone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         btnExit = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -67,6 +73,8 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtFantasia = new javax.swing.JTextField();
+        txtCnpj = new javax.swing.JFormattedTextField();
+        txtTelefone = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableFornecedor = new javax.swing.JTable();
@@ -74,7 +82,7 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Faedo Caminhões - Cadastro de Pessoas");
+        setTitle("Faedo Caminhões - Cadastro de Fornecedor");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -91,7 +99,13 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         jLabel2.setText("Razão.:");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("CPF/CNPJ.:");
+        jLabel3.setText("CNPJ.:");
+
+        txtRazao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtRazaoFocusLost(evt);
+            }
+        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Telefone.:");
@@ -157,7 +171,7 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
                                 .addComponent(txtRazao)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGap(0, 585, Short.MAX_VALUE))
                                 .addComponent(txtFantasia)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,11 +180,11 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtCpf_Cnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))))
+                            .addComponent(txtTelefone))))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -191,11 +205,11 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(txtFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3)
-                    .addComponent(txtCpf_Cnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -208,6 +222,8 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
                     .addComponent(btnSave))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, jLabel4, txtCnpj});
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Listagem de Fornecedores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
@@ -229,11 +245,21 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSearch.setText("Buscar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
             }
         });
 
@@ -320,8 +346,28 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void tableFornecedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableFornecedorMousePressed
+        if(evt.getClickCount() == 2){
+            getTable();
+            this.dispose();
+        }
         getTable();
     }//GEN-LAST:event_tableFornecedorMousePressed
+
+    private void txtRazaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRazaoFocusLost
+        if(!txtRazao.getText().isEmpty()){
+            txtFantasia.setText(txtRazao.getText());
+        }
+    }//GEN-LAST:event_txtRazaoFocusLost
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        findWithParameter(txtSearch.getText().trim());
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            findWithParameter(txtSearch.getText().trim());
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     /**
      * @param args the command line arguments
@@ -397,13 +443,13 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableFornecedor;
+    private javax.swing.JFormattedTextField txtCnpj;
     private javax.swing.JTextField txtCod;
-    private javax.swing.JTextField txtCpf_Cnpj;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFantasia;
     private javax.swing.JTextField txtRazao;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtTelefone;
+    private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 
     private void setIco() {
@@ -416,9 +462,18 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         findAll();
         txtRazao.setDocument(new UpperCase());
         txtFantasia.setDocument(new UpperCase());
-        txtCpf_Cnpj.setDocument(new UpperCase());
+        txtCnpj.setDocument(new UpperCase());
         txtTelefone.setDocument(new UpperCase());
         txtSearch.setDocument(new UpperCase());
+        try{
+            maskTelefone = new MaskFormatter("(##)#####-####");
+            maskCnpj = new MaskFormatter("##.###.###/####-##");
+        }catch(Exception e){
+            e.printStackTrace();
+            JOptionPaneError.showErrorDialog(this, "Erro ao formatar campo", e);
+        }
+        txtCnpj.setFormatterFactory(new DefaultFormatterFactory(maskCnpj));
+        txtTelefone.setFormatterFactory(new DefaultFormatterFactory(maskTelefone));
         txtRazao.requestFocus();
     }
     
@@ -467,7 +522,7 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         fornecedor.setId(ParseInteger.tryParseToInt(txtCod.getText()));
         fornecedor.setRazao(txtRazao.getText());
         fornecedor.setFantasia(txtFantasia.getText());
-        fornecedor.setCpf_cnpj(txtCpf_Cnpj.getText());
+        fornecedor.setCpf_cnpj(txtCnpj.getText());
         fornecedor.setTelefone(txtTelefone.getText());
         fornecedor.setEmail(txtEmail.getText());
     }
@@ -490,7 +545,7 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
             txtCod.setText(fornecedor.getId().toString());
             txtRazao.setText(fornecedor.getRazao());
             txtFantasia.setText(fornecedor.getFantasia());
-            txtCpf_Cnpj.setText(fornecedor.getCpf_cnpj());
+            txtCnpj.setText(fornecedor.getCpf_cnpj());
             txtEmail.setText(fornecedor.getEmail());
             txtTelefone.setText(fornecedor.getTelefone());
             
@@ -498,11 +553,35 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         }
     }
     
+    public Fornecedor getFornecedor(){
+        if(fornecedor != null){
+            return this.fornecedor;
+        }else{
+            System.out.println("ERRO");
+            return null;
+        }
+    }
+    
+    private void findWithParameter(String pParam){
+        if(fornecedorService == null){
+            JOptionPane.showMessageDialog(this, "FornecedorService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        List<Fornecedor> list = fornecedorService.findByName(pParam);        
+        if(list.isEmpty()){
+            findAll();
+        }else{
+            tableModel.removeAll();
+            for(Fornecedor p : list){
+                tableModel.addRow(p);
+            }  
+        }        
+    }
+    
     private void erasedPersonComponents(){
         txtCod.setText("");
         txtRazao.setText("");
         txtFantasia.setText("");
-        txtCpf_Cnpj.setText("");
+        txtCnpj.setText("");
         txtTelefone.setText("");
         txtEmail.setText("");
         btnDelete.setEnabled(false);
@@ -516,9 +595,12 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
         if(txtFantasia.getText().isEmpty() || txtFantasia.getText().length() <= 0){
             err += "O campo Fantasia é obrigatório!\n";
         }
-        if(txtCpf_Cnpj.getText().isEmpty() || txtCpf_Cnpj.getText().length() <= 0){
-            err += "O campo CPF/CNPJ é obrigatório!\n";
+        if(txtCnpj.getText().isEmpty() || txtCnpj.getText().length() <= 0){
+            err += "O campo CNPJ é obrigatório!\n";
         }
+        if(!verifyCNPJ(txtCnpj.getText().trim())){
+                err += "CNPJ Inválido!\n";
+            }
         if(txtTelefone.getText().isEmpty() || txtTelefone.getText().length() <= 0){
             err += "O campo Telefone é obrigatório!\n";
         }
@@ -529,4 +611,14 @@ public class CadFornecedorGUI extends javax.swing.JDialog {
             return false;
         }        
     }
+    private boolean verifyCNPJ(String valor){    
+        if(validaDocumento.isCNPJ(valor)){
+            return true;
+        }else{
+            txtCnpj.setText(null);
+            txtCnpj.requestFocus();
+            return false;
+        }   
+    }
+    
 }

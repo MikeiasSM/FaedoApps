@@ -96,18 +96,17 @@ public class PessoaDaoJPA implements PessoaDao{
     @Override
     public List<Pessoa> findAll() {
         em = new ConnectionFactory().getConection();
-        List<Pessoa> vehicle = null;
+        List<Pessoa> pessoa = null;
         
         try{
-            //"SELECT p FROM Pessoa p LEFT JOIN FETCH disc.linhas where disc.paragrafo = ?"
-            vehicle = em.createQuery("SELECT p FROM Pessoa p").getResultList();
+            pessoa = em.createQuery("SELECT p FROM Pessoa p ORDER BY p.id").getResultList();
             
-            if(vehicle.isEmpty()){
+            if(pessoa.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Date or table not found!");
             }
             
-            return vehicle;
+            return pessoa;
         }catch(Exception e){
             em.getTransaction().rollback();
             JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
@@ -149,7 +148,7 @@ public class PessoaDaoJPA implements PessoaDao{
         em = new ConnectionFactory().getConection();
         List<Pessoa> list = null;
         try{
-            String query = "SELECT p FROM Pessoa p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Pessoa p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

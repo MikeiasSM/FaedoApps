@@ -100,7 +100,7 @@ public class ProdutoDaoJPA implements ProdutoDao{
         List<Produto> combustivel = null;
         
         try{
-            combustivel = em.createQuery("SELECT u FROM Produto u").getResultList();
+            combustivel = em.createQuery("SELECT u FROM Produto u ORDER BY u.id").getResultList();
             
             if(combustivel.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class ProdutoDaoJPA implements ProdutoDao{
         em = new ConnectionFactory().getConection();
         List<Produto> list = null;
         try{
-            String query = "SELECT p FROM Produto p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Produto p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {

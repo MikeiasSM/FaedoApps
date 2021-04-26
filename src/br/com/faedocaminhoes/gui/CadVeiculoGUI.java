@@ -8,9 +8,11 @@ package br.com.faedocaminhoes.gui;
 import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
 import br.com.faedocaminhoes.model.Fabricante;
+import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.service.FabricanteService;
 import br.com.faedocaminhoes.model.service.VeiculoService;
+import br.com.faedocaminhoes.uteis.JTextFieldLetras;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
@@ -85,7 +87,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         cbProvider = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtCor = new javax.swing.JTextField();
+        txtCor = new JTextFieldLetras(20);
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -546,6 +548,15 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         }
     }
     
+    public Veiculo getVeiculo(){
+        if(vehicle != null){
+            return this.vehicle;            
+        }else{
+            System.out.println("ERRO");
+            return null;
+        }
+    }
+    
     private void completeData(){
         vehicle = new Veiculo();
         vehicle.setId(ParseInteger.tryParseToInt(txtCodVehicle.getText()));
@@ -568,7 +579,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         txtModelo.requestFocus();
     }
     
-    private void initComp(){
+    private void initComp() {
         setIco();
         setModel();
         findAll();
@@ -578,6 +589,15 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         txtPlaca.setDocument(new UpperCase());
         txtSearch.setDocument(new UpperCase());
         txtModelo.requestFocus();
+        txtPlaca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent e) {
+                int k = e.getKeyChar();
+                if (txtPlaca.getText().length() > 6) {
+                    e.setKeyChar((char) KeyEvent.VK_CLEAR);
+                    
+                }
+            }
+        });
     }
     
     private void setModel(){

@@ -100,7 +100,7 @@ public class UsuarioDaoJPA implements UsuarioDao{
         List<Usuario> user = null;
         
         try{
-            user = em.createQuery("SELECT u FROM Usuario u").getResultList();
+            user = em.createQuery("SELECT u FROM Usuario u ORDER BY u.id").getResultList();
             
             if(user.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class UsuarioDaoJPA implements UsuarioDao{
         em = new ConnectionFactory().getConection();
         List<Usuario> list = null;
         try{
-            String query = "SELECT p FROM Usuario p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%'";
+            String query = "SELECT p FROM Usuario p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
             if (!list.isEmpty()) {
