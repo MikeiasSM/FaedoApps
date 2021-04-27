@@ -93,4 +93,11 @@ public class UsuarioService {
             return null;
         }
     }
+    
+    public Usuario verifieldUser(String user, String password){
+        if(user != null && password != null){
+            return userDao.verifieldUser(user, password);
+        }
+        return null;
+    }
 }

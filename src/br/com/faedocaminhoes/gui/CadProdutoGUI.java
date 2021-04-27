@@ -73,7 +73,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         cbCategoria = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        txtValor = new JNumberFormatField(new DecimalFormat("#,##0.00"));
+        txtValor = new JNumberFormatField(new DecimalFormat("#,##0.000"));
         jPanel3 = new javax.swing.JPanel();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();

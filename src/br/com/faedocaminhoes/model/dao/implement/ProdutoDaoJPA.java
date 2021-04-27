@@ -65,6 +65,27 @@ public class ProdutoDaoJPA implements ProdutoDao{
             }
         }
     }
+   
+    public void updateSemDialog(Produto obj) {
+        em = new ConnectionFactory().getConection();
+        
+        try{
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+            
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            
+        }catch(Exception e){
+            em.getTransaction().rollback();
+            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            e.printStackTrace();
+        }finally{
+            if(em != null){
+                em.close();
+            }
+        }
+    }
 
     @Override
     public void delete(Produto obj) {

@@ -153,8 +153,10 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="dtaDate">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
@@ -473,11 +475,17 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtRequisicao">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTextFieldNumeros(10)"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtCupom">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                  </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTextFieldNumeros(10)"/>
                   </AuxValues>

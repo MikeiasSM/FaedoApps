@@ -51,6 +51,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     private Pessoa pessoa;
     private PessoaService pessoaService;
     private VeiculoService veiculoService;
+    private NumberFormat moeda = new DecimalFormat("#,##0.000");
     
     private Locale c = Locale.US;
     /**
@@ -136,8 +137,8 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
 
         txtId.setEnabled(false);
 
+        dtaDate.setBackground(new java.awt.Color(255, 255, 255));
         dtaDate.setDateFormatString("dd/MM/yyyy");
-        dtaDate.setEnabled(false);
 
         jLabel2.setText("Dta. Abastecimento.:");
 
@@ -233,6 +234,10 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         jLabel11.setText("Nº Requisição.:");
 
         jLabel12.setText("Nº Cupom.:");
+
+        txtRequisicao.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txtCupom.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         btnAddCombustivel.setText("+");
         btnAddCombustivel.addActionListener(new java.awt.event.ActionListener() {
@@ -608,10 +613,21 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         txtResponse.setDocument(new UpperCase());
         dtaDate.setDate(new Date());
         cbFornecedor.requestFocus();
-        NumberFormat moeda = new DecimalFormat("#,##0.00");
-        txtQtd.setNumberFormat(new DecimalFormat("0.00"));
-        txtValorUnit.setNumberFormat(new DecimalFormat("0.00"));
-        txtValorTot.setNumberFormat(new DecimalFormat("0.00"));
+        
+        cbProduto.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(cbProduto.getSelectedItem() != null){
+                    Produto p = (Produto) cbProduto.getSelectedItem();
+                    txtValorUnit.setValue(p.getValor());
+                }
+            }
+        });
+        
+        txtQtd.setNumberFormat(new DecimalFormat("0.000"));
+        txtValorUnit.setNumberFormat(new DecimalFormat("0.000"));
+        txtValorTot.setNumberFormat(new DecimalFormat("0.000"));
+        
         cbPessoa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -620,7 +636,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 }
             }
         });
-        
         
         txtQtd.addKeyListener(new KeyListener() {
             @Override
@@ -649,6 +664,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 txtValorTot.setText(moeda.format(soma));
             }
         });
+        
         txtValorUnit.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -661,12 +677,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                     BigDecimal vQtd = txtQtd.getValue();
                     BigDecimal vUnt = txtValorUnit.getValue();
                     BigDecimal soma = vUnt.multiply(vQtd);
-                    System.out.println("---QTD---");
-                    System.out.println(vQtd);
-                    System.out.println("---UNT---");
-                    System.out.println(vUnt);
-                    System.out.println("---TOT---");
-                    System.out.println(soma);
                     txtValorTot.setText(moeda.format(soma));
                 }
             }
@@ -682,9 +692,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 txtValorTot.setText(moeda.format(soma));
             }
         });
-        
-        BigDecimal e = txtQtd.getValue();
-        
     }
     
     private void save(){
@@ -692,6 +699,10 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         if(abastecimentoService == null && abastecimento != null){
             JOptionPane.showMessageDialog(this, "AbastecimentoService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        produto = (Produto) cbProduto.getSelectedItem();
+        produto.setValor(txtValorUnit.getValue());
+        
+        produtoService.updateSemDialog(produto);
         abastecimentoService.insertOrUpdate(abastecimento);
         erasedComponents();
     }
@@ -729,6 +740,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     }
     
     private void erasedComponents(){
+        dtaDate.setDate(new Date());
         cbFornecedor.setSelectedItem(null);
         cbProduto.setSelectedItem(null);
         txtId.setText("");
@@ -743,6 +755,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         cbVeiculo.removeAllItems();
         cbVeiculo.setEnabled(false);
         btnDelete.setEnabled(false);
+        cbFornecedor.requestFocus();
     }
     
     private void popFornecedor(){
@@ -807,6 +820,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
             cbPessoa.setSelectedItem((Pessoa) abastecimento.getPessoa());
             cbVeiculo.setSelectedItem((Veiculo) abastecimento.getVeiculo());
             txtResponse.setText(abastecimento.getResponsavel());
+            btnDelete.setEnabled(true);
         }
     }
     

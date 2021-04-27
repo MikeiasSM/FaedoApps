@@ -48,6 +48,13 @@ public class ProdutoService {
         }       
     }
     
+    public void updateSemDialog(Produto obj){
+        produto = obj;
+        if(produtoDao != null && produto != null){
+            produtoDao.updateSemDialog(produto);
+        }       
+    }
+    
     public void delete(Produto obj){
         produto = obj;
         if(produtoDao != null && produto != null){
