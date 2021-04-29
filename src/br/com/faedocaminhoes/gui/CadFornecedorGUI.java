@@ -17,6 +17,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -530,6 +531,7 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
     private void setModel(){
         tableFornecedor.setModel(tableModel);   
         tableFornecedor.setDefaultRenderer(Object.class, new PessoaTableRenderer());
+        tableFornecedor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableFornecedor.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
         tableFornecedor.getColumnModel().getColumn(1).setPreferredWidth(300); //RAZAO
         tableFornecedor.getColumnModel().getColumn(2).setPreferredWidth(300); //FANTASIA

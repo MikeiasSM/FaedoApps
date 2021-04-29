@@ -35,6 +35,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -482,8 +483,17 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Nescessário informar um valor!", "Nextsoft", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 int id = ParseInteger.tryParseToInt(txtBuscaFornecedor.getText());
-                findFornecedorbyId(id);                
+                findFornecedorbyId(id);
+                txtBuscaPessoa.requestFocus();
+           
             }
+        }
+        if(evt.getKeyCode() == evt.VK_F2){
+            FindFornecedorGUI find = new FindFornecedorGUI(null, true, new FornecedorService());
+            find.setLocationRelativeTo(find);
+            find.setVisible(true);
+            importFornecedor(find.getTable());
+            txtBuscaPessoa.requestFocus();
         }
     }//GEN-LAST:event_txtBuscaFornecedorKeyPressed
 
@@ -493,8 +503,16 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Nescessário informar um valor!", "Nextsoft", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 int id = ParseInteger.tryParseToInt(txtBuscaPessoa.getText());
-                findPessoabyId(id);                
+                findPessoabyId(id); 
+                txtBuscarVeiculo.requestFocus();
             }
+        }
+        if(evt.getKeyCode() == evt.VK_F2){
+            FindPessoaGUI find = new FindPessoaGUI(null, true, new PessoaService());
+            find.setLocationRelativeTo(find);
+            find.setVisible(true);
+            importPessoa(find.getTable());
+            txtBuscarVeiculo.requestFocus();
         }
     }//GEN-LAST:event_txtBuscaPessoaKeyPressed
 
@@ -505,7 +523,15 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             }else{
                 String placa = txtBuscarVeiculo.getText().trim();
                 findVeiculobyPlaca(placa);                
+                txtBuscarVeiculo.requestFocus();
             }
+        }
+        if(evt.getKeyCode() == evt.VK_F2){
+            FindVeiculoGUI find = new FindVeiculoGUI(null, true, new VeiculoService());
+            find.setLocationRelativeTo(find);
+            find.setVisible(true);
+            importVeiculo(find.getTable());
+            btnFiltrar.requestFocus();
         }
     }//GEN-LAST:event_txtBuscarVeiculoKeyPressed
 
@@ -747,16 +773,18 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
     private void setModel(){
         tableAbastecimentos.setModel(tableModel);
         tableAbastecimentos.setDefaultRenderer(Object.class, new AbastecimentoTableRenderer());
+        tableAbastecimentos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableAbastecimentos.getColumnModel().getColumn(0).setPreferredWidth(90); //CODIGO
         tableAbastecimentos.getColumnModel().getColumn(1).setPreferredWidth(300); //FORNECEDOR
-        tableAbastecimentos.getColumnModel().getColumn(2).setPreferredWidth(200); //COMBUSTIVEL
-        tableAbastecimentos.getColumnModel().getColumn(3).setPreferredWidth(300); //PESSOA
-        tableAbastecimentos.getColumnModel().getColumn(4).setPreferredWidth(250); //VEICULO
-        tableAbastecimentos.getColumnModel().getColumn(5).setPreferredWidth(100); //QUANTIDADE
-        tableAbastecimentos.getColumnModel().getColumn(6).setPreferredWidth(100); //TOTAL
-        tableAbastecimentos.getColumnModel().getColumn(7).setPreferredWidth(150); //RESPONSAVEL
-        tableAbastecimentos.getColumnModel().getColumn(8).setPreferredWidth(100); //Nº REQUISICAO
-        tableAbastecimentos.getColumnModel().getColumn(9).setPreferredWidth(100); //Nº CUPOM
+        tableAbastecimentos.getColumnModel().getColumn(2).setPreferredWidth(300); //PESSOA
+        tableAbastecimentos.getColumnModel().getColumn(3).setPreferredWidth(300); //VEICULO
+        tableAbastecimentos.getColumnModel().getColumn(4).setPreferredWidth(120); //DATA
+        tableAbastecimentos.getColumnModel().getColumn(5).setPreferredWidth(180); //COMBUSTIVEL
+        tableAbastecimentos.getColumnModel().getColumn(6).setPreferredWidth(100); //QUANTIDADE
+        tableAbastecimentos.getColumnModel().getColumn(7).setPreferredWidth(100); //TOTAL
+        tableAbastecimentos.getColumnModel().getColumn(8).setPreferredWidth(150); //RESPONSAVEL
+        tableAbastecimentos.getColumnModel().getColumn(9).setPreferredWidth(100); //Nº REQUISICAO
+        tableAbastecimentos.getColumnModel().getColumn(10).setPreferredWidth(100); //Nº CUPOM
     }
     
     private void popCombustivel(){
@@ -1016,6 +1044,27 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             if (em != null) {
                 em.close();
             }
+        }
+    }
+    
+    private void importFornecedor(Fornecedor fornecedor){
+        if(fornecedor != null){
+            txtBuscaFornecedor.setText(fornecedor.getId().toString());
+            txtFornecedor.setText(fornecedor.getRazao());
+        }
+    }
+    
+    private void importPessoa(Pessoa pessoa){
+        if(pessoa != null){
+            txtBuscaPessoa.setText(pessoa.getId().toString());
+            txtPessoa.setText(pessoa.getNome());
+        }
+    }
+    
+    private void importVeiculo(Veiculo veiculo){
+        if(veiculo != null){
+            txtBuscarVeiculo.setText(veiculo.getPlaca());
+            txtVeiculo.setText(veiculo.getProvider().getNome()+" - "+veiculo.getModelo()+" - "+veiculo.getCor());
         }
     }
 }

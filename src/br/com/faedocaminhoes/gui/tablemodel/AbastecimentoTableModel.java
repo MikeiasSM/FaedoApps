@@ -13,6 +13,9 @@ import br.com.faedocaminhoes.model.Veiculo;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -26,10 +29,11 @@ public class AbastecimentoTableModel extends AbstractTableModel{
     private NumberFormat moeda = new DecimalFormat("#,##0.00");
     private final List<Abastecimento> dados = new ArrayList<>();
     private final String[] colunas = {"Código",
-                                      "Fornecedor", 
-                                      "Combustivel",
+                                      "Fornecedor",
                                       "Pessoa",
                                       "Veiculo", 
+                                      "Dta. Abastecimento",
+                                      "Combustivel",
                                       "Quantidade", 
                                       "Valor",
                                       "Responsavel", 
@@ -60,20 +64,24 @@ public class AbastecimentoTableModel extends AbstractTableModel{
             case 1:
                 return dados.get(linhaIndex).getFornecedor().getFantasia();
             case 2:
-                return dados.get(linhaIndex).getProduto().getNome();
-            case 3:
                 return dados.get(linhaIndex).getPessoa().getNome();
-            case 4:
+            case 3:
                 return dados.get(linhaIndex).getVeiculo().getModelo();
+            case 4:
+                LocalDate d = dados.get(linhaIndex).getData_abastecimento();
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return d.format(df);
             case 5:
-                return dados.get(linhaIndex).getQuantidade();
+                return dados.get(linhaIndex).getProduto().getNome();
             case 6:
-                return dados.get(linhaIndex).getVlr_total();
+                return dados.get(linhaIndex).getQuantidade();
             case 7:
-                return dados.get(linhaIndex).getResponsavel();
+                return dados.get(linhaIndex).getVlr_total();
             case 8:
-                return dados.get(linhaIndex).getN_requisicao();
+                return dados.get(linhaIndex).getResponsavel();
             case 9:
+                return dados.get(linhaIndex).getN_requisicao();
+            case 10:
                 return dados.get(linhaIndex).getN_cupom();
             default:
                 return null;
@@ -88,20 +96,22 @@ public class AbastecimentoTableModel extends AbstractTableModel{
             case 1:
                 dados.get(linhaIndex).setFornecedor((Fornecedor) valor);
             case 2:
-                dados.get(linhaIndex).setProduto((Produto) valor);
+                dados.get(linhaIndex).setData_abastecimento((LocalDate) valor);
             case 3:
                 dados.get(linhaIndex).setPessoa((Pessoa) valor);
             case 4:
-                dados.get(linhaIndex).setVeiculo((Veiculo) valor);
+                dados.get(linhaIndex).setProduto((Produto) valor);
             case 5:
-                dados.get(linhaIndex).setQuantidade((BigDecimal) valor);
+                dados.get(linhaIndex).setVeiculo((Veiculo) valor);
             case 6:
-                dados.get(linhaIndex).setVlr_total((BigDecimal) valor);
+                dados.get(linhaIndex).setQuantidade((BigDecimal) valor);
             case 7:
-                dados.get(linhaIndex).setResponsavel((String) valor);
+                dados.get(linhaIndex).setVlr_total((BigDecimal) valor);
             case 8:
-                dados.get(linhaIndex).setN_requisicao((Integer) valor);
+                dados.get(linhaIndex).setResponsavel((String) valor);
             case 9:
+                dados.get(linhaIndex).setN_requisicao((Integer) valor);
+            case 10:
                 dados.get(linhaIndex).setN_cupom((Integer) valor);
             }
     }
