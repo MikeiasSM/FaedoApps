@@ -15,7 +15,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -132,5 +131,9 @@ public class AbastecimentoTableModel extends AbstractTableModel{
     public Abastecimento getObject(int linha){
         Abastecimento abastecimento = this.dados.get(linha);
         return abastecimento;
+    }
+    
+    public List<Abastecimento> getDados(){
+        return  this.dados;
     }
 }

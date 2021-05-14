@@ -8,7 +8,7 @@ package br.com.faedocaminhoes.model.dao.implement;
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Fabricante;
 import java.util.List;
-import br.com.faedocaminhoes.uteis.JOptionPaneError;
+import br.com.faedocaminhoes.uteis.JPaneError;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
@@ -34,7 +34,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
 
         } catch (Exception e) {
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
         } finally {
             if (em != null) {
@@ -56,7 +56,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
 
         } catch (Exception e) {
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
         } finally {
             if (em != null) {
@@ -80,11 +80,11 @@ public class FabricanteDaoJPA implements FabricanteDao {
 
         }catch(RollbackException ex){
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", ex);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", ex);
             ex.printStackTrace();
         } catch (Exception e) {
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
         } finally {
             if (em != null) {
@@ -109,7 +109,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             return providers;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
             return null;
         } finally {
@@ -134,7 +134,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             return provider;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
             return null;
         } finally {
@@ -158,7 +158,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
                 return null;
             }
         } catch (Exception e) {
-            JOptionPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
+            JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
             e.printStackTrace();
             return null;
         } finally {

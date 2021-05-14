@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.model.dao;
 
 import br.com.faedocaminhoes.model.dao.implement.AbastecimentoDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.CategoriaDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.EmpresaDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.ProdutoDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.PessoaDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.FabricanteDaoJPA;
@@ -50,6 +51,10 @@ public class DaoFactory {
     
     public static AbastecimentoDaoJPA createAbastecimentoDao(){
         return new AbastecimentoDaoJPA();
+    }
+    
+    public static EmpresaDaoJPA createEmpresaDao(){
+        return new EmpresaDaoJPA();
     }
     
 }

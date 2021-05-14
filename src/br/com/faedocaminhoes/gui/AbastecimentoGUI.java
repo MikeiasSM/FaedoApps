@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.connection.ConnectionFactory;
+import br.com.faedocaminhoes.gui.report.Report;
 import br.com.faedocaminhoes.gui.tablemodel.AbastecimentoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.AbastecimentoTableRenderer;
 import br.com.faedocaminhoes.model.Abastecimento;
@@ -18,7 +19,7 @@ import br.com.faedocaminhoes.model.service.FornecedorService;
 import br.com.faedocaminhoes.model.service.PessoaService;
 import br.com.faedocaminhoes.model.service.ProdutoService;
 import br.com.faedocaminhoes.model.service.VeiculoService;
-import br.com.faedocaminhoes.uteis.JOptionPaneError;
+import br.com.faedocaminhoes.uteis.JPaneError;
 import br.com.faedocaminhoes.uteis.JTextFieldNumeros;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
@@ -91,6 +92,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         btnFiltrar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtBuscaFornecedor = new JTextFieldNumeros(10000);
@@ -135,8 +137,10 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(153, 153, 153)));
+        jPanel3.setBackground(new java.awt.Color(51, 76, 145));
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(255, 255, 255)));
 
+        btnNovoAbastecimento.setBackground(new java.awt.Color(255, 255, 255));
         btnNovoAbastecimento.setText("Novo Abastecimento");
         btnNovoAbastecimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +148,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             }
         });
 
+        btnFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         btnFiltrar.setText("Filtrar Abastecimentos");
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,6 +156,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             }
         });
 
+        btnLimpar.setBackground(new java.awt.Color(255, 255, 255));
         btnLimpar.setText("Limpar Filtro");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,10 +164,18 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             }
         });
 
+        btnSair.setBackground(new java.awt.Color(255, 255, 255));
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
+            }
+        });
+
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
             }
         });
 
@@ -175,6 +189,8 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,12 +199,18 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNovoAbastecimento)
-                    .addComponent(btnFiltrar)
-                    .addComponent(btnLimpar)
-                    .addComponent(btnSair))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(btnLimpar)
+                            .addComponent(btnSair)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnImprimir)
+                                .addComponent(btnFiltrar))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(btnNovoAbastecimento)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -364,21 +386,28 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(204, 204, 204)));
+        jPanel4.setBackground(new java.awt.Color(51, 76, 145));
+        jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(255, 255, 255)));
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Total Abastecimentos.:");
 
         lblTotAbastecimento.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTotAbastecimento.setForeground(new java.awt.Color(255, 255, 255));
         lblTotAbastecimento.setText("0,00");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Total de Litros.:");
 
         lblTotLitros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblTotLitros.setForeground(new java.awt.Color(255, 255, 255));
         lblTotLitros.setText("0,00");
 
         lblRegistros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblRegistros.setForeground(new java.awt.Color(255, 255, 255));
         lblRegistros.setText("0");
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Registros");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -657,6 +686,14 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         
     }//GEN-LAST:event_tableAbastecimentosMousePressed
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        if(!tableModel.getDados().isEmpty()){
+            List<Abastecimento> list = tableModel.getDados();
+            String src = "c:/next/report/AbastecimentoPorFornecedor.jasper";
+            Report.geraReport(list, null, src);
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -701,6 +738,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnNovoAbastecimento;
     private javax.swing.JButton btnSair;
@@ -833,7 +871,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Registro não encontrado", "Next Software ©", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPaneError.showErrorDialog(this, "Erro", e);
+            JPaneError.showErrorDialog(this, "Erro", e);
         } finally {
             if (em != null) {
                 em.close();
@@ -859,7 +897,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Registro não encontrado", "Next Software ©", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPaneError.showErrorDialog(this, "Erro", e);
+            JPaneError.showErrorDialog(this, "Erro", e);
         } finally {
             if (em != null) {
                 em.close();
@@ -886,7 +924,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Registro não encontrado", "Next Software ©", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPaneError.showErrorDialog(this, "Erro", e);
+            JPaneError.showErrorDialog(this, "Erro", e);
         } finally {
             if (em != null) {
                 em.close();
@@ -1039,7 +1077,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             findAll();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPaneError.showErrorDialog(this, "Erro", e);
+            JPaneError.showErrorDialog(this, "Erro", e);
         } finally {
             if (em != null) {
                 em.close();

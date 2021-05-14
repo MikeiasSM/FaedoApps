@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Usuario;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -46,7 +47,9 @@ public class UsuarioTableModel extends AbstractTableModel{
             case 1:
                 return dados.get(linhaIndex).getNome();
             case 2:
-                return dados.get(linhaIndex).getDataCad();
+                LocalDate d = dados.get(linhaIndex).getDataCad();
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return d.format(df);
             default:
                 return null;
         }

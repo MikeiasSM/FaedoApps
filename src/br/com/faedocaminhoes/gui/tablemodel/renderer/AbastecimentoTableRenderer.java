@@ -24,18 +24,18 @@ public class AbastecimentoTableRenderer extends DefaultTableCellRenderer{
         c.setOpaque(true);
                 
         c.setFont(new Font("Segoe UI", 0, 12));
-        c.setBackground(new Color(242, 244, 244));
+        c.setBackground(new Color(235, 245, 251));
         
         if(row % 2 == 0){
-            c.setBackground(new Color(235, 237, 239));
+            c.setBackground(new Color(214, 234, 248));
             c.setForeground(Color.BLACK);
         }else{
-            c.setBackground(new Color(242, 244, 244));
+            c.setBackground(new Color(235, 245, 251));
             c.setForeground(Color.BLACK);
         }    
         
         if(isSelected){
-            c.setBackground(new Color(213, 216, 220));
+            c.setBackground(new Color(214, 234, 248));
             c.setForeground(Color.BLACK);
         }    
         

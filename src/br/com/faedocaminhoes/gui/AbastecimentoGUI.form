@@ -188,10 +188,13 @@
           <SubComponents>
             <Container class="javax.swing.JPanel" name="jPanel3">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="91" green="4c" red="33" type="rgb"/>
+                </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                     <MatteColorBorder bottom="1" left="0" right="0" top="1">
-                      <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
+                      <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
                     </MatteColorBorder>
                   </Border>
                 </Property>
@@ -206,6 +209,8 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnFiltrar" min="-2" pref="140" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnImprimir" min="-2" pref="140" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnLimpar" min="-2" pref="140" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnSair" min="-2" pref="140" max="-2" attributes="0"/>
@@ -215,13 +220,23 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnNovoAbastecimento" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnLimpar" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnSair" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="2" attributes="0">
+                                      <Component id="btnLimpar" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnSair" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="2" groupAlignment="0" attributes="0">
+                                          <Component id="btnImprimir" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnFiltrar" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
+                                  <Component id="btnNovoAbastecimento" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -231,6 +246,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnNovoAbastecimento">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Novo Abastecimento"/>
                   </Properties>
                   <Events>
@@ -239,6 +257,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnFiltrar">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Filtrar Abastecimentos"/>
                   </Properties>
                   <Events>
@@ -247,6 +268,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnLimpar">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Limpar Filtro"/>
                   </Properties>
                   <Events>
@@ -255,10 +279,21 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSair">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Sair"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSairActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnImprimir">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Imprimir"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImprimirActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -451,10 +486,13 @@
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel4">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="91" green="4c" red="33" type="rgb"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                 <MatteColorBorder bottom="0" left="0" right="0" top="1">
-                  <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
+                  <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
                 </MatteColorBorder>
               </Border>
             </Property>
@@ -500,6 +538,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Total Abastecimentos.:"/>
               </Properties>
             </Component>
@@ -508,11 +549,17 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="0,00"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Total de Litros.:"/>
               </Properties>
             </Component>
@@ -520,6 +567,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="0,00"/>
               </Properties>
@@ -529,11 +579,17 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registros"/>
               </Properties>
             </Component>

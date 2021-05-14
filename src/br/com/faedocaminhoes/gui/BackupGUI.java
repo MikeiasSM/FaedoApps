@@ -6,7 +6,6 @@
 package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.model.dao.implement.BackupRestore;
-import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
@@ -239,7 +238,7 @@ public class BackupGUI extends javax.swing.JFrame {
         );
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/nextsoft/icons/Add_Backup_36px.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_cloud_storage_36px.png"))); // NOI18N
 
         rdoRestore.setBackground(new java.awt.Color(255, 255, 255));
         gpRdo.add(rdoRestore);
@@ -734,10 +733,9 @@ public class BackupGUI extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        /*
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -751,7 +749,7 @@ public class BackupGUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BackupGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        */
+        /*
         try {  
             //Configurar se deve aplicar o look a borda do JFrame  
             // No caso esta programado para não aplicar (Boolean.FALSE)  
@@ -761,6 +759,7 @@ public class BackupGUI extends javax.swing.JFrame {
          } catch (Exception erro) {  
            erro.printStackTrace();  
          } 
+        */
         
         //</editor-fold>
 
