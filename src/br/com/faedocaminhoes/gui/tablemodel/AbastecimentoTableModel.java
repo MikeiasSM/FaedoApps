@@ -9,11 +9,13 @@ import br.com.faedocaminhoes.model.Abastecimento;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Produto;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,9 @@ public class AbastecimentoTableModel extends AbstractTableModel{
                                       "Valor",
                                       "Responsavel", 
                                       "Nº Requisição", 
-                                      "Nº Cupom"};
+                                      "Nº Cupom",
+                                      "Dta. Alteração",
+                                      "Usuario"};
 
     
     @Override
@@ -82,6 +86,12 @@ public class AbastecimentoTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getN_requisicao();
             case 10:
                 return dados.get(linhaIndex).getN_cupom();
+            case 11:
+                LocalDateTime dt = dados.get(linhaIndex).getInstante_lancamento();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                return dtf.format(dt);
+            case 12:
+                return dados.get(linhaIndex).getUsuario().getNome();
             default:
                 return null;
         }
@@ -112,6 +122,10 @@ public class AbastecimentoTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setN_requisicao((Integer) valor);
             case 10:
                 dados.get(linhaIndex).setN_cupom((Integer) valor);
+            case 11:
+                dados.get(linhaIndex).setInstante_lancamento((LocalDateTime) valor);
+            case 12:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     

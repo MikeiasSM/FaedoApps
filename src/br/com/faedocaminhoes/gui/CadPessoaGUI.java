@@ -10,6 +10,7 @@ import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
 import br.com.faedocaminhoes.model.Pessoa;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.enumerado.TipoPessoa;
 import br.com.faedocaminhoes.model.service.PessoaService;
@@ -36,6 +37,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
 
     private Pessoa person;
     private Veiculo vehicle;
+    private Usuario usuario;
     private PessoaService personService;
     private final PessoaTableModel tableModel = new PessoaTableModel();
     private final VeiculoTableModel tableModelVehicle = new VeiculoTableModel();
@@ -51,10 +53,11 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadPessoaGUI(java.awt.Frame parent, boolean modal, PessoaService pService) {
+    public CadPessoaGUI(java.awt.Frame parent, boolean modal, PessoaService pService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setPessoaService(pService);
+        setUsuario(usuario);
         initProps();
     }
 
@@ -427,7 +430,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehicleActionPerformed
-        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VeiculoService(), new FabricanteService());
+        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VeiculoService(), new FabricanteService(), usuario);
         vehicle.setLocationRelativeTo(this);
         vehicle.setVisible(true);
         importObject(vehicle.getObject());
@@ -547,6 +550,10 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
 
     private void setIco() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
+    
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
     }
     
     private void initProps() {
@@ -683,6 +690,11 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         person.setCpf_cnpj(txtCpf.getText().trim());
         person.setTelefone(txtTelefone.getText());
         person.setEmail(txtEmail.getText());
+        if(usuario != null){
+            person.setUsuario(usuario);
+        }else{
+            throw new IllegalAccessError("Usuario was null");
+        }        
     }
     
     private void setModel(){

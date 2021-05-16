@@ -5,6 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
+import br.com.faedocaminhoes.model.Cidade;
 import br.com.faedocaminhoes.model.Empresa;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class EmpresaTableModel extends AbstractTableModel{
             case 6:
                 dados.get(linhaIndex).setBairro((String) valor);
             case 7:
-                dados.get(linhaIndex).setCidade((String) valor);
+                dados.get(linhaIndex).setCidade((Cidade) valor);
             case 8:
                 dados.get(linhaIndex).setTelefone((String) valor);
             case 9:

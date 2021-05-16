@@ -9,6 +9,7 @@ import br.com.faedocaminhoes.model.Abastecimento;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Produto;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.service.AbastecimentoService;
 import br.com.faedocaminhoes.model.service.CategoriaService;
@@ -27,11 +28,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
@@ -52,6 +56,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     private PessoaService pessoaService;
     private VeiculoService veiculoService;
     private NumberFormat moeda = new DecimalFormat("#,##0.000");
+    private Usuario usuario;
     
     private Locale c = Locale.US;
     /**
@@ -68,13 +73,16 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                                 FornecedorService fornecedorService, 
                                 ProdutoService produtoService, 
                                 PessoaService pessoaService, 
-                                VeiculoService veiculoService) {
+                                VeiculoService veiculoService,
+                                Usuario usuario) {
         super(parent, modal);
         initComponents();
+        setUsuario(usuario);
         setAbastecimentoService(abastecimentoService);
         setFornecedorService(fornecedorService);
         setProdutoService(produtoService);
         setPessoaService(pessoaService);
+        setVeiculoService(veiculoService);
         initComp();
     }
     
@@ -192,8 +200,6 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 btnAddFornecedorActionPerformed(evt);
             }
         });
-
-        txtValorTot.setEditable(false);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Codigo.:");
@@ -317,10 +323,10 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Proprietário.:");
 
+        cbPessoa.setEnabled(false);
+
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Veiculo.:");
-
-        cbVeiculo.setEnabled(false);
 
         jLabel10.setText("Responsável.:");
 
@@ -339,38 +345,36 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddPessoa))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtResponse, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtResponse, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                            .addComponent(cbPessoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel10, jLabel8, jLabel9});
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbVeiculo, txtResponse});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel8)
-                    .addComponent(cbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddPessoa))
+                    .addComponent(btnAddPessoa)
+                    .addComponent(cbVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(cbVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -475,7 +479,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnAddFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFornecedorActionPerformed
-        CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(null, true, new FornecedorService());
+        CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(null, true, new FornecedorService(), usuario);
         cadFornecedor.setLocationRelativeTo(cadFornecedor);
         cadFornecedor.setVisible(true);
         popFornecedor();
@@ -484,7 +488,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAddFornecedorActionPerformed
 
     private void btnAddCombustivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCombustivelActionPerformed
-        CadProdutoGUI cadProduto = new CadProdutoGUI(null, true, new ProdutoService(), new CategoriaService());
+        CadProdutoGUI cadProduto = new CadProdutoGUI(null, true, new ProdutoService(), new CategoriaService(), usuario);
         cadProduto.setLocationRelativeTo(cadProduto);
         cadProduto.setVisible(true);
         popProduto();
@@ -493,10 +497,9 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAddCombustivelActionPerformed
 
     private void btnAddPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPessoaActionPerformed
-        CadPessoaGUI cadPessoa = new CadPessoaGUI(null, true, new PessoaService());
+        CadPessoaGUI cadPessoa = new CadPessoaGUI(null, true, new PessoaService(), usuario);
         cadPessoa.setLocationRelativeTo(cadPessoa);
         cadPessoa.setVisible(true);
-        popPessoa();
         setPessoa(cadPessoa.getPessoa());
         cbPessoa.setSelectedItem((Pessoa) pessoa);
     }//GEN-LAST:event_btnAddPessoaActionPerformed
@@ -601,10 +604,12 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     private void setIco() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
-    
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
+    }
     private AbastecimentoService setAbastecimentoService(AbastecimentoService abastecimentoService){
         return this.abastecimentoService = abastecimentoService;
-    }
+    }    
     private FornecedorService setFornecedorService(FornecedorService fornecedorService){
         return this.fornecedorService = fornecedorService;
     }
@@ -620,32 +625,36 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
     
     private void initComp() {
         setIco();
+        teste();
         popFornecedor();
-        popPessoa();
         popProduto();
+        popVeiculo();
+        
         txtResponse.setDocument(new UpperCase());
         dtaDate.setDate(new Date());
-        cbFornecedor.requestFocus();
-        
-        cbProduto.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                if(cbProduto.getSelectedItem() != null){
-                    Produto p = (Produto) cbProduto.getSelectedItem();
-                    txtValorUnit.setValue(p.getValor());
-                }
-            }
-        });
+        dtaDate.requestFocusInWindow();
         
         txtQtd.setNumberFormat(new DecimalFormat("0.000"));
         txtValorUnit.setNumberFormat(new DecimalFormat("0.000"));
         txtValorTot.setNumberFormat(new DecimalFormat("0.000"));
         
-        cbPessoa.addActionListener(new ActionListener() {
+        erasedComponents();
+                
+        cbVeiculo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (cbPessoa.getSelectedItem() != null) {
-                    popVeiculo();
+                if (cbVeiculo.getSelectedItem() != null) {
+                    popPessoa();
+                }
+            }
+        });
+        
+        cbProduto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbProduto.getSelectedItem() != null) {
+                    Produto prod  = (Produto)cbProduto.getSelectedItem();
+                    //txtValorUnit.setValue(prod.getValor());                    
                 }
             }
         });
@@ -705,6 +714,65 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
                 txtValorTot.setText(moeda.format(soma));
             }
         });
+        
+        txtValorTot.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    BigDecimal vQtd = txtQtd.getValue();
+                    BigDecimal vTot = txtValorTot.getValue();
+                    BigDecimal soma = vTot.divide(vQtd, 2, RoundingMode.CEILING);
+                    txtValorUnit.setValue(soma);
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String caracteres = ".0987654321";
+                if (!caracteres.contains(e.getKeyChar() + "")) {
+                    e.consume();
+                }
+                BigDecimal vQtd = txtQtd.getValue();
+                BigDecimal vTot = txtValorTot.getValue();
+                BigDecimal soma = vTot.divide(vQtd, 2, RoundingMode.CEILING);
+                txtValorUnit.setValue(soma);
+            }
+        });
+    }
+    
+    private void popVeiculo(){
+        if(veiculoService == null){
+            JOptionPane.showMessageDialog(this, "VeiculoService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        cbVeiculo.removeAll();
+        for(Veiculo p: veiculoService.findAll()){
+            cbVeiculo.addItem(p);
+        }
+        cbVeiculo.setSelectedItem(null);
+    }
+    
+    private void popPessoa(){
+        if(pessoaService == null){
+            JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        if(cbVeiculo.getSelectedItem() != null){
+            
+            Veiculo veiculo = (Veiculo) cbVeiculo.getSelectedItem();
+            
+            cbPessoa.removeAll();
+            cbPessoa.removeAllItems();
+            for(Pessoa p : veiculo.getPersons()){
+                cbPessoa.addItem(p);
+            }
+            cbPessoa.setSelectedItem(null);
+            cbPessoa.setEnabled(true);
+            
+        }
     }
     
     private void save(){
@@ -748,6 +816,10 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
             Date date = dtaDate.getDate();
             LocalDate dateF = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             abastecimento.setData_abastecimento(dateF);
+            LocalDateTime instante = LocalDateTime.now();
+            System.out.println(instante);
+            abastecimento.setInstante_lancamento(instante);
+            
         }catch(NumberFormatException e){
             e.printStackTrace();
             JPaneError.showErrorDialog(null, "Erro ao executar ação!", e);
@@ -765,12 +837,13 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         txtResponse.setText("");
         txtValorUnit.setText("");
         txtValorTot.setText("");
-        cbPessoa.setSelectedItem(null);
         cbProduto.setSelectedItem(null);
-        cbVeiculo.removeAllItems();
-        cbVeiculo.setEnabled(false);
+        cbVeiculo.setSelectedItem(null);
+        cbPessoa.setSelectedItem(null);
+        cbPessoa.removeAllItems();
+        cbPessoa.setEnabled(false);
         btnDelete.setEnabled(false);
-        cbFornecedor.requestFocus();
+        dtaDate.requestFocusInWindow();
     }
     
     private void popFornecedor(){
@@ -794,30 +867,7 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
         }
         cbProduto.setSelectedItem(null);
     }
-    
-    private void popPessoa(){
-        if(pessoaService == null){
-            JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        cbPessoa.removeAllItems();
-        for(Pessoa f : pessoaService.findAll()){
-            cbPessoa.addItem(f);
-        }
-        cbPessoa.setSelectedItem(null);
-    }
-    
-    private void popVeiculo(){
-        if(pessoaService == null){
-            JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        Pessoa v = (Pessoa) cbPessoa.getSelectedItem();
-        cbVeiculo.removeAllItems();
-        for(Veiculo f : v.getVeiculos()){
-            cbVeiculo.addItem(f);
-        }
-        cbVeiculo.setSelectedItem(null);
-        cbVeiculo.setEnabled(true);
-    }
+     
     
     public void importData(Abastecimento abas){
         if(abas != null){
@@ -887,10 +937,18 @@ public class CadAbastecimentoGUI extends javax.swing.JDialog {
             return false;
         }        
     }
-    
-    private Double getFormatedDate(String str){
-        str = str.replace(",", ".");
-        str = str.replace(".", "");
-        return new Double(str);
+    private void teste(){
+        
+        Veiculo v = veiculoService.findById(6);
+        System.out.println("------------VEICULO---------");
+        System.out.println(v);
+        System.out.println("----------------------------");
+        System.out.println("-------------DONO-----------");
+        List<Pessoa> list = v.getPersons();
+        for(Pessoa p : list){
+            System.out.println(p);
+        }
+        System.out.println("----------------------------");
     }
+    
 }

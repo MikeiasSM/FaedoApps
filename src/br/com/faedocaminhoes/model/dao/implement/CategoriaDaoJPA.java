@@ -31,7 +31,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
             em.persist(obj);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -53,7 +53,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
             em.merge(obj);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -77,15 +77,15 @@ public class CategoriaDaoJPA implements CategoriaDao{
             em.remove(categoria);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(RollbackException ex){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", ex);
+            JPaneError.showErrorDialog(null, "Next Software ₢", ex);
             ex.printStackTrace();
         }catch(Exception e){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", e);
+            JPaneError.showErrorDialog(null, "Next Software ₢", e);
             e.printStackTrace();
         }finally{
             if(em != null){
@@ -103,7 +103,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
             categorias = em.createQuery("SELECT u FROM CategoriaProd u ORDER BY u.id").getResultList();
             
             if(categorias.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Date or table not found!");
             }
             
@@ -129,8 +129,8 @@ public class CategoriaDaoJPA implements CategoriaDao{
             categoria = em.find(CategoriaProd.class, obj.getId());
         
             if(categoria == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalAccessError("Register not found!");
+                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Registro não encontrado!");
             }
             return categoria;                
         }catch(Exception e){
@@ -155,7 +155,7 @@ public class CategoriaDaoJPA implements CategoriaDao{
             if (!list.isEmpty()) {
                 return list;
             } else {
-                JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
         }catch(Exception e){

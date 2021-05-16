@@ -30,7 +30,7 @@ public class FornecedorDaoJPA implements FornecedorDao{
             em.persist(obj);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -52,7 +52,7 @@ public class FornecedorDaoJPA implements FornecedorDao{
             em.merge(obj);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -76,15 +76,15 @@ public class FornecedorDaoJPA implements FornecedorDao{
             em.remove(fornecedor);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(RollbackException ex){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", ex);
+            JPaneError.showErrorDialog(null, "Next Software ₢", ex);
             ex.printStackTrace();
         }catch(Exception e){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", e);
+            JPaneError.showErrorDialog(null, "Next Software ₢", e);
             e.printStackTrace();
         }finally{
             if(em != null){
@@ -102,7 +102,7 @@ public class FornecedorDaoJPA implements FornecedorDao{
             fornecedor = em.createQuery("SELECT u FROM Fornecedor u ORDER BY u.id").getResultList();
             
             if(fornecedor.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Date or table not found!");
             }
             
@@ -128,8 +128,8 @@ public class FornecedorDaoJPA implements FornecedorDao{
             fornecedor = em.find(Fornecedor.class, obj.getId());
         
             if(fornecedor == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalAccessError("Register not found!");
+                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Registro não encontrado!");
             }
             return fornecedor;                
         }catch(Exception e){
@@ -152,8 +152,8 @@ public class FornecedorDaoJPA implements FornecedorDao{
             fornecedor = (Fornecedor) em.createQuery("SELECT u FROM Fornecedor u WHERE 1=1 AND u.id = "+id+" ORDER BY u.id").getSingleResult();
             System.out.println(fornecedor);
             if(fornecedor == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalAccessError("Register not found!");
+                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Registro não encontrado!");
             }
             return fornecedor;                
         }catch(Exception e){
@@ -178,7 +178,7 @@ public class FornecedorDaoJPA implements FornecedorDao{
             if (!list.isEmpty()) {
                 return list;
             } else {
-                JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
         }catch(Exception e){

@@ -9,6 +9,7 @@ import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
 import br.com.faedocaminhoes.model.Fabricante;
 import br.com.faedocaminhoes.model.Fornecedor;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.service.FabricanteService;
 import br.com.faedocaminhoes.model.service.VeiculoService;
@@ -28,8 +29,9 @@ import javax.swing.JOptionPane;
 public class CadVeiculoGUI extends javax.swing.JDialog {
 
     private Veiculo vehicle;
-    private VeiculoService vehicleService;
+    private Usuario usuario;
     private Fabricante provider;
+    private VeiculoService vehicleService;
     private FabricanteService providerService;
     private final VeiculoTableModel tableModel = new VeiculoTableModel();
     
@@ -41,9 +43,10 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadVeiculoGUI(java.awt.Frame parent, boolean modal, VeiculoService vehicleService, FabricanteService providerService) {
+    public CadVeiculoGUI(java.awt.Frame parent, boolean modal, VeiculoService vehicleService, FabricanteService providerService, Usuario usuario) {
         super(parent, modal);
         initComponents();
+        setUsuario(usuario);
         setVehicleService(vehicleService);
         setProviderService(providerService);
         initComp();
@@ -446,6 +449,10 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
     
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
+    }
+    
     private VeiculoService setVehicleService(VeiculoService vehicleService){
         return this.vehicleService = vehicleService;
     }
@@ -564,7 +571,12 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         vehicle.setModelo(txtModelo.getText());
         vehicle.setProvider((Fabricante)cbProvider.getSelectedItem());
         vehicle.setCor(txtCor.getText());
-        vehicle.setPlaca(txtPlaca.getText());        
+        vehicle.setPlaca(txtPlaca.getText()); 
+        if(usuario != null){
+            vehicle.setUsuario(usuario);
+        }else{
+            throw new IllegalAccessError("Usuario was null");
+        }   
     }
     
     public Veiculo getObject(){

@@ -46,6 +46,8 @@ public class ConnectionFactory {
         cfg.addAnnotatedClass(br.com.faedocaminhoes.model.Usuario.class);
         cfg.addAnnotatedClass(br.com.faedocaminhoes.model.Veiculo.class);
         cfg.addAnnotatedClass(br.com.faedocaminhoes.model.Empresa.class);
+        cfg.addAnnotatedClass(br.com.faedocaminhoes.model.Cidade.class);
+        cfg.addAnnotatedClass(br.com.faedocaminhoes.model.Estado.class);
         //
         EntityManagerFactory mf = cfg.buildSessionFactory();
         return mf;

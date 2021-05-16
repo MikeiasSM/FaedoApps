@@ -7,7 +7,10 @@ package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.gui.tablemodel.EmpresaTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.FornecedorTableRenderer;
+import br.com.faedocaminhoes.model.Cidade;
 import br.com.faedocaminhoes.model.Empresa;
+import br.com.faedocaminhoes.model.Usuario;
+import br.com.faedocaminhoes.model.service.CidadeService;
 import br.com.faedocaminhoes.model.service.EmpresaService;
 import br.com.faedocaminhoes.uteis.JPaneError;
 import br.com.faedocaminhoes.uteis.JTextFieldNumeros;
@@ -16,6 +19,9 @@ import br.com.faedocaminhoes.uteis.UpperCase;
 import br.com.faedocaminhoes.uteis.ValidaDocumento;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -30,6 +36,8 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
 
     private Empresa empresa;
     private EmpresaService empresaService;
+    private Usuario usuario;
+    private CidadeService cidadeService;
     private final EmpresaTableModel tableModel = new EmpresaTableModel();
     private MaskFormatter maskTelefone;
     private MaskFormatter maskCnpj;
@@ -43,10 +51,12 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadEmpresaGUI(java.awt.Frame parent, boolean modal, EmpresaService empresaService) {
+    public CadEmpresaGUI(java.awt.Frame parent, boolean modal, EmpresaService empresaService, CidadeService cidadeService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setEmpresaService(empresaService);
+        setCidadeService(cidadeService);
+        setUsuario(usuario);
         initComp();
     }
 
@@ -84,7 +94,9 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         txtBairro = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        txtCidade = new javax.swing.JTextField();
+        cbCidade = new javax.swing.JComboBox<>();
+        dtaCadastro = new com.toedter.calendar.JDateChooser();
+        jLabel12 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmpresa = new javax.swing.JTable();
@@ -160,11 +172,21 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Inscrição.:");
 
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Logradouro.:");
 
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Bairro.:");
 
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Cidade.:");
+
+        cbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        dtaCadastro.setDateFormatString("dd/MM/yyyy");
+        dtaCadastro.setEnabled(false);
+
+        jLabel12.setText("Dta. Cadastro.:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,7 +214,10 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
                                 .addComponent(txtRazao)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(dtaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(txtFantasia)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -213,30 +238,34 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
                                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(7, 7, 7)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel8))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel10))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtLogradouro)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel9)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbCidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel6});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel10, jLabel2, jLabel3, jLabel4, jLabel6, jLabel8});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel5, jLabel7, jLabel9});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12))
+                    .addComponent(dtaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -261,23 +290,23 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(cbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExit)
                     .addComponent(btnCancel)
                     .addComponent(btnDelete)
                     .addComponent(btnSave))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, jLabel4, txtCnpj});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbCidade, jLabel1, jLabel10, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, txtBairro, txtCnpj, txtCod, txtEmail, txtFantasia, txtInscricao, txtLogradouro, txtRazao, txtTelefone});
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true), "Listagem de Empresas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
@@ -336,7 +365,7 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
                     .addComponent(btnSearch)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, txtSearch});
@@ -382,8 +411,8 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -526,8 +555,11 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox<Object> cbCidade;
+    private com.toedter.calendar.JDateChooser dtaCadastro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -544,7 +576,6 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableEmpresa;
     private javax.swing.JTextField txtBairro;
-    private javax.swing.JTextField txtCidade;
     private javax.swing.JFormattedTextField txtCnpj;
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEmail;
@@ -560,18 +591,32 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
     
+    private EmpresaService setEmpresaService(EmpresaService empresaService){
+        return this.empresaService = empresaService;
+    }
+    
+    private CidadeService setCidadeService(CidadeService cidadeService){
+        return this.cidadeService = cidadeService;
+    }
+    
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
+    }
+    
     private void initComp() {
         setIco();
         setModel();
         findAll();
+        popCidade();
+        dtaCadastro.setDate(new Date());
         txtRazao.setDocument(new UpperCase());
         txtFantasia.setDocument(new UpperCase());
         txtCnpj.setDocument(new UpperCase());
         txtTelefone.setDocument(new UpperCase());
         txtLogradouro.setDocument(new UpperCase());
         txtBairro.setDocument(new UpperCase());
-        txtCidade.setDocument(new UpperCase());
         txtSearch.setDocument(new UpperCase());
+        cbCidade.setSelectedItem(null);
         try{
             maskTelefone = new MaskFormatter("(##)#####-####");
             maskCnpj = new MaskFormatter("##.###.###/####-##");
@@ -582,10 +627,7 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         txtCnpj.setFormatterFactory(new DefaultFormatterFactory(maskCnpj));
         txtTelefone.setFormatterFactory(new DefaultFormatterFactory(maskTelefone));
         txtRazao.requestFocus();
-    }
-    
-    public EmpresaService setEmpresaService(EmpresaService empresaService){
-        return this.empresaService = empresaService;
+        
     }
     
     private void save(){
@@ -624,6 +666,18 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         }
     }
 
+    private void popCidade(){
+        if(cidadeService == null){
+            JOptionPane.showMessageDialog(this, "CidadeService was null", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        cbCidade.removeAllItems();
+        for(Cidade c : cidadeService.findAll()){
+            cbCidade.addItem(c);
+        }
+        cbCidade.setSelectedItem(null);
+    }
+        
     private void completeData(){
         empresa = new Empresa();
         empresa.setId(ParseInteger.tryParseToInt(txtCod.getText()));
@@ -635,7 +689,11 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         empresa.setEmail(txtEmail.getText());
         empresa.setLogradouro(txtLogradouro.getText());
         empresa.setBairro(txtBairro.getText());
-        empresa.setCidade(txtCidade.getText());
+        empresa.setCidade((Cidade) cbCidade.getSelectedItem());
+        empresa.setUsuario(usuario);
+        Date date = dtaCadastro.getDate();
+        LocalDate dateF = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        empresa.setData_cadastro(dateF);
     }
     
     private void setModel(){
@@ -667,7 +725,7 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
             txtTelefone.setText(empresa.getTelefone());
             txtLogradouro.setText(empresa.getLogradouro());
             txtBairro.setText(empresa.getBairro());
-            txtCidade.setText(empresa.getCidade());
+            cbCidade.setSelectedItem((Cidade)empresa.getCidade());
             
             btnDelete.setEnabled(true);
         }
@@ -707,7 +765,7 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         txtInscricao.setText("");
         txtLogradouro.setText("");
         txtBairro.setText("");
-        txtCidade.setText("");
+        cbCidade.setSelectedItem(null);
         btnDelete.setEnabled(false);
     }
     
@@ -737,7 +795,7 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         if(txtBairro.getText().isEmpty() || txtBairro.getText().length() <= 0){
             err += "O campo Bairro é obrigatório!\n";
         }
-        if(txtCidade.getText().isEmpty() || txtCidade.getText().length() <= 0){
+        if(cbCidade.getSelectedItem() == null){
             err += "O campo Cidade é obrigatório!\n";
         }
         if(err.length() <= 0){

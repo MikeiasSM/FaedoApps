@@ -9,10 +9,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,12 +32,23 @@ public class Veiculo implements Serializable{
     private Integer id;
     private String modelo;
     @ManyToOne
-    @JoinColumn(name = "idProvider")
+    @JoinColumn(name = "idProvider", nullable = false)
     private Fabricante provider;
     private String cor;
     private String placa;
-    @ManyToMany(mappedBy = "vehicles")
-    private List<Pessoa> persons;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "pessoa_veiculo", 
+            joinColumns = @JoinColumn(name = "veiculo_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "pessoa_id", nullable = false), 
+            foreignKey = @ForeignKey(name = "fk_veiculo_id"),
+            inverseForeignKey = @ForeignKey(name = "fk_pessoa_id"))
+    private List<Pessoa> pessoas;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+    
     @OneToMany(mappedBy = "veiculo")
     private List<Abastecimento> abastecimentos;
 
@@ -42,12 +56,13 @@ public class Veiculo implements Serializable{
         
     }
 
-    public Veiculo(Integer id, String modelo, Fabricante provider, String cor, String placa) {
+    public Veiculo(Integer id, String modelo, Fabricante provider, String cor, String placa, Usuario usuario) {
         this.id = id;
         this.modelo = modelo;
         this.provider = provider;
         this.cor = cor;
         this.placa = placa;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -91,13 +106,21 @@ public class Veiculo implements Serializable{
     }
 
     public List<Pessoa> getPersons() {
-        return persons;
+        return pessoas;
     }
 
-    public void setPersons(List<Pessoa> persons) {
-        this.persons = persons;
+    public void setPersons(List<Pessoa> pessoa) {
+        this.pessoas = pessoa;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -125,7 +148,7 @@ public class Veiculo implements Serializable{
 
     @Override
     public String toString() {
-        return getProvider().getNome()+" - "+getModelo()+" - "+this.getPlaca()+" - "+getCor();
+        return this.getPlaca()+" - "+getProvider().getNome()+" - "+getModelo()+" - "+getCor();
 
     }
 }

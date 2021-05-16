@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Fabricante;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class VeiculoTableModel extends AbstractTableModel{
                                       "Modelo",
                                       "Fabricante",
                                       "Cor",
-                                      "Placa"};
+                                      "Placa","Usuario"};
 
     
     @Override
@@ -53,6 +54,8 @@ public class VeiculoTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getCor();
             case 4:
                 return dados.get(linhaIndex).getPlaca();
+            case 5:
+                return dados.get(linhaIndex).getUsuario();
             default:
                 return null;
         }
@@ -71,6 +74,8 @@ public class VeiculoTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setCor((String) valor);
             case 4:
                 dados.get(linhaIndex).setPlaca((String) valor);
+            case 5:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     

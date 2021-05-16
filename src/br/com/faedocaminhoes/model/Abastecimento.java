@@ -8,6 +8,7 @@ package br.com.faedocaminhoes.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,11 +29,12 @@ public class Abastecimento implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDate data_abastecimento;
+    private LocalDateTime instante_lancamento;
     @ManyToOne
-    @JoinColumn(name = "idFornecedor")
+    @JoinColumn(name = "idFornecedor", nullable = false)
     private Fornecedor fornecedor;
     @ManyToOne
-    @JoinColumn(name = "idProduto")
+    @JoinColumn(name = "idProduto", nullable = false)
     private Produto produto;
     private BigDecimal quantidade;
     private Integer n_requisicao;
@@ -40,20 +42,24 @@ public class Abastecimento implements Serializable{
     private BigDecimal vlr_unitario;
     private BigDecimal vlr_total;
     @ManyToOne
-    @JoinColumn(name = "idPessoa")
+    @JoinColumn(name = "idPessoa", nullable = false)
     private Pessoa pessoa;
     @ManyToOne
-    @JoinColumn(name = "idVeiculo")
+    @JoinColumn(name = "idVeiculo", nullable = false)
     private Veiculo veiculo;
     private String responsavel;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
     
     public Abastecimento(){
         
     }
 
-    public Abastecimento(Integer id, LocalDate data_abastecimento, Fornecedor fornecedor, Produto produto, BigDecimal quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel) {
+    public Abastecimento(Integer id, LocalDate data_abastecimento, LocalDateTime instante_lancamento, Fornecedor fornecedor, Produto produto, BigDecimal quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel, Usuario usuario) {
         this.id = id;
         this.data_abastecimento = data_abastecimento;
+        this.instante_lancamento = instante_lancamento;
         this.fornecedor = fornecedor;
         this.produto = produto;
         this.quantidade = quantidade;
@@ -64,6 +70,7 @@ public class Abastecimento implements Serializable{
         this.pessoa = pessoa;
         this.veiculo = veiculo;
         this.responsavel = responsavel;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -78,6 +85,14 @@ public class Abastecimento implements Serializable{
         this.data_abastecimento = data_abastecimento;
     }
 
+    public LocalDateTime getInstante_lancamento() {
+        return instante_lancamento;
+    }
+
+    public void setInstante_lancamento(LocalDateTime instante_lancamento) {
+        this.instante_lancamento = instante_lancamento;
+    }
+    
     public void setId(Integer id) {
         this.id = id;
     }
@@ -162,6 +177,14 @@ public class Abastecimento implements Serializable{
         this.responsavel = responsavel;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,24 +33,27 @@ public class Pessoa implements Serializable{
     private String cpf_cnpj;
     private String telefone;
     private String email;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idVehicle")
-    private List<Veiculo> vehicles;
+    @ManyToMany(mappedBy="pessoas",fetch = FetchType.EAGER)
+    private List<Veiculo> veiculos;
     @OneToMany(mappedBy = "pessoa")
     private List<Abastecimento> abastecimentos;
     private Integer tipo_pessoa;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
     
     public Pessoa(){
         
     }
     
-    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email, Integer tipo_pessoa){
+    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email, Integer tipo_pessoa, Usuario usuario){
         this.id = id;
         this.nome = nome;
         this.cpf_cnpj = cpf_cnpj;
         this.telefone = telefone;
         this.email = email;
         this.tipo_pessoa = tipo_pessoa;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -101,13 +105,29 @@ public class Pessoa implements Serializable{
     }
     
     public List<Veiculo> getVeiculos() {
-        return vehicles;
+        return veiculos;
     }
 
-    public void setVeiculos(List<Veiculo> vehicles) {
-        this.vehicles = vehicles;
+    public void setVeiculos(List<Veiculo> veiculos) {
+        this.veiculos = veiculos;
     }
 
+    public List<Abastecimento> getAbastecimentos() {
+        return abastecimentos;
+    }
+
+    public void setAbastecimentos(List<Abastecimento> abastecimentos) {
+        this.abastecimentos = abastecimentos;
+    }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -135,7 +155,7 @@ public class Pessoa implements Serializable{
 
     @Override
     public String toString() {
-        return getNome(); //To change body of generated methods, choose Tools | Templates.
+        return getNome();
     }
     
 }

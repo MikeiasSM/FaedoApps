@@ -381,9 +381,6 @@
             <Component class="JNumberField.JNumberField" name="txtQtd">
             </Component>
             <Component class="JNumberField.JNumberField" name="txtValorTot">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-              </Properties>
             </Component>
             <Component class="JNumberField.JNumberField" name="txtValorUnit">
             </Component>
@@ -439,21 +436,21 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jLabel8" linkSize="5" min="-2" pref="75" max="-2" attributes="0"/>
+                              <Component id="jLabel9" linkSize="5" pref="75" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cbPessoa" min="-2" pref="563" max="-2" attributes="0"/>
+                              <Component id="cbVeiculo" min="-2" pref="563" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnAddPessoa" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel9" linkSize="5" pref="75" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel10" linkSize="5" max="32767" attributes="0"/>
+                                  <Component id="jLabel8" linkSize="5" min="-2" pref="75" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtResponse" linkSize="6" min="-2" pref="610" max="-2" attributes="0"/>
-                                  <Component id="cbVeiculo" linkSize="6" min="-2" pref="610" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtResponse" pref="610" max="32767" attributes="0"/>
+                                  <Component id="cbPessoa" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -466,14 +463,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="jLabel8" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbPessoa" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAddPessoa" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbVeiculo" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel9" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbVeiculo" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbPessoa" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -497,6 +494,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Object&gt;"/>
@@ -513,7 +511,6 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Object&gt;"/>

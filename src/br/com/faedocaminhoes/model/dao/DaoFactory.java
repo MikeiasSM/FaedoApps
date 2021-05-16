@@ -7,7 +7,9 @@ package br.com.faedocaminhoes.model.dao;
 
 import br.com.faedocaminhoes.model.dao.implement.AbastecimentoDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.CategoriaDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.CidadeDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.EmpresaDaoJPA;
+import br.com.faedocaminhoes.model.dao.implement.EstadoDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.ProdutoDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.PessoaDaoJPA;
 import br.com.faedocaminhoes.model.dao.implement.FabricanteDaoJPA;
@@ -55,6 +57,14 @@ public class DaoFactory {
     
     public static EmpresaDaoJPA createEmpresaDao(){
         return new EmpresaDaoJPA();
+    }
+    
+    public static CidadeDaoJPA createCidadeDao(){
+        return new CidadeDaoJPA();
+    }
+    
+    public static EstadoDaoJPA createEstadoDao(){
+        return new EstadoDaoJPA();
     }
     
 }

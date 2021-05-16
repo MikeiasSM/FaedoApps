@@ -6,11 +6,14 @@
 package br.com.faedocaminhoes.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -29,15 +32,21 @@ public class Empresa implements Serializable{
     private String inscricao_estadual;
     private String logradouro;
     private String bairro;
-    private String cidade;
+    @ManyToOne
+    @JoinColumn(name = "id_cidade", nullable = false)
+    private Cidade cidade;
     private String telefone;
     private String email;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+    private LocalDate data_cadastro;
     
     public Empresa(){
         
     }
 
-    public Empresa(Integer id, String razao, String fantasia, String cpf_cnpj, String inscricao_estadual, String logradouro, String bairro, String cidade, String telefone, String email) {
+    public Empresa(Integer id, String razao, String fantasia, String cpf_cnpj, String inscricao_estadual, String logradouro, String bairro, Cidade cidade, String telefone, String email, Usuario usuario, LocalDate data_cadastro) {
         this.id = id;
         this.razao = razao;
         this.fantasia = fantasia;
@@ -48,6 +57,8 @@ public class Empresa implements Serializable{
         this.cidade = cidade;
         this.telefone = telefone;
         this.email = email;
+        this.usuario = usuario;
+        this.data_cadastro = data_cadastro;
     }
 
     public Integer getId() {
@@ -122,15 +133,29 @@ public class Empresa implements Serializable{
         this.bairro = bairro;
     }
 
-    public String getCidade() {
+    public Cidade getCidade() {
         return cidade;
     }
 
-    public void setCidade(String cidade) {
+    public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
 
-    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDate getData_cadastro() {
+        return data_cadastro;
+    }
+
+    public void setData_cadastro(LocalDate data_cadastro) {
+        this.data_cadastro = data_cadastro;
+    }
 
     @Override
     public int hashCode() {

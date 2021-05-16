@@ -30,7 +30,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
             em.persist(pVeiculo);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -52,7 +52,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
             em.merge(pVeiculo);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(Exception e){
             em.getTransaction().rollback();
@@ -76,15 +76,15 @@ public class VeiculoDaoJPA implements VeiculoDao{
             em.remove(vehicle);
             em.getTransaction().commit();
             
-            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
             
         }catch(RollbackException ex){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", ex);
+            JPaneError.showErrorDialog(null, "Next Software ₢", ex);
             ex.printStackTrace();
         }catch(Exception e){
             em.getTransaction().rollback();
-            JPaneError.showErrorDialog(null, "FAEDO CAMINHÕES ©", e);
+            JPaneError.showErrorDialog(null, "Next Software ₢", e);
             e.printStackTrace();
         }finally{
             if(em != null){
@@ -99,10 +99,10 @@ public class VeiculoDaoJPA implements VeiculoDao{
         List<Veiculo> vehicle = null;
         
         try{
-            vehicle = em.createQuery("SELECT v FROM Veiculo v ORDER BY v.id").getResultList();
+            vehicle = em.createQuery("SELECT v FROM Veiculo v ORDER BY v.placa asc").getResultList();
             
             if(vehicle.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Date or table not found!");
             }
             
@@ -120,7 +120,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
     }
 
     @Override
-    public Veiculo findById(Veiculo pVehicle) {
+    public Veiculo findById(Integer pVehicle) {
         em = new ConnectionFactory().getConection();
         Veiculo vehicle = null;
         
@@ -128,8 +128,8 @@ public class VeiculoDaoJPA implements VeiculoDao{
             vehicle = em.find(Veiculo.class, pVehicle);
         
             if(vehicle == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalAccessError("Register not found!");
+                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Registro não encontrado!");
             }
             return vehicle;                
         }catch(Exception e){
@@ -154,7 +154,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
             if (!list.isEmpty()) {
                 return list;
             } else {
-                JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
         }catch(Exception e){

@@ -12,6 +12,7 @@ public abstract class Fornecedor_ {
 	public static volatile SingularAttribute<Fornecedor, String> fantasia;
 	public static volatile SingularAttribute<Fornecedor, String> telefone;
 	public static volatile ListAttribute<Fornecedor, Abastecimento> abastecimentos;
+	public static volatile SingularAttribute<Fornecedor, Usuario> usuario;
 	public static volatile SingularAttribute<Fornecedor, Integer> id;
 	public static volatile SingularAttribute<Fornecedor, String> razao;
 	public static volatile SingularAttribute<Fornecedor, String> cpf_cnpj;
@@ -20,6 +21,7 @@ public abstract class Fornecedor_ {
 	public static final String FANTASIA = "fantasia";
 	public static final String TELEFONE = "telefone";
 	public static final String ABASTECIMENTOS = "abastecimentos";
+	public static final String USUARIO = "usuario";
 	public static final String ID = "id";
 	public static final String RAZAO = "razao";
 	public static final String CPF_CNPJ = "cpf_cnpj";

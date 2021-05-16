@@ -8,6 +8,7 @@ package br.com.faedocaminhoes.gui;
 import br.com.faedocaminhoes.gui.tablemodel.FornecedorTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
 import br.com.faedocaminhoes.model.Fornecedor;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.FornecedorService;
 import br.com.faedocaminhoes.uteis.JPaneError;
 import br.com.faedocaminhoes.uteis.ParseInteger;
@@ -33,6 +34,7 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
     private MaskFormatter maskTelefone;
     private MaskFormatter maskCnpj;
     private ValidaDocumento validaDocumento = new ValidaDocumento();
+    private Usuario usuario;
     
     /**
      * Creates new form PessoaGui
@@ -42,10 +44,11 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadFornecedorGUI(java.awt.Frame parent, boolean modal, FornecedorService fornecedorService) {
+    public CadFornecedorGUI(java.awt.Frame parent, boolean modal, FornecedorService fornecedorService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setFornecedorService(fornecedorService);
+        setUsuario(usuario);
         initProps();
     }
 
@@ -485,6 +488,10 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
     
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
+    }
+    
     private void initProps() {
         setIco();
         setModel();
@@ -554,6 +561,12 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         fornecedor.setCpf_cnpj(txtCnpj.getText());
         fornecedor.setTelefone(txtTelefone.getText());
         fornecedor.setEmail(txtEmail.getText());
+        if(usuario != null){
+            fornecedor.setUsuario(usuario);
+        }else{
+            throw new IllegalAccessError("Usuario was null");
+        }
+            
     }
     
     private void setModel(){

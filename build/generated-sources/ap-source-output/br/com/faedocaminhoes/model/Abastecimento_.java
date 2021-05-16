@@ -2,6 +2,7 @@ package br.com.faedocaminhoes.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -14,9 +15,11 @@ public abstract class Abastecimento_ {
 	public static volatile SingularAttribute<Abastecimento, Integer> n_requisicao;
 	public static volatile SingularAttribute<Abastecimento, BigDecimal> vlr_total;
 	public static volatile SingularAttribute<Abastecimento, Pessoa> pessoa;
+	public static volatile SingularAttribute<Abastecimento, LocalDateTime> instante_lancamento;
 	public static volatile SingularAttribute<Abastecimento, Produto> produto;
 	public static volatile SingularAttribute<Abastecimento, BigDecimal> vlr_unitario;
 	public static volatile SingularAttribute<Abastecimento, Integer> n_cupom;
+	public static volatile SingularAttribute<Abastecimento, Usuario> usuario;
 	public static volatile SingularAttribute<Abastecimento, Integer> id;
 	public static volatile SingularAttribute<Abastecimento, Fornecedor> fornecedor;
 	public static volatile SingularAttribute<Abastecimento, BigDecimal> quantidade;
@@ -27,9 +30,11 @@ public abstract class Abastecimento_ {
 	public static final String N_REQUISICAO = "n_requisicao";
 	public static final String VLR_TOTAL = "vlr_total";
 	public static final String PESSOA = "pessoa";
+	public static final String INSTANTE_LANCAMENTO = "instante_lancamento";
 	public static final String PRODUTO = "produto";
 	public static final String VLR_UNITARIO = "vlr_unitario";
 	public static final String N_CUPOM = "n_cupom";
+	public static final String USUARIO = "usuario";
 	public static final String ID = "id";
 	public static final String FORNECEDOR = "fornecedor";
 	public static final String QUANTIDADE = "quantidade";

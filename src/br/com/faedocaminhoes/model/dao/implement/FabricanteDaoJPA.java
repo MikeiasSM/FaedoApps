@@ -30,7 +30,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             em.persist(pProvider);
             em.getTransaction().commit();
 
-            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -52,7 +52,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             em.merge(pProvider);
             em.getTransaction().commit();
 
-            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro alterado com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -76,7 +76,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             em.remove(provider);
             em.getTransaction().commit();
 
-            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Registro excluido com sucesso!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
 
         }catch(RollbackException ex){
             em.getTransaction().rollback();
@@ -102,7 +102,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             providers = em.createQuery("SELECT p FROM Fabricante p ORDER BY p.id").getResultList();
 
             if (providers.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Objects not found!");
             }
 
@@ -128,8 +128,8 @@ public class FabricanteDaoJPA implements FabricanteDao {
             provider = em.find(Fabricante.class, pProvider);
             
             if (provider == null) {
-                JOptionPane.showMessageDialog(null, "Object not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalAccessError("Register not found!");
+                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalAccessError("Registro não encontrado!");
             }
             return provider;
         } catch (Exception e) {
@@ -154,7 +154,7 @@ public class FabricanteDaoJPA implements FabricanteDao {
             if (!list.isEmpty()) {
                 return list;
             } else {
-                JOptionPane.showMessageDialog(null, "Register not found!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
         } catch (Exception e) {

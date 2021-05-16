@@ -99,7 +99,6 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         jLabel5.setText("Dta. Cadastramento.:");
 
         dtaCadastro.setDateFormatString("dd/MM/yyyy");
-        dtaCadastro.setEnabled(false);
         dtaCadastro.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -360,18 +359,29 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        
+        if(txtSenha1.getEchoChar() == '\u25cf' && txtSenha2.getEchoChar() == '\u25cf'){
+            txtSenha1.setEchoChar('\u0000');
+            txtSenha2.setEchoChar('\u0000');            
+        }else{
+            txtSenha1.setEchoChar('\u25cf');
+            txtSenha2.setEchoChar('\u25cf');   
+        }
+        /*
         if(txtSenha1.getEchoChar() == '*' && txtSenha2.getEchoChar() == '*'){
             txtSenha1.setEchoChar((char) 0);
             txtSenha2.setEchoChar((char) 0);
         }else{
             txtSenha1.setEchoChar('*');
             txtSenha2.setEchoChar('*');
-        }
+        }*/
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
         if(verifyComp()){
-            if(txtSenha1.getText().equals(txtSenha2.getText())){
+            String s1 = new String(txtSenha1.getPassword());
+            String s2 = new String(txtSenha2.getPassword());
+            if(s1.equals(s2)){
                 save();
             }else{
                 JOptionPane.showMessageDialog(this, "As senhas não coincidem!", "Nextsoft", JOptionPane.WARNING_MESSAGE);
@@ -501,8 +511,8 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         setIco();
         setModel();
         findAll();
-        Date c = new Date();
-        dtaCadastro.setDate(c);
+        dtaCadastro.setDate(new Date());
+        dtaCadastro.setEnabled(false);
         txtUsuario.setDocument(new UpperCase());
         txtSearch.setDocument(new UpperCase());
         txtUsuario.requestFocus();

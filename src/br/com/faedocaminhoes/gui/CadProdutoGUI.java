@@ -9,15 +9,14 @@ import br.com.faedocaminhoes.gui.tablemodel.ProdutoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.FabricanteTableRenderer;
 import br.com.faedocaminhoes.model.CategoriaProd;
 import br.com.faedocaminhoes.model.Produto;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.CategoriaService;
 import br.com.faedocaminhoes.model.service.ProdutoService;
 import br.com.faedocaminhoes.uteis.JNumberFormatField;
-import br.com.faedocaminhoes.uteis.OnlyNumber;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -34,6 +33,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
     private CategoriaProd categoria;
     private CategoriaService categoriaService;
     private final ProdutoTableModel tableModel = new ProdutoTableModel();
+    private Usuario usuario;
     /**
      * Creates new form CadProviderGUI
      */
@@ -42,11 +42,12 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadProdutoGUI(java.awt.Frame parent, boolean modal, ProdutoService produtoService, CategoriaService categoriaService) {
+    public CadProdutoGUI(java.awt.Frame parent, boolean modal, ProdutoService produtoService, CategoriaService categoriaService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setCombustivelService(produtoService);
         setCategoriaService(categoriaService);
+        setUsuario(usuario);
         initComp();
         
     }
@@ -456,6 +457,10 @@ public class CadProdutoGUI extends javax.swing.JDialog {
 
     private void setIco() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
+    }
+    
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
     }
     
     private ProdutoService setCombustivelService(ProdutoService produtoService){

@@ -13,6 +13,7 @@ import br.com.faedocaminhoes.model.Abastecimento;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Produto;
+import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.service.AbastecimentoService;
 import br.com.faedocaminhoes.model.service.FornecedorService;
@@ -56,6 +57,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
     private ProdutoService produtoService;
     private AbastecimentoTableModel tableModel = new AbastecimentoTableModel();
     private NumberFormat moeda = new DecimalFormat("#,##0.00");
+    private Usuario usuario;
     
     private EntityManager em;
     /**
@@ -65,11 +67,12 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    public AbastecimentoGUI(java.awt.Frame parent, boolean modal, AbastecimentoService abasService, ProdutoService produtoService) {
+    public AbastecimentoGUI(java.awt.Frame parent, boolean modal, AbastecimentoService abasService, ProdutoService produtoService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setAbastecimentoService(abasService);
         setProdutoService(produtoService);
+        setUsuario(usuario);
         initComp();
     }
 
@@ -500,7 +503,8 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                                                                         new FornecedorService(),
                                                                         new ProdutoService(),
                                                                         new PessoaService(),
-                                                                        new VeiculoService());
+                                                                        new VeiculoService(),
+                                                                        usuario);
         cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
         cadAbastecimento.setVisible(true);
         findAll();
@@ -677,7 +681,8 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                                                                         new FornecedorService(),
                                                                         new ProdutoService(),
                                                                         new PessoaService(),
-                                                                        new VeiculoService());
+                                                                        new VeiculoService(), 
+                                                                        usuario);
             cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
             cadAbastecimento.importData(getTable());
             cadAbastecimento.setVisible(true);
@@ -783,6 +788,10 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
     
+    private Usuario setUsuario(Usuario usuario){
+        return this.usuario = usuario;
+    }
+    
     private AbastecimentoService setAbastecimentoService(AbastecimentoService abasService){
         return this.abasService = abasService;
     }
@@ -823,6 +832,8 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         tableAbastecimentos.getColumnModel().getColumn(8).setPreferredWidth(150); //RESPONSAVEL
         tableAbastecimentos.getColumnModel().getColumn(9).setPreferredWidth(100); //Nº REQUISICAO
         tableAbastecimentos.getColumnModel().getColumn(10).setPreferredWidth(100); //Nº CUPOM
+        tableAbastecimentos.getColumnModel().getColumn(11).setPreferredWidth(180); //USUARIO
+        tableAbastecimentos.getColumnModel().getColumn(12).setPreferredWidth(180); //INSTANTE LANCAMENTO
     }
     
     private void popCombustivel(){

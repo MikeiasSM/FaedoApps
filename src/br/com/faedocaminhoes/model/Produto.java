@@ -31,7 +31,7 @@ public class Produto implements Serializable{
     private Integer id;
     private String nome;
     @ManyToOne
-    @JoinColumn(name = "idCategoria")
+    @JoinColumn(name = "idCategoria", nullable = false)
     private CategoriaProd categoria;
     private BigDecimal valor;
     @OneToMany(mappedBy = "produto")

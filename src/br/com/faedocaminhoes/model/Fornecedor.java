@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,18 +34,22 @@ public class Fornecedor implements Serializable{
     private String email;
     @OneToMany(mappedBy = "fornecedor")
     private List<Abastecimento> abastecimentos;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
     
     public Fornecedor(){
         
     }
 
-    public Fornecedor(Integer id, String razao, String fantasia, String cpf_cnpj, String telefone, String email) {
+    public Fornecedor(Integer id, String razao, String fantasia, String cpf_cnpj, String telefone, String email, Usuario usuario) {
         this.id = id;
         this.razao = razao;
         this.fantasia = fantasia;
         this.cpf_cnpj = cpf_cnpj;
         this.telefone = telefone;
         this.email = email;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -102,6 +108,14 @@ public class Fornecedor implements Serializable{
         this.abastecimentos = abastecimentos;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

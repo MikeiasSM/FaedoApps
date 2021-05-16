@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Fornecedor;
+import br.com.faedocaminhoes.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -22,7 +23,8 @@ public class FornecedorTableModel extends AbstractTableModel{
                                       "Nome Fantasia", 
                                       "CPF/CNPJ", 
                                       "Telefone", 
-                                      "E-mail"};
+                                      "E-mail",
+                                      "Usuario"};
 
     
     @Override
@@ -55,6 +57,8 @@ public class FornecedorTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getTelefone();
             case 5:
                 return dados.get(linhaIndex).getEmail();
+            case 6:
+                return dados.get(linhaIndex).getUsuario().getNome();
             default:
                 return null;
         }
@@ -75,6 +79,8 @@ public class FornecedorTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setTelefone((String) valor);
             case 5:
                 dados.get(linhaIndex).setEmail((String) valor);
+            case 6:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     
