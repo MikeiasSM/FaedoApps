@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -28,17 +30,21 @@ public class Usuario implements Serializable {
     private String senha1;
     private String senha2;
     private LocalDate dataCad;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
     
     public Usuario(){
         
     }
 
-    public Usuario(Integer id, String nome, String senha1, String senha2, LocalDate dataCad) {
+    public Usuario(Integer id, String nome, String senha1, String senha2, LocalDate dataCad, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.senha1 = senha1;
         this.senha2 = senha2;
         this.dataCad = dataCad;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -81,6 +87,14 @@ public class Usuario implements Serializable {
         this.dataCad = dataCad;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -108,6 +122,6 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return getNome()+" - "+getDataCad();
+        return getNome();
     }
 }

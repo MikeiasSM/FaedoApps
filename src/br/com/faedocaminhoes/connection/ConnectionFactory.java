@@ -28,9 +28,10 @@ public class ConnectionFactory {
         properties.put("hibernate.connection.username", conf.getUser());
         properties.put("hibernate.connection.password", conf.getPass());
         properties.put("hibernate.connection.driver_class", conf.getDriver());
-        properties.put("hibernate.connection.url", conf.getPatch());
+        properties.put("hibernate.connection.url", "jdbc:postgresql://"+conf.getHost()+":"+conf.getPort()+"/"+conf.getData()+"?createDatabaseIfNotExist=true");
         properties.put("hibernate.dialect", conf.getDialect());
         properties.put("hibernate.hbm2ddl.auto", "update");
+        //properties.put("hibernate.hbm2ddl.import_files", "/META-INF/sql/carrega-dados.sql");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         //

@@ -23,9 +23,9 @@ public class PessoaService {
     	person = pPessoa;
         try{
             if(pPessoa.getId() == null) {
-                personDao.insert(person);        		
+                insert(person);        		
             }else {
-                personDao.update(person);
+                update(person);
             }
             return true;
         }catch(Exception e){

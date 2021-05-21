@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Abastecimento;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Produto;
@@ -41,7 +42,9 @@ public class AbastecimentoTableModel extends AbstractTableModel{
                                       "Nº Requisição", 
                                       "Nº Cupom",
                                       "Dta. Alteração",
-                                      "Usuario"};
+                                      "Observação",
+                                      "Usuário",
+                                      "Empresa"};
 
     
     @Override
@@ -91,7 +94,11 @@ public class AbastecimentoTableModel extends AbstractTableModel{
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                 return dtf.format(dt);
             case 12:
+                return dados.get(linhaIndex).getObservacao();
+            case 13:
                 return dados.get(linhaIndex).getUsuario().getNome();
+            case 14:
+                return dados.get(linhaIndex).getEmpresa().getRazao();
             default:
                 return null;
         }
@@ -125,7 +132,11 @@ public class AbastecimentoTableModel extends AbstractTableModel{
             case 11:
                 dados.get(linhaIndex).setInstante_lancamento((LocalDateTime) valor);
             case 12:
+                dados.get(linhaIndex).setObservacao((String) valor);
+            case 13:
                 dados.get(linhaIndex).setUsuario((Usuario) valor);
+            case 14:
+                dados.get(linhaIndex).setEmpresa((Empresa) valor);
             }
     }
     

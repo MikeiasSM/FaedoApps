@@ -10,6 +10,7 @@ import br.com.faedocaminhoes.gui.report.Report;
 import br.com.faedocaminhoes.gui.tablemodel.AbastecimentoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.AbastecimentoTableRenderer;
 import br.com.faedocaminhoes.model.Abastecimento;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Produto;
@@ -38,6 +39,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -58,6 +61,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
     private AbastecimentoTableModel tableModel = new AbastecimentoTableModel();
     private NumberFormat moeda = new DecimalFormat("#,##0.00");
     private Usuario usuario;
+    private Empresa empresa;
     
     private EntityManager em;
     /**
@@ -67,12 +71,13 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    public AbastecimentoGUI(java.awt.Frame parent, boolean modal, AbastecimentoService abasService, ProdutoService produtoService, Usuario usuario) {
+    public AbastecimentoGUI(java.awt.Frame parent, boolean modal, AbastecimentoService abasService, ProdutoService produtoService, Usuario usuario, Empresa empresa) {
         super(parent, modal);
         initComponents();
         setAbastecimentoService(abasService);
         setProdutoService(produtoService);
         setUsuario(usuario);
+        setEmpresa(empresa);
         initComp();
     }
 
@@ -504,10 +509,11 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                                                                         new ProdutoService(),
                                                                         new PessoaService(),
                                                                         new VeiculoService(),
-                                                                        usuario);
+                                                                        getSession(), getEmpresa());
         cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
         cadAbastecimento.setVisible(true);
         findAll();
+        popCombustivel();
     }//GEN-LAST:event_btnNovoAbastecimentoActionPerformed
 
     private void txtBuscaFornecedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaFornecedorKeyPressed
@@ -642,18 +648,18 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                     Produto saida = (Produto) cbCombustivel.getSelectedItem();
                     idProduto = saida.getId();
                 }
-                //Busca
-                System.out.println("Fornecedor.: " + idFornecedor + "\n"
-                        + "Pessoa.: " + idPessoa + "\n"
-                        + "Veiculo.: " + placaVeiculo + "\n"
-                        + "Inicio.: " + dataInicio + "\n"
-                        + "Final.:" + dataFinal + "\n"
-                        + "Req.: "+req+"\n"
-                        + "Cupom.: "+cupom+"\n"
-                        + "Combustivel" + idProduto);
-
-                findByParameter(idFornecedor, idPessoa, placaVeiculo, dataInicio, dataFinal, idProduto, req, cupom);
-
+                
+                if(dtInicio.getDate() != null && dtFinal.getDate() != null){
+                    if(dataInicio.isAfter(dataFinal)){
+                        JOptionPane.showMessageDialog(this, "A data inicial deve ser anterior a data final", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
+                    }else if(dataFinal.isBefore(dataInicio)){
+                        JOptionPane.showMessageDialog(this, "A data final deve ser posterior a data inicial", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);                    
+                    }                    
+                    findByParameter(idFornecedor, idPessoa, placaVeiculo, dataInicio, dataFinal, idProduto, req, cupom);
+                }else{
+                    findByParameter(idFornecedor, idPessoa, placaVeiculo, dataInicio, dataFinal, idProduto, req, cupom);
+                }
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -682,7 +688,8 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                                                                         new ProdutoService(),
                                                                         new PessoaService(),
                                                                         new VeiculoService(), 
-                                                                        usuario);
+                                                                        getSession(),
+                                                                        getEmpresa());
             cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
             cadAbastecimento.importData(getTable());
             cadAbastecimento.setVisible(true);
@@ -792,6 +799,10 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         return this.usuario = usuario;
     }
     
+    private Empresa setEmpresa(Empresa empresa){
+        return this.empresa = empresa;
+    }
+    
     private AbastecimentoService setAbastecimentoService(AbastecimentoService abasService){
         return this.abasService = abasService;
     }
@@ -819,6 +830,9 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
     
     private void setModel(){
         tableAbastecimentos.setModel(tableModel);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableAbastecimentos.getModel());
+        this.tableAbastecimentos.setRowSorter(sorter);
+        
         tableAbastecimentos.setDefaultRenderer(Object.class, new AbastecimentoTableRenderer());
         tableAbastecimentos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableAbastecimentos.getColumnModel().getColumn(0).setPreferredWidth(90); //CODIGO
@@ -833,7 +847,9 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         tableAbastecimentos.getColumnModel().getColumn(9).setPreferredWidth(100); //Nº REQUISICAO
         tableAbastecimentos.getColumnModel().getColumn(10).setPreferredWidth(100); //Nº CUPOM
         tableAbastecimentos.getColumnModel().getColumn(11).setPreferredWidth(180); //USUARIO
-        tableAbastecimentos.getColumnModel().getColumn(12).setPreferredWidth(180); //INSTANTE LANCAMENTO
+        tableAbastecimentos.getColumnModel().getColumn(12).setPreferredWidth(300); //OBSERVACAO
+        tableAbastecimentos.getColumnModel().getColumn(13).setPreferredWidth(180); //INSTANTE LANCAMENTO
+        tableAbastecimentos.getColumnModel().getColumn(14).setPreferredWidth(180); //INSTANTE LANCAMENTO
     }
     
     private void popCombustivel(){
@@ -851,11 +867,11 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         if(abasService == null){
             JOptionPane.showMessageDialog(this, "AbastecimentoService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        List<Abastecimento> list = abasService.findAll();
+        List<Abastecimento> list = abasService.findAll(getEmpresa());
         
         if(!list.isEmpty()){
             tableModel.removeAll();
-            for(Abastecimento u: abasService.findAll()){
+            for(Abastecimento u: abasService.findAll(getEmpresa())){
                 tableModel.addRow(u); 
             }  
             coutRegisters();
@@ -928,7 +944,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 throw new IllegalAccessError("Register not found!");
             }
             
-            txtVeiculo.setText(veiculo.getProvider().getNome()+" - "+veiculo.getModelo()+" - "+veiculo.getCor());
+            txtVeiculo.setText(veiculo.getFabricante().getNome()+" - "+veiculo.getModelo()+" - "+veiculo.getCor());
             
         } catch (NoResultException ex) {
             ex.printStackTrace();
@@ -947,9 +963,9 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         em = new ConnectionFactory().getConection();
         try {
             //BUSCA REGISTRO PERSONALIZADO
-            String sqlQtdR  = "SELECT COUNT(*) FROM Abastecimento ab";
-            String sqlQtd   = "SELECT DISTINCT SUM(ab.quantidade) FROM Abastecimento ab";
-            String sqlValor = "SELECT DISTINCT SUM(ab.vlr_total) FROM Abastecimento ab";
+            String sqlQtdR  = "SELECT COUNT(*) FROM Abastecimento ab WHERE ab.empresa = "+getEmpresa().getId();
+            String sqlQtd   = "SELECT DISTINCT SUM(ab.quantidade) FROM Abastecimento ab WHERE ab.empresa = "+getEmpresa().getId();
+            String sqlValor = "SELECT DISTINCT SUM(ab.vlr_total) FROM Abastecimento ab WHERE ab.empresa = "+getEmpresa().getId();
             
             Query queryCount = em.createQuery(sqlQtdR);
             Query queryQtd = em.createQuery(sqlQtd);
@@ -980,10 +996,10 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
         em = new ConnectionFactory().getConection();
         try{
             //BUSCA REGISTRO PERSONALIZADO
-            String sql = "FROM Abastecimento ab WHERE 1=1";
-            String sqlQtdR = "SELECT COUNT(*) FROM Abastecimento ab WHERE 1=1";
-            String sqlQtd = "SELECT DISTINCT SUM(ab.quantidade) FROM Abastecimento ab WHERE 1=1";
-            String sqlValor = "SELECT DISTINCT SUM(ab.vlr_total) FROM Abastecimento ab WHERE 1=1";
+            String sql = "FROM Abastecimento ab WHERE 1=1 AND ab.empresa = "+getEmpresa().getId();
+            String sqlQtdR = "SELECT COUNT(*) FROM Abastecimento ab WHERE 1=1 AND ab.empresa = "+getEmpresa().getId();
+            String sqlQtd = "SELECT DISTINCT SUM(ab.quantidade) FROM Abastecimento ab WHERE 1=1 AND ab.empresa = "+getEmpresa().getId();
+            String sqlValor = "SELECT DISTINCT SUM(ab.vlr_total) FROM Abastecimento ab WHERE 1=1 AND ab.empresa = "+getEmpresa().getId();
             
             //Por Fornecedor
             if(idFornecedor != null && idFornecedor > 0){
@@ -1000,14 +1016,14 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
                 sqlValor+= " AND ab.pessoa = "+idPessoa;
             }
             //Por Requisição
-            if(req != null && req > 0){
+            if(req != null && req >= 0){
                 sql += " AND ab.n_requisicao = "+req;
                 sqlQtdR += " AND ab.n_requisicao = "+req;
                 sqlQtd += " AND ab.n_requisicao = "+req;
                 sqlValor += " AND ab.n_requisicao = "+req;
             }
             //Por Cupom
-            if(cupom != null && cupom > 0){
+            if(cupom != null && cupom >= 0){
                 sql += " AND ab.n_cupom = "+cupom;
                 sqlQtdR += " AND ab.n_cupom = "+cupom;
                 sqlQtd += " AND ab.n_cupom = "+cupom;
@@ -1056,7 +1072,7 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
             //List filtrado
             List<Abastecimento> resultSql = query.getResultList();
             
-            //List COunt
+            //List Count
             Long count = (Long) queryCount.getSingleResult();
             Integer c = Math.toIntExact(count);
             
@@ -1113,7 +1129,21 @@ public class AbastecimentoGUI extends javax.swing.JDialog {
     private void importVeiculo(Veiculo veiculo){
         if(veiculo != null){
             txtBuscarVeiculo.setText(veiculo.getPlaca());
-            txtVeiculo.setText(veiculo.getProvider().getNome()+" - "+veiculo.getModelo()+" - "+veiculo.getCor());
+            txtVeiculo.setText(veiculo.getFabricante().getNome()+" - "+veiculo.getModelo()+" - "+veiculo.getCor());
         }
+    }
+    
+    private Usuario getSession() {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;
+    }
+
+    private Empresa getEmpresa() {
+        if (empresa == null) {
+            throw new IllegalArgumentException("Empresa was null!");
+        }
+        return empresa;
     }
 }

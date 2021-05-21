@@ -59,7 +59,7 @@ public class UsuarioService {
     }
 
     public Usuario findById(Usuario pUser){
-        if(pUser != null && user != null){
+        if(pUser != null){
            Usuario p = userDao.findById(pUser);
            return p;
         }else{

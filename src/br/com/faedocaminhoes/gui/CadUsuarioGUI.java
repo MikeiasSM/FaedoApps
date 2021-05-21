@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.gui.tablemodel.UsuarioTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.UsuarioTableRenderer;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.UsuarioService;
 import br.com.faedocaminhoes.uteis.Base64Crypt;
@@ -17,7 +18,6 @@ import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,9 +26,10 @@ import javax.swing.JOptionPane;
  *
  * @author Mikeias
  */
-public class CadUsuarioGUI extends javax.swing.JDialog {
+public final class CadUsuarioGUI extends javax.swing.JDialog {
 
-    private Usuario user;
+    private Usuario usuario;
+    private Usuario usuarioPersist;
     private UsuarioService service;
     private final UsuarioTableModel tableModel = new UsuarioTableModel();
     private DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -41,10 +42,11 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadUsuarioGUI(java.awt.Frame parent, boolean modal, UsuarioService userService) {
+    public CadUsuarioGUI(java.awt.Frame parent, boolean modal, UsuarioService usuarioService, Usuario usuario) {
         super(parent, modal);
         initComponents();
-        setUsuarioService(userService);
+        setUsuarioService(usuarioService);
+        setUsuario(usuario);
         initComp();
     }
 
@@ -367,14 +369,6 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
             txtSenha1.setEchoChar('\u25cf');
             txtSenha2.setEchoChar('\u25cf');   
         }
-        /*
-        if(txtSenha1.getEchoChar() == '*' && txtSenha2.getEchoChar() == '*'){
-            txtSenha1.setEchoChar((char) 0);
-            txtSenha2.setEchoChar((char) 0);
-        }else{
-            txtSenha1.setEchoChar('*');
-            txtSenha2.setEchoChar('*');
-        }*/
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
@@ -499,12 +493,18 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         return this.service = service;
     }
     
+    public Usuario setUsuario(Usuario usuario){
+        System.out.println("USUARIO PARAMETRO: "+usuario);
+        return this.usuario = usuario;
+    }
+        
     private void setModel(){
         tableUser.setModel(tableModel);   
         tableUser.setDefaultRenderer(Object.class, new UsuarioTableRenderer());
         tableUser.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
         tableUser.getColumnModel().getColumn(1).setPreferredWidth(300); //NOME
         tableUser.getColumnModel().getColumn(2).setPreferredWidth(200); //DATA CADASTRO
+        tableUser.getColumnModel().getColumn(3).setPreferredWidth(200); //USUARIO
     } 
     
     private void initComp(){
@@ -519,7 +519,7 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
     }
     
     private void completeData(){
-        user = new Usuario();
+        usuarioPersist = new Usuario();
         
         String senha1 = new String(txtSenha1.getPassword()).trim();
         String senha2 = new String(txtSenha2.getPassword()).trim();
@@ -527,14 +527,15 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         String senha1crip = Base64Crypt.encoder(senha1);
         String senha2crip = Base64Crypt.encoder(senha2);
         
-        user.setId(ParseInteger.tryParseToInt(txtCod.getText()));
-        user.setNome(txtUsuario.getText());
-        user.setSenha1(senha1crip);
-        user.setSenha2(senha2crip);
-        
+        usuarioPersist.setId(ParseInteger.tryParseToInt(txtCod.getText()));
+        usuarioPersist.setNome(txtUsuario.getText());
+        usuarioPersist.setSenha1(senha1crip);
+        usuarioPersist.setSenha2(senha2crip);
         Date input = dtaCadastro.getDate();
         LocalDate dtaCadastramento = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        user.setDataCad(dtaCadastramento);
+        usuarioPersist.setDataCad(dtaCadastramento);
+        usuarioPersist.setUsuario(getSession());
+                
     }
     
     private void erasedComponents() {
@@ -552,7 +553,7 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         if(service == null){
             JOptionPane.showMessageDialog(this, "UserService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        service.insertOrUpdate(user);
+        service.insertOrUpdate(usuarioPersist);
         erasedComponents();
         findAll();
     }
@@ -562,7 +563,7 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
         if(service == null){
             JOptionPane.showMessageDialog(this, "UserService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        service.delete(user);
+        service.delete(usuarioPersist);
         erasedComponents();
         findAll();
         btnDelete.setEnabled(false);
@@ -600,20 +601,27 @@ public class CadUsuarioGUI extends javax.swing.JDialog {
     }
     
     private void getTable(){
-        user = new Usuario();
+        usuarioPersist = new Usuario();
         if(tableUser.getSelectedRow() != -1){
-            user = tableModel.getObject(tableUser.getSelectedRow());
-            txtCod.setText(user.getId().toString());
-            txtUsuario.setText(user.getNome());
-            txtSenha1.setText(Base64Crypt.decoder(user.getSenha1()));
-            txtSenha2.setText(Base64Crypt.decoder(user.getSenha2()));
-            dtaCadastro.setDate(Date.from(user.getDataCad().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            usuarioPersist = tableModel.getObject(tableUser.getSelectedRow());
+            txtCod.setText(usuarioPersist.getId().toString());
+            txtUsuario.setText(usuarioPersist.getNome());
+            txtSenha1.setText(Base64Crypt.decoder(usuarioPersist.getSenha1()));
+            txtSenha2.setText(Base64Crypt.decoder(usuarioPersist.getSenha2()));
+            dtaCadastro.setDate(Date.from(usuarioPersist.getDataCad().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             btnDelete.setEnabled(true);
         }
     }
 
-    public Usuario getObject(){
-        return user;
+    private Usuario getSession() {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;
+    }
+    
+    public Usuario getUsuarioPersist(){
+        return usuarioPersist;
     }
     
     public boolean verifyComp(){

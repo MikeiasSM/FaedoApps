@@ -9,7 +9,9 @@ import br.com.faedocaminhoes.model.Fabricante;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -23,7 +25,8 @@ public class VeiculoTableModel extends AbstractTableModel{
                                       "Modelo",
                                       "Fabricante",
                                       "Cor",
-                                      "Placa","Usuario"};
+                                      "Placa",
+                                      "Usuario"};
 
     
     @Override
@@ -49,7 +52,7 @@ public class VeiculoTableModel extends AbstractTableModel{
             case 1:
                 return dados.get(linhaIndex).getModelo();
             case 2:    
-                return dados.get(linhaIndex).getProvider();
+                return dados.get(linhaIndex).getFabricante();
             case 3:
                 return dados.get(linhaIndex).getCor();
             case 4:
@@ -69,7 +72,7 @@ public class VeiculoTableModel extends AbstractTableModel{
             case 1:
                 dados.get(linhaIndex).setModelo((String) valor);
             case 2:
-                dados.get(linhaIndex).setProvider((Fabricante) valor);
+                dados.get(linhaIndex).setFabricante((Fabricante) valor);
             case 3:
                 dados.get(linhaIndex).setCor((String) valor);
             case 4:

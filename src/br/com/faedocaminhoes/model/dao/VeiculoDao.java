@@ -18,6 +18,6 @@ public interface VeiculoDao {
     public void update(Veiculo obj);
     public void delete(Veiculo obj);
     public List<Veiculo> findAll();
-    public Veiculo findById(Integer obj);
+    public Veiculo findById(Veiculo obj);
     
 }

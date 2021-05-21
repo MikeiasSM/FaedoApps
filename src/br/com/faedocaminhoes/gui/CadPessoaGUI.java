@@ -9,6 +9,7 @@ import br.com.faedocaminhoes.gui.tablemodel.PessoaTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
@@ -24,8 +25,14 @@ import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -36,9 +43,11 @@ import javax.swing.text.MaskFormatter;
 public final class CadPessoaGUI extends javax.swing.JDialog {
 
     private Pessoa person;
-    private Veiculo vehicle;
+    private Veiculo veiculo;
     private Usuario usuario;
+    private Empresa empresa;
     private PessoaService personService;
+    private VeiculoService veiculoService;
     private final PessoaTableModel tableModel = new PessoaTableModel();
     private final VeiculoTableModel tableModelVehicle = new VeiculoTableModel();
     private MaskFormatter maskTelefone;
@@ -53,10 +62,11 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         initComponents();
     }
     
-    public CadPessoaGUI(java.awt.Frame parent, boolean modal, PessoaService pService, Usuario usuario) {
+    public CadPessoaGUI(java.awt.Frame parent, boolean modal, PessoaService pService, VeiculoService veiculoService, Usuario usuario) {
         super(parent, modal);
         initComponents();
         setPessoaService(pService);
+        setVeiculoService(veiculoService);
         setUsuario(usuario);
         initProps();
     }
@@ -81,10 +91,6 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        btnExit = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
         btnAddVehicle = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableVehicle = new javax.swing.JTable();
@@ -100,6 +106,11 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        btnSave = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Next Software ₢ - Cadastro de Pessoas");
@@ -126,35 +137,6 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("E-mail.:");
-
-        btnExit.setText("Sair");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
-            }
-        });
-
-        btnCancel.setText("Cancelar");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setText("Deletar");
-        btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        btnSave.setText("Salvar");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
 
         btnAddVehicle.setText("Adicionar Veiculo");
         btnAddVehicle.addActionListener(new java.awt.event.ActionListener() {
@@ -204,23 +186,11 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAddVehicle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemoVeiculo))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtNome)
@@ -231,18 +201,22 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
                                     .addGap(11, 11, 11)
                                     .addComponent(rdoJuridica))))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtEmail))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(lblCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAddVehicle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoVeiculo)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -270,18 +244,12 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddVehicle)
                     .addComponent(btnRemoVeiculo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExit)
-                    .addComponent(btnCancel)
-                    .addComponent(btnDelete)
-                    .addComponent(btnSave))
                 .addGap(0, 9, Short.MAX_VALUE))
         );
 
@@ -331,9 +299,9 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(237, Short.MAX_VALUE)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,17 +341,57 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
             .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(153, 153, 153)));
+
+        btnSave.setText("Salvar");
+        btnSave.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnSave);
+
+        btnDelete.setText("Deletar");
+        btnDelete.setEnabled(false);
+        btnDelete.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnDelete);
+
+        btnCancel.setText("Cancelar");
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnCancel);
+
+        btnExit.setText("Sair");
+        btnExit.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnExit);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,7 +401,8 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -430,7 +439,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVehicleActionPerformed
-        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VeiculoService(), new FabricanteService(), usuario);
+        CadVeiculoGUI vehicle = new CadVeiculoGUI(null, true, new VeiculoService(), new FabricanteService(), getSession());
         vehicle.setLocationRelativeTo(this);
         vehicle.setVisible(true);
         importObject(vehicle.getObject());
@@ -533,6 +542,7 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCpf;
@@ -606,6 +616,12 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         return this.personService = personService;
     }
     
+    public VeiculoService setVeiculoService(VeiculoService veiculoService){
+        return this.veiculoService = veiculoService;
+    }
+    
+    
+    
     private void save(){
         completeData();
         if(personService == null){
@@ -634,24 +650,14 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         if(personService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        List<Pessoa> list = personService.findAll();
-        
-        if(list != null){
-            tableModel.removeAll();
-            for(Pessoa p : list){
-                tableModel.addRow(p);
-            } 
-        }else{
-            throw new IllegalAccessError("List was null");
-        }
+        Set<Pessoa> list = new LinkedHashSet<>(personService.findAll());
+                
+        tableModel.removeAll();
+        for(Pessoa p : list){
+            tableModel.addRow(p);
+        }        
     }
-    private void findAllVehicles(){
-        if(personService == null){
-            JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
-        }
         
-    }
-    
     private void findWithParameter(String pParam){
         if(personService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
@@ -667,19 +673,30 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         }        
     }
     
-    private void importObject(Veiculo pVehicle){
-        vehicle = pVehicle;
-        if(pVehicle == null){
-            throw new IllegalAccessError("pVehicle was null");
+    private void importObject(Veiculo pVeiculo){
+        if(pVeiculo == null){
+            throw new IllegalAccessError("pVeiculo was null");
         }
-        vehicle = pVehicle;
-        tableModelVehicle.addRow(pVehicle);
+        veiculo = pVeiculo;
         
-        System.out.println(pVehicle);
+        if(!tableModelVehicle.getList().contains(veiculo)){
+            tableModelVehicle.addRow(veiculo);
+        
+        }else{
+            
+            for(Veiculo p : tableModelVehicle.getList()){
+                if(p.getId().equals(veiculo.getId())){
+                    tableModelVehicle.getList().remove(p);
+                    tableModelVehicle.addRow(veiculo);
+                }
+            }
+            
+        }
     }
 
     private void completeData(){
         person = new Pessoa();
+        
         person.setId(ParseInteger.tryParseToInt(txtCod.getText()));
         person.setNome(txtNome.getText());
         if(rdoFisica.isSelected()){
@@ -690,21 +707,24 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
         person.setCpf_cnpj(txtCpf.getText().trim());
         person.setTelefone(txtTelefone.getText());
         person.setEmail(txtEmail.getText());
-        if(usuario != null){
-            person.setUsuario(usuario);
-        }else{
-            throw new IllegalAccessError("Usuario was null");
-        }        
+        person.setUsuario(getSession());
+             
     }
     
     private void setModel(){
         tablePessoa.setModel(tableModel);   
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tablePessoa.getModel());
+        this.tablePessoa.setRowSorter(sorter);
+        
         tablePessoa.setDefaultRenderer(Object.class, new PessoaTableRenderer());
+        tablePessoa.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tablePessoa.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
         tablePessoa.getColumnModel().getColumn(1).setPreferredWidth(300); //NOME
         tablePessoa.getColumnModel().getColumn(2).setPreferredWidth(200); //CPF
         tablePessoa.getColumnModel().getColumn(3).setPreferredWidth(200); //TELEFONE
         tablePessoa.getColumnModel().getColumn(4).setPreferredWidth(300); //EMAIL
+        tablePessoa.getColumnModel().getColumn(5).setPreferredWidth(100); //USUARIO
+        tablePessoa.getColumnModel().getColumn(6).setPreferredWidth(100); //USUARIO
     }
     
     private void getTable(){
@@ -741,7 +761,17 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
     
     private void setModelVehicle(){
         tableVehicle.setModel(tableModelVehicle);   
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableVehicle.getModel());
+        this.tableVehicle.setRowSorter(sorter);
+        
         tableVehicle.setDefaultRenderer(Object.class, new VeiculoTableRenderer());
+        tablePessoa.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableVehicle.getColumnModel().getColumn(0).setPreferredWidth(70); //CODIGO
+        tableVehicle.getColumnModel().getColumn(1).setPreferredWidth(200); //NOME
+        tableVehicle.getColumnModel().getColumn(2).setPreferredWidth(200); //CPF
+        tableVehicle.getColumnModel().getColumn(3).setPreferredWidth(100); //TELEFONE
+        tableVehicle.getColumnModel().getColumn(4).setPreferredWidth(100); //EMAIL
+        tableVehicle.getColumnModel().getColumn(5).setPreferredWidth(100); //EMAIL
     }
     
     private void removeVeiculo(){
@@ -809,5 +839,12 @@ public final class CadPessoaGUI extends javax.swing.JDialog {
             return false;
         }        
         
+    }    
+    
+    private Usuario getSession() {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;
     }
 }

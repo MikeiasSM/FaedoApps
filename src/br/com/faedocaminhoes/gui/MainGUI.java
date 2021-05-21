@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.connection.Config;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.AbastecimentoService;
 import br.com.faedocaminhoes.model.service.CategoriaService;
@@ -37,6 +38,7 @@ public class MainGUI extends DimensionFrame {
 
     
     private Usuario usuario;
+    private Empresa empresa;
     /**
      * Creates new form Main
      */
@@ -99,6 +101,7 @@ public class MainGUI extends DimensionFrame {
         lblPatch = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator10 = new javax.swing.JSeparator();
+        lblEmpresa = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nextsoft Software ₢");
@@ -116,7 +119,7 @@ public class MainGUI extends DimensionFrame {
         panePrincipal.setBackground(new java.awt.Color(255, 255, 255));
         panePrincipal.setLayout(new java.awt.BorderLayout());
 
-        paneMenu.setBackground(new java.awt.Color(255, 255, 255));
+        paneMenu.setBackground(new java.awt.Color(50, 75, 143));
 
         Menu.setBackground(new java.awt.Color(255, 255, 255));
         Menu.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -732,6 +735,10 @@ public class MainGUI extends DimensionFrame {
 
         jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        lblEmpresa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblEmpresa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblEmpresa.setText("Empresa:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -745,16 +752,21 @@ public class MainGUI extends DimensionFrame {
                 .addComponent(lblUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1050, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEmpresa)
+                .addContainerGap(998, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(lblPatch, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator1)
-                .addComponent(jSeparator10))
+                .addComponent(lblEmpresa)
+                .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblPatch, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.CENTER)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.CENTER)
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblEmpresa, lblPatch, lblUser});
 
         paneApp.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -779,9 +791,9 @@ public class MainGUI extends DimensionFrame {
         LoginGUI login = new LoginGUI(this, true, new UsuarioService(), new EmpresaService());
         login.setLocationRelativeTo(this);
         login.setVisible(true);
-        setUsuario(login.getUsuario());
+        setUsuarioEmpresa(login.getUsuario(), login.getEmpresa());
         loadFooter();
-
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -850,19 +862,19 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblCadPessoaMouseEntered
 
     private void lblCadPessoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadPessoaMouseClicked
-        CadPessoaGUI cadCliente = new CadPessoaGUI(this, true, new PessoaService(), usuario);
+        CadPessoaGUI cadCliente = new CadPessoaGUI(this, true, new PessoaService(), new VeiculoService(), getSession());
         cadCliente.setLocationRelativeTo(cadCliente);
         cadCliente.setVisible(true);
     }//GEN-LAST:event_lblCadPessoaMouseClicked
 
     private void lblCadUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadUsuarioMouseClicked
-        CadUsuarioGUI cadUsuario = new CadUsuarioGUI(this, true, new UsuarioService());
+        CadUsuarioGUI cadUsuario = new CadUsuarioGUI(this, true, new UsuarioService(), getSession());
         cadUsuario.setLocationRelativeTo(cadUsuario);
         cadUsuario.setVisible(true);
     }//GEN-LAST:event_lblCadUsuarioMouseClicked
 
     private void lblCadProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadProdutoMouseClicked
-        CadProdutoGUI cadProduto = new CadProdutoGUI(this, true, new ProdutoService(), new CategoriaService(), usuario);
+        CadProdutoGUI cadProduto = new CadProdutoGUI(this, true, new ProdutoService(), new CategoriaService(), getSession());
         cadProduto.setLocationRelativeTo(cadProduto);
         cadProduto.setVisible(true);
         
@@ -939,7 +951,7 @@ public class MainGUI extends DimensionFrame {
         LoginGUI login = new LoginGUI(this, true, new UsuarioService(), new EmpresaService());
         login.setLocationRelativeTo(this);
         login.setVisible(true);
-        setUsuario(login.getUsuario());
+        setUsuarioEmpresa(login.getUsuario(), login.getEmpresa());
         loadFooter();
     }//GEN-LAST:event_lblArqMudaUserMouseClicked
 
@@ -991,7 +1003,8 @@ public class MainGUI extends DimensionFrame {
                                                                         new ProdutoService(),
                                                                         new PessoaService(),
                                                                         new VeiculoService(),
-                                                                        usuario);
+                                                                        getSession(), 
+                                                                        getEmpresa());
         cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
         cadAbastecimento.setVisible(true);
     }//GEN-LAST:event_lblConsumoGasMouseClicked
@@ -1007,7 +1020,7 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblConsumoGasMouseExited
 
     private void lblCadFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadFornecedorMouseClicked
-        CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(this, true, new FornecedorService(), usuario);
+        CadFornecedorGUI cadFornecedor = new CadFornecedorGUI(this, true, new FornecedorService(), getSession());
         cadFornecedor.setLocationRelativeTo(cadFornecedor);
         cadFornecedor.setVisible(true);
     }//GEN-LAST:event_lblCadFornecedorMouseClicked
@@ -1023,7 +1036,7 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblCadFornecedorMouseExited
 
     private void lblAddConsumoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddConsumoMouseClicked
-        AbastecimentoGUI cadAbastecimento = new AbastecimentoGUI(this, true, new AbastecimentoService(), new ProdutoService(), usuario);
+        AbastecimentoGUI cadAbastecimento = new AbastecimentoGUI(this, false, new AbastecimentoService(), new ProdutoService(), getSession(), getEmpresa());
         cadAbastecimento.setLocationRelativeTo(cadAbastecimento);
         cadAbastecimento.setVisible(true);
     }//GEN-LAST:event_lblAddConsumoMouseClicked
@@ -1055,7 +1068,7 @@ public class MainGUI extends DimensionFrame {
     }//GEN-LAST:event_lblArqParametros1MouseExited
 
     private void lblCadEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadEmpresaMouseClicked
-        CadEmpresaGUI cadEmpresa = new CadEmpresaGUI(this, true, new EmpresaService(), new CidadeService(), usuario);
+        CadEmpresaGUI cadEmpresa = new CadEmpresaGUI(this, true, new EmpresaService(), new CidadeService(), getSession());
         cadEmpresa.setLocationRelativeTo(cadEmpresa);
         cadEmpresa.setVisible(true);
     }//GEN-LAST:event_lblCadEmpresaMouseClicked
@@ -1192,6 +1205,7 @@ public class MainGUI extends DimensionFrame {
     private javax.swing.JLabel lblCadProduto;
     private javax.swing.JLabel lblCadUsuario;
     private javax.swing.JLabel lblConsumoGas;
+    private javax.swing.JLabel lblEmpresa;
     private javax.swing.JLabel lblLancamento;
     private javax.swing.JLabel lblPatch;
     private javax.swing.JLabel lblUser;
@@ -1204,8 +1218,9 @@ public class MainGUI extends DimensionFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     }
     
-    private void setUsuario(Usuario usuario){
+    private void setUsuarioEmpresa(Usuario usuario, Empresa empresa){
         this.usuario = usuario;
+        this.empresa = empresa;
     }
     
     private void initComp(){
@@ -1228,21 +1243,27 @@ public class MainGUI extends DimensionFrame {
     
     private void loadFooter(){
         Config c = PropertyUtils.lerPropriedades();
-        lblPatch.setText("Patch: "+ c.getPatch());
-        lblUser.setText("Usuário: "+ usuario.getNome());
+        lblPatch.setText("Patch: "+ c.getHost()+":"+c.getPort()+"/"+c.getData());
+        lblUser.setText("Usuário: "+ getSession().getNome());
+        lblEmpresa.setText("Empresa: "+getEmpresa().getRazao());
     }
     
     private void initView(){
         Splash splash = new Splash(null, true);
         splash.setVisible(true);
     }
-//        
-//    private void initEntityManager(){
-//        try{
-//            EntityManager em = new ConnectionFactory().getConection();
-//        }catch(Exception e){
-//            JPaneError.showErrorDialog(this, "Erro ao iniciar o serviço.", e);
-//        }
-//    }
+
+    private Usuario getSession(){
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;  
+    }
+    private Empresa getEmpresa(){
+        if(empresa == null){
+            throw new IllegalArgumentException("Empresa was null!");
+        }
+        return empresa;  
+    }
     
 }

@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -31,21 +32,25 @@ public class Produto implements Serializable{
     private Integer id;
     private String nome;
     @ManyToOne
-    @JoinColumn(name = "idCategoria", nullable = false)
+    @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaProd categoria;
     private BigDecimal valor;
     @OneToMany(mappedBy = "produto")
-    private List<Abastecimento> abastecimentos;
+    private List<Abastecimento> abastecimentos = new ArrayList<Abastecimento>();
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = true)
+    private Usuario usuario;
     
     public Produto(){
         
     }
 
-    public Produto(Integer id, String nome, CategoriaProd categoria, BigDecimal valor) {
+    public Produto(Integer id, String nome, CategoriaProd categoria, BigDecimal valor, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.valor = valor;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -80,6 +85,22 @@ public class Produto implements Serializable{
         this.valor = valor;
     }
 
+    public List<Abastecimento> getAbastecimentos() {
+        return abastecimentos;
+    }
+
+    public void setAbastecimentos(List<Abastecimento> abastecimentos) {
+        this.abastecimentos = abastecimentos;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

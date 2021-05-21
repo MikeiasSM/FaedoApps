@@ -127,10 +127,11 @@ public class UsuarioDaoJPA implements UsuarioDao{
         Usuario user = null;
         
         try{
-            user = em.find(Usuario.class, pUser);
+            String sql = "SELECT u FROM Usuario u WHERE u.id = "+pUser.getId();
+            user = (Usuario) em.createQuery(sql).getSingleResult();
         
             if(user == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalAccessError("Registro não encontrado!");
             }
             return user;                

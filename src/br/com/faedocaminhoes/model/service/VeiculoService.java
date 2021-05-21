@@ -59,7 +59,7 @@ public class VeiculoService {
         }
     }
 
-    public Veiculo findById(Integer pVehicle){
+    public Veiculo findById(Veiculo pVehicle){
         if(pVehicle != null){
            Veiculo ve = vehicleDao.findById(pVehicle);
            return ve;

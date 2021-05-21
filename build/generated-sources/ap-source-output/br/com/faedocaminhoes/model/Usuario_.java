@@ -11,12 +11,14 @@ public abstract class Usuario_ {
 
 	public static volatile SingularAttribute<Usuario, LocalDate> dataCad;
 	public static volatile SingularAttribute<Usuario, String> nome;
+	public static volatile SingularAttribute<Usuario, Usuario> usuario;
 	public static volatile SingularAttribute<Usuario, Integer> id;
 	public static volatile SingularAttribute<Usuario, String> senha1;
 	public static volatile SingularAttribute<Usuario, String> senha2;
 
 	public static final String DATA_CAD = "dataCad";
 	public static final String NOME = "nome";
+	public static final String USUARIO = "usuario";
 	public static final String ID = "id";
 	public static final String SENHA1 = "senha1";
 	public static final String SENHA2 = "senha2";

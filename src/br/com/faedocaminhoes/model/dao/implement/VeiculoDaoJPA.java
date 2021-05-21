@@ -99,7 +99,7 @@ public class VeiculoDaoJPA implements VeiculoDao{
         List<Veiculo> vehicle = null;
         
         try{
-            vehicle = em.createQuery("SELECT v FROM Veiculo v ORDER BY v.placa asc").getResultList();
+            vehicle = em.createQuery("SELECT v FROM Veiculo v JOIN FETCH v.pessoas ORDER BY v.id").getResultList();
             
             if(vehicle.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
@@ -120,15 +120,16 @@ public class VeiculoDaoJPA implements VeiculoDao{
     }
 
     @Override
-    public Veiculo findById(Integer pVehicle) {
+    public Veiculo findById(Veiculo pVehicle) {
         em = new ConnectionFactory().getConection();
         Veiculo vehicle = null;
         
         try{
-            vehicle = em.find(Veiculo.class, pVehicle);
+            String sql = "SELECT u FROM Veiculo u WHERE u.id = "+pVehicle.getId();
+            vehicle = (Veiculo) em.createQuery(sql).getSingleResult();
         
             if(vehicle == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalAccessError("Registro não encontrado!");
             }
             return vehicle;                

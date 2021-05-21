@@ -603,6 +603,10 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         return this.usuario = usuario;
     }
     
+    private Empresa setEmpresa(Empresa empresa){
+        return this.empresa = empresa;
+    }
+    
     private void initComp() {
         setIco();
         setModel();
@@ -694,6 +698,11 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         Date date = dtaCadastro.getDate();
         LocalDate dateF = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         empresa.setData_cadastro(dateF);
+        if(usuario != null){
+            empresa.setUsuario(usuario);
+        }else{
+            throw new IllegalArgumentException("Usuario was null!");
+        }
     }
     
     private void setModel(){
@@ -709,7 +718,8 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
         tableEmpresa.getColumnModel().getColumn(6).setPreferredWidth(300); //EMAIL
         tableEmpresa.getColumnModel().getColumn(7).setPreferredWidth(300); //LOGRADOURO
         tableEmpresa.getColumnModel().getColumn(8).setPreferredWidth(250); //BAIRRO
-        tableEmpresa.getColumnModel().getColumn(9).setPreferredWidth(250); //CIDADE
+        tableEmpresa.getColumnModel().getColumn(9).setPreferredWidth(150); //CIDADE
+        tableEmpresa.getColumnModel().getColumn(10).setPreferredWidth(100); //USUARIO
     }
     
     private void getTable(){
@@ -726,6 +736,8 @@ public final class CadEmpresaGUI extends javax.swing.JDialog {
             txtLogradouro.setText(empresa.getLogradouro());
             txtBairro.setText(empresa.getBairro());
             cbCidade.setSelectedItem((Cidade)empresa.getCidade());
+            Date date = Date.from(empresa.getData_cadastro().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            dtaCadastro.setDate(date);
             
             btnDelete.setEnabled(true);
         }

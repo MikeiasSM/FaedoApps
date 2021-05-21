@@ -10,14 +10,11 @@ import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.EmpresaService;
 import br.com.faedocaminhoes.model.service.UsuarioService;
 import br.com.faedocaminhoes.uteis.Base64Crypt;
+import br.com.faedocaminhoes.uteis.JOptionPaneError;
 import br.com.faedocaminhoes.uteis.UpperCase;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComponent;
-import javax.swing.JList;
+import javax.persistence.NoResultException;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +24,7 @@ import javax.swing.JOptionPane;
 public final class LoginGUI extends javax.swing.JDialog{
 
     private Usuario usuario;
+    private Empresa empresa;
     private UsuarioService usuarioService;
     private EmpresaService empresaService;
     /**
@@ -60,12 +58,12 @@ public final class LoginGUI extends javax.swing.JDialog{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        cbEmpresa = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         txtSenha = new javax.swing.JPasswordField();
         btnEntrar = new keeptoo.KButton();
         btnSair = new keeptoo.KButton();
+        cbEmpresa = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
@@ -98,10 +96,6 @@ public final class LoginGUI extends javax.swing.JDialog{
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Login");
         jLabel5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-
-        cbEmpresa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        cbEmpresa.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(33, 150, 243)));
-        cbEmpresa.setOpaque(false);
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -184,10 +178,10 @@ public final class LoginGUI extends javax.swing.JDialog{
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                    .addComponent(cbEmpresa, 0, 245, Short.MAX_VALUE)
                     .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                     .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbEmpresa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         paneLoginLayout.setVerticalGroup(
@@ -205,13 +199,13 @@ public final class LoginGUI extends javax.swing.JDialog{
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel7)
-                    .addComponent(cbEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         paneLoginLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbEmpresa, jLabel7});
@@ -246,8 +240,7 @@ public final class LoginGUI extends javax.swing.JDialog{
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         if(verifyComps()){
-            setUsuario(validaUsuario());
-            this.dispose();
+            execute();
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
@@ -320,20 +313,33 @@ public final class LoginGUI extends javax.swing.JDialog{
         return this.usuarioService = usuarioService;
     }
     
+    private void execute(){
+        try {
+            popEmpresa();
+            setUsuario(validaUsuario());
+            setEmpresa();
+            this.dispose();
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        } catch(NoResultException e){
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            JOptionPaneError.showErrorDialog(this, "Erro não catalogado!\nEncerrando aplicação.", e);
+            e.printStackTrace();
+            System.exit(0);
+        } catch (Exception e) {
+            JOptionPaneError.showErrorDialog(this, "Erro não catalogado!\nEncerrando aplicação.", e);
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
     private void initComp(){
         txtUser.setDocument(new UpperCase());       
-        cbEmpresa.setOpaque(false);
-        popEmpresa();
-        cbEmpresa.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list, Object value,
-                int index, boolean isSelected, boolean cellHasFocus) {
-                JComponent result = (JComponent) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                result.setOpaque(false);
-                result.setBackground(new Color(0,0,0,0));
-                return result;
-            }
-        });        
+        try{
+            popEmpresa();
+        }catch(IllegalArgumentException e){
+            System.exit(0);
+        }
         
         txtUser.addKeyListener(new KeyListener() {
             @Override
@@ -342,8 +348,7 @@ public final class LoginGUI extends javax.swing.JDialog{
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (verifyComps()) {
-                        setUsuario(validaUsuario());
-                        dispose();
+                        execute();
                     }
                 }
             }
@@ -358,15 +363,27 @@ public final class LoginGUI extends javax.swing.JDialog{
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (verifyComps()) {
-                        setUsuario(validaUsuario());
-                        dispose();
+                        execute();
                     }
                 }
             }
             @Override
             public void keyReleased(KeyEvent e) {}
         });
-        
+        cbEmpresa.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (verifyComps()) {
+                        execute();
+                    }
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
     }
     
     private Usuario validaUsuario() {
@@ -397,8 +414,20 @@ public final class LoginGUI extends javax.swing.JDialog{
         }
     }
     
+    private void setEmpresa(){
+        if(cbEmpresa.getSelectedItem() != null){
+            this.empresa = (Empresa) cbEmpresa.getSelectedItem();
+        }else{
+            JOptionPane.showMessageDialog(this, "Empresa was null", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     public Usuario getUsuario(){
         return usuario;
+    }
+    
+    public Empresa getEmpresa(){
+        return empresa;
     }
     
     private boolean verifyComps(){

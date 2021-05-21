@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.gui.tablemodel.FornecedorTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.PessoaTableRenderer;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.FornecedorService;
@@ -19,6 +20,8 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -35,6 +38,7 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
     private MaskFormatter maskCnpj;
     private ValidaDocumento validaDocumento = new ValidaDocumento();
     private Usuario usuario;
+    private Empresa empresa;
     
     /**
      * Creates new form PessoaGui
@@ -555,22 +559,22 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
 
     private void completeData(){
         fornecedor = new Fornecedor();
+               
         fornecedor.setId(ParseInteger.tryParseToInt(txtCod.getText()));
         fornecedor.setRazao(txtRazao.getText());
         fornecedor.setFantasia(txtFantasia.getText());
         fornecedor.setCpf_cnpj(txtCnpj.getText());
         fornecedor.setTelefone(txtTelefone.getText());
         fornecedor.setEmail(txtEmail.getText());
-        if(usuario != null){
-            fornecedor.setUsuario(usuario);
-        }else{
-            throw new IllegalAccessError("Usuario was null");
-        }
-            
+        fornecedor.setUsuario(getSession());
+                   
     }
     
     private void setModel(){
         tableFornecedor.setModel(tableModel);   
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableFornecedor.getModel());
+        this.tableFornecedor.setRowSorter(sorter);
+        
         tableFornecedor.setDefaultRenderer(Object.class, new PessoaTableRenderer());
         tableFornecedor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableFornecedor.getColumnModel().getColumn(0).setPreferredWidth(50); //CODIGO
@@ -579,6 +583,8 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         tableFornecedor.getColumnModel().getColumn(3).setPreferredWidth(180); //CPF/CNPJ
         tableFornecedor.getColumnModel().getColumn(4).setPreferredWidth(180); //TELEFONE
         tableFornecedor.getColumnModel().getColumn(5).setPreferredWidth(300); //EMAIL
+        tableFornecedor.getColumnModel().getColumn(5).setPreferredWidth(200); //USUARIO
+        tableFornecedor.getColumnModel().getColumn(5).setPreferredWidth(200); //EMPRESA
     }
     
     private void getTable(){
@@ -664,4 +670,10 @@ public final class CadFornecedorGUI extends javax.swing.JDialog {
         }   
     }
     
+    private Usuario getSession() {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;
+    }
 }

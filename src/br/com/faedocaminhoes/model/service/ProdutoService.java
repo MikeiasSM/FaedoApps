@@ -28,7 +28,7 @@ public class ProdutoService {
                 produtoDao.update(produto);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -37,7 +37,7 @@ public class ProdutoService {
         if(produtoDao != null && produto != null){
             produtoDao.insert(produto);
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -57,19 +57,20 @@ public class ProdutoService {
     
     public void delete(Produto obj){
         produto = obj;
+        System.out.println(produto);
         if(produtoDao != null && produto != null){
             produtoDao.delete(produto);
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public Produto findById(Produto obj){
-        if(produtoDao != null && produto != null){
-           Produto p = produtoDao.findById(produto);
+        if(produtoDao != null && obj != null){
+           Produto p = produtoDao.findById(obj);
            return p;
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             return null;
         }                
     }
@@ -79,7 +80,7 @@ public class ProdutoService {
         List<Produto> listPessoa = produtoDao.findAll();
         return listPessoa;
         } else{
-            JOptionPane.showMessageDialog(null, "Service is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Service is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -94,7 +95,7 @@ public class ProdutoService {
                 return null;
             }            
         }else{
-            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             System.out.println(produto);
             return null;
         }

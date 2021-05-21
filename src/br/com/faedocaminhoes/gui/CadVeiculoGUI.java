@@ -7,8 +7,8 @@ package br.com.faedocaminhoes.gui;
 
 import br.com.faedocaminhoes.gui.tablemodel.VeiculoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.VeiculoTableRenderer;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Fabricante;
-import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.Veiculo;
 import br.com.faedocaminhoes.model.service.FabricanteService;
@@ -19,8 +19,12 @@ import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -30,10 +34,12 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
 
     private Veiculo vehicle;
     private Usuario usuario;
+    private Empresa empresa;
     private Fabricante provider;
     private VeiculoService vehicleService;
     private FabricanteService providerService;
     private final VeiculoTableModel tableModel = new VeiculoTableModel();
+    private List<Veiculo> listTemp = new ArrayList<Veiculo>();
     
     /**
      * Creates new form CadVeiculosGUI
@@ -101,6 +107,8 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         tableVehicle = new javax.swing.JTable();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Next Software ₢ - Cadastro de Veiculos");
@@ -276,7 +284,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(248, Short.MAX_VALUE)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
@@ -295,21 +303,45 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, txtSearch});
 
+        jPanel5.setBackground(new java.awt.Color(51, 76, 145));
+        jPanel5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Novo Veiculo");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,6 +378,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if(verifyComp()){
             save();
+            this.dispose();
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -429,6 +462,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<Object> cbProvider;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -436,6 +470,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableVehicle;
     private javax.swing.JTextField txtCodVehicle;
@@ -464,10 +499,10 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private void save(){
         completeData();
         if(vehicle == null){
-            JOptionPane.showMessageDialog(this, "VehicleService was null", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "VeiculoService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
         vehicleService.insertOrUpdate(vehicle);
-        erasedComponents();
+        erasedComponents(); 
         findAll();
     }
     
@@ -483,23 +518,17 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         btnDelete.setEnabled(false);
     }
     
-    private void findAll(){
-        if(vehicleService == null){
+    private void findAll() {
+        if (vehicleService == null) {
             JOptionPane.showMessageDialog(this, "VehicleService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        List<Veiculo> list = vehicleService.findAll();
-        
-        if(list != null){
-            tableModel.removeAll();
-            for(Veiculo p : list){
-                tableModel.addRow(p);
-            } 
-        }else{
-            throw new IllegalAccessError("List was null");
+        tableModel.removeAll();
+        for(Veiculo p : vehicleService.findAll()){
+            tableModel.addRow(p);
         }
     }
-    
-     private void findWithParameterIncrement(String pParam){
+        
+    private void findWithParameterIncrement(String pParam){
         if(vehicleService == null){
             JOptionPane.showMessageDialog(this, "ProviderService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -545,7 +574,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
             txtModelo.setText(vehicle.getModelo());
             txtCor.setText(vehicle.getCor());
             txtPlaca.setText(vehicle.getPlaca());
-            cbProvider.setSelectedItem((Fabricante)vehicle.getProvider());
+            cbProvider.setSelectedItem((Fabricante)vehicle.getFabricante());
             btnDelete.setEnabled(true);
         }
     }
@@ -567,16 +596,14 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     
     private void completeData(){
         vehicle = new Veiculo();
+      
         vehicle.setId(ParseInteger.tryParseToInt(txtCodVehicle.getText()));
         vehicle.setModelo(txtModelo.getText());
-        vehicle.setProvider((Fabricante)cbProvider.getSelectedItem());
+        vehicle.setFabricante((Fabricante)cbProvider.getSelectedItem());
         vehicle.setCor(txtCor.getText());
         vehicle.setPlaca(txtPlaca.getText()); 
-        if(usuario != null){
-            vehicle.setUsuario(usuario);
-        }else{
-            throw new IllegalAccessError("Usuario was null");
-        }   
+        vehicle.setUsuario(getSession());
+           
     }
     
     public Veiculo getObject(){
@@ -590,6 +617,7 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
         txtPlaca.setText("");
         cbProvider.setSelectedItem(null);
         txtModelo.requestFocus();
+        
     }
     
     private void initComp() {
@@ -616,6 +644,13 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
     private void setModel(){
         tableVehicle.setModel(tableModel);   
         tableVehicle.setDefaultRenderer(Object.class, new VeiculoTableRenderer());
+        tableVehicle.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableVehicle.getColumnModel().getColumn(0).setPreferredWidth(70); //CODIGO
+        tableVehicle.getColumnModel().getColumn(1).setPreferredWidth(200); //NOME
+        tableVehicle.getColumnModel().getColumn(2).setPreferredWidth(200); //CPF
+        tableVehicle.getColumnModel().getColumn(3).setPreferredWidth(100); //TELEFONE
+        tableVehicle.getColumnModel().getColumn(4).setPreferredWidth(100); //EMAIL
+        tableVehicle.getColumnModel().getColumn(5).setPreferredWidth(100); //EMAIL
     }
     
     private boolean verifyComp(){        
@@ -638,5 +673,12 @@ public class CadVeiculoGUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, err,"FAEDO CAMINHÕES", JOptionPane.ERROR_MESSAGE);
             return false;
         }        
+    }
+    
+    private Usuario getSession() {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;
     }
 }

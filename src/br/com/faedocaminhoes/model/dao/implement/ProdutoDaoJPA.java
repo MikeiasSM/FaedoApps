@@ -7,13 +7,15 @@ package br.com.faedocaminhoes.model.dao.implement;
 
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.model.Produto;
-import br.com.faedocaminhoes.model.Fornecedor;
 import java.util.List;
 import br.com.faedocaminhoes.uteis.JPaneError;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import br.com.faedocaminhoes.model.dao.ProdutoDao;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -145,7 +147,9 @@ public class ProdutoDaoJPA implements ProdutoDao{
         Produto combustivel = null;
         
         try{
-            combustivel = em.find(Produto.class, obj.getId());
+            
+            String sql = "SELECT u FROM Produto u WHERE u.id = "+obj.getId()+" ORDER BY u.id";
+            combustivel = (Produto) em.createQuery(sql).getSingleResult();
         
             if(combustivel == null){
                 JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
@@ -168,9 +172,10 @@ public class ProdutoDaoJPA implements ProdutoDao{
         em = new ConnectionFactory().getConection();
         List<Produto> list = null;
         try{
-            String query = "SELECT p FROM Produto p WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
+            String query = "SELECT p FROM Produto u WHERE 1 = 1 AND p.nome LIKE '%"+pName+"%' ORDER BY p.id";
            
             list = em.createQuery(query).getResultList();
+            
             if (!list.isEmpty()) {
                 return list;
             } else {

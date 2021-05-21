@@ -5,21 +5,20 @@
  */
 package br.com.faedocaminhoes.gui;
 
+import br.com.faedocaminhoes.connection.Config;
 import br.com.faedocaminhoes.model.dao.implement.BackupRestore;
+import br.com.faedocaminhoes.uteis.PropertyUtils;
+import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Properties;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 /**
  *
@@ -35,29 +34,7 @@ public class BackupGUI extends javax.swing.JFrame {
      */
     public BackupGUI(){
         initComponents();
-        setIco();
-        
-        
-        txtDiretorio.setEditable(false);
-        txtDiretorioRes.setEditable(false);
-        rdoSemanal.setSelected(true);
-        try{
-            Properties prop = new Properties();
-            InputStream dad = new FileInputStream("c:\\access\\db.properties"); 
-            prop.load(dad);
-            String periodo = prop.getProperty("periodo_backup");
-            if(periodo.equals("DIA")){
-                rdoDiario.setSelected(true);
-            }else{
-                rdoSemanal.setSelected(true);
-            }            
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, e.getMessage(),"FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-        }catch(IOException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, e.getMessage(),"FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-        }
+        initComp();
     }
 
     /**
@@ -72,13 +49,12 @@ public class BackupGUI extends javax.swing.JFrame {
         File = new javax.swing.JFileChooser();
         gpRdo = new javax.swing.ButtonGroup();
         gpPeriodo = new javax.swing.ButtonGroup();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
+        tabPane = new javax.swing.JTabbedPane();
+        paneBackup = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        progressBar = new javax.swing.JProgressBar();
-        btnBackup = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtOutput = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         txtDiretorioRes = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -90,13 +66,15 @@ public class BackupGUI extends javax.swing.JFrame {
         rdoRestore = new javax.swing.JRadioButton();
         rdoBackup = new javax.swing.JRadioButton();
         rdoCreate = new javax.swing.JRadioButton();
-        jPanel1 = new javax.swing.JPanel();
+        btnBackup = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        paneConf = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         btnSair = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        txtNomeBanco = new javax.swing.JTextField();
+        txtHost = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -104,10 +82,14 @@ public class BackupGUI extends javax.swing.JFrame {
         txtSenha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtPorta = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        txtHost = new javax.swing.JTextField();
+        txtDriver = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtDialect = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        txtPort = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtDados = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         rdoDiario = new javax.swing.JRadioButton();
         rdoSemanal = new javax.swing.JRadioButton();
@@ -116,57 +98,34 @@ public class BackupGUI extends javax.swing.JFrame {
         setTitle("Next Software ₢ - Backup Restore");
         setResizable(false);
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tabPane.setOpaque(true);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        paneBackup.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel11.setText(" CompilingⓇ");
+        jLabel11.setText("Next SoftwareⓇ");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
-        btnBackup.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnBackup.setText("Iniciar");
-        btnBackup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackupActionPerformed(evt);
-            }
-        });
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setText("Sair");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        txtOutput.setColumns(20);
+        txtOutput.setRows(5);
+        jScrollPane1.setViewportView(txtOutput);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBackup)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -234,11 +193,11 @@ public class BackupGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnFileRes, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDiretorioRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_cloud_storage_36px.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/faedocaminhoes/icons/icons8_database_120px_1.png"))); // NOI18N
 
         rdoRestore.setBackground(new java.awt.Color(255, 255, 255));
         gpRdo.add(rdoRestore);
@@ -252,40 +211,66 @@ public class BackupGUI extends javax.swing.JFrame {
         gpRdo.add(rdoCreate);
         rdoCreate.setText("CreateDB");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+        btnBackup.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnBackup.setText("Iniciar");
+        btnBackup.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        btnBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackupActionPerformed(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jButton1.setText("Sair");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout paneBackupLayout = new javax.swing.GroupLayout(paneBackup);
+        paneBackup.setLayout(paneBackupLayout);
+        paneBackupLayout.setHorizontalGroup(
+            paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneBackupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(paneBackupLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBackup, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(paneBackupLayout.createSequentialGroup()
+                        .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(paneBackupLayout.createSequentialGroup()
                                 .addComponent(rdoBackup)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(rdoRestore)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rdoCreate)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(rdoCreate))
+                            .addComponent(jLabel11))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        paneBackupLayout.setVerticalGroup(
+            paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneBackupLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(paneBackupLayout.createSequentialGroup()
+                        .addComponent(btnBackup)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneBackupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdoBackup)
                         .addComponent(rdoRestore))
                     .addComponent(rdoCreate))
@@ -295,12 +280,12 @@ public class BackupGUI extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane1.addTab("Backup", jPanel4);
+        tabPane.addTab("Backup", paneBackup);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel13.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel13.setText(" CompilingⓇ");
+        jLabel13.setText("Next Software₢");
 
         btnSair.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSair.setText("Sair");
@@ -321,25 +306,25 @@ public class BackupGUI extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Criação do banco de dados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
 
-        txtNomeBanco.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtNomeBanco.setText("database");
+        txtHost.setEditable(false);
+        txtHost.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("(padrao = database)");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel4.setText("Banco de Dados");
+        jLabel4.setText("Host");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("(padrão = postgres)");
 
+        txtUsuario.setEditable(false);
         txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtUsuario.setText("postgres");
 
+        txtSenha.setEditable(false);
         txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtSenha.setText("admin");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Usúario");
@@ -347,19 +332,26 @@ public class BackupGUI extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setText("Senha");
 
-        txtPorta.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtPorta.setText("5432");
-        txtPorta.setEnabled(false);
+        txtDriver.setEditable(false);
+        txtDriver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDriverActionPerformed(evt);
+            }
+        });
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel14.setText("Porta");
+        jLabel8.setText("Persistence Driver");
 
-        txtHost.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtHost.setText("127.0.0.1");
-        txtHost.setEnabled(false);
+        txtDialect.setEditable(false);
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel10.setText("Host");
+        jLabel10.setText("Persistence Dialect");
+
+        txtPort.setEditable(false);
+
+        jLabel12.setText("Port");
+
+        txtDados.setEditable(false);
+
+        jLabel14.setText("Dados");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -368,62 +360,75 @@ public class BackupGUI extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNomeBanco)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsuario)
+                    .addComponent(txtSenha)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtSenha)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDriver)
+                    .addComponent(txtDialect)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(txtDados, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                .addContainerGap()
+                .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomeBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDialect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDriver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel12))
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(txtPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtDados, txtHost, txtPort});
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Periódicidade do Backup", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
@@ -482,7 +487,7 @@ public class BackupGUI extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
@@ -492,32 +497,32 @@ public class BackupGUI extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout paneConfLayout = new javax.swing.GroupLayout(paneConf);
+        paneConf.setLayout(paneConfLayout);
+        paneConfLayout.setHorizontalGroup(
+            paneConfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 568, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneConfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        paneConfLayout.setVerticalGroup(
+            paneConfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 436, Short.MAX_VALUE)
+            .addGroup(paneConfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Configurações", jPanel1);
+        tabPane.addTab("Configurações", paneConf);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(tabPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(tabPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -525,8 +530,8 @@ public class BackupGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileActionPerformed
-        JFileChooser file = new JFileChooser("c:\\access\\backup\\");
-        file.setDialogTitle("Diretorio do Backup");
+        JFileChooser file = new JFileChooser("c:\\next\\backup\\");
+        file.setDialogTitle("Diretório de Backup");
         file.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
         int ret = file.showOpenDialog(this);
@@ -538,138 +543,14 @@ public class BackupGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFileActionPerformed
 
     private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
-        if(rdoBackup.isSelected()){
-            Properties prop = new Properties();
-            try{
-                FileInputStream imp = new FileInputStream("c:\\access\\db.properties");
-                prop.load(imp);
-            }catch(IOException ie){
-                ie.printStackTrace();
-            }
-            try {                
-                if(txtDiretorio.getText().isEmpty()){
-                   JOptionPane.showMessageDialog(this, "O campo do diretorio está vazio, impossível continuar o backup. \n"
-                                                     + "Informe o diretório na aba de comfiguração!","FAEDO CAMINHÕES ©", JOptionPane.HEIGHT);
-                }else{
-                    String dir = txtDiretorio.getText();
-                    Date dt = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmm");
-                    System.out.println("---------------");
-                    System.out.println(dir+"\\bkp"+sdf.format(dt)+".sql");
-                    System.out.println("---------------");
-                    
-                    String periodo = prop.getProperty("periodo_backup");
-                    
-                    if(periodo.equals("DIA")){
-                        obj.realizaBackup(dir+"\\bkp"+sdf.format(dt)+".sql"); 
-                    }else{
-                        Date date = new Date();
-                        GregorianCalendar gc = new GregorianCalendar();
-                        gc.setTime(date);
-                        int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
-                        String ds = "";
-                        if(diaDaSemana == 1){
-                            ds = "DOMINGO";
-                        }
-                        if(diaDaSemana == 2){
-                            ds = "SEGUNDA";
-                        }
-                        if(diaDaSemana == 3){
-                            ds = "TERÇA";
-                        }
-                        if(diaDaSemana == 4){
-                            ds = "QUARTA";
-                        }
-                        if(diaDaSemana == 5){
-                            ds = "QUINTA";
-                        }
-                        if(diaDaSemana == 6){
-                            ds = "SEXTA";
-                        }
-                        if(diaDaSemana == 7){
-                            ds = "SABADO";
-                        }
-                        System.out.println(diaDaSemana);
-                        obj.realizaBackup(dir+"\\BACKUP DE "+ds+".sql");                        
-                    }
-                    
-                    JOptionPane.showMessageDialog(this,"Backup realizado com sucesso.", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }catch (IOException e) {  
-                e.printStackTrace();  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }  
-        }else if(rdoRestore.isSelected()){
-           try {
-               
-               if(txtDiretorioRes.getText().isEmpty()){
-                   JOptionPane.showMessageDialog(this, "O campo do diretorio está vazio, impossível continuar a restauração. \n"
-                                                     + "Informe o diretório na aba de comfiguração!","FAEDO CAMINHÕES ©", JOptionPane.HEIGHT);
-               }else{
-                   String dir = txtDiretorioRes.getText();
-                   obj.realizaRestore(dir);
-
-                   JOptionPane.showMessageDialog(this,"Restore realizado com sucesso.", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
-               }
-               
-            }catch (IOException e) {  
-                e.printStackTrace();  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }
-        }else if (rdoCreate.isSelected()){
-            Properties prop = new Properties();
-             try{
-                    FileInputStream dados = new FileInputStream("c:\\access\\db.properties");
-                    prop.load(dados);                    
-                }catch(IOException ie){
-                    ie.printStackTrace();
-            }
-            try {               
-                String nomeDB = prop.getProperty("nome_banco");
-                String usuario = prop.getProperty("usuario_banco");
-                String senha = prop.getProperty("senha_banco");
-                String host = prop.getProperty("host_banco");
-                String porta = prop.getProperty("porta_banco");
-                
-                if(!nomeDB.isEmpty() || !usuario.isEmpty() || !senha.isEmpty() || !host.isEmpty() || !porta.isEmpty()){
-                    int confirma = JOptionPane.showConfirmDialog(this, "Deseja criar um novo banco de dados?", "FAEDO CAMINHÕES ©", JOptionPane.YES_NO_OPTION);
-                    if (confirma == JOptionPane.YES_OPTION){
-                        obj.createDb(nomeDB,usuario,senha);
-                        JOptionPane.showMessageDialog(this,"Banco criado com sucesso.\n"
-                                                         + "O programa será fechado, por favor inicie novamente!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
-                        //System.exit(0);
-                    }else if (confirma == JOptionPane.NO_OPTION){
-                        
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(this,"Erro ao criar banco de dados.", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
-                    /*                                                 + "pode impactar no funcionamento do sistema, deseja continuar?", "Atenção", JOptionPane.ERROR_MESSAGE);
-                    if (confirma == JOptionPane.YES_OPTION){
-                        String str = txtUsuario.getText();
-                        obj.createDb(str);
-                        try {
-            
-                            File verifica = new File("C:\\Acess\\acess.ini");
-                            if(!verifica.exists()){
-                                verifica.createNewFile();
-                            }
-
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
-                        JOptionPane.showMessageDialog(this,"Banco criado com sucesso.", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
-                    }else if (confirma == JOptionPane.NO_OPTION){
-                        
-                    }
-                    */
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,"Erro ao criar db. \n"+e, "Erro", JOptionPane.ERROR);
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Selecionar se Backup ou Restore ou Create","FAEDO CAMINHÕES ©", JOptionPane.HEIGHT);
+        if (rdoBackup.isSelected()) {
+            backup();
+        } else if (rdoRestore.isSelected()) {
+            restore();
+        } else if (rdoCreate.isSelected()) {
+            create();
+        } else{
+            JOptionPane.showMessageDialog(this, "Selecionar se Backup ou Restore ou Create", "Next Software ₢", JOptionPane.HEIGHT);
         }
     }//GEN-LAST:event_btnBackupActionPerformed
 
@@ -678,7 +559,7 @@ public class BackupGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnFileResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileResActionPerformed
-        JFileChooser file = new JFileChooser("c:\\access\\backup\\");
+        JFileChooser file = new JFileChooser("c:\\next\\backup\\");
         file.setDialogTitle("Selecione o backup para restaurar. ");
         file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         file.setFileFilter(new javax.swing.filechooser.FileFilter(){
@@ -698,31 +579,31 @@ public class BackupGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFileResActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Properties prop = new Properties();
-        
-        prop.setProperty("nome_banco", txtNomeBanco.getText().trim());
-        prop.setProperty("usuario_banco", txtUsuario.getText().trim());
-        prop.setProperty("senha_banco", txtSenha.getText().trim());
-        prop.setProperty("host_banco", txtHost.getText().trim());
-        prop.setProperty("porta_banco", txtPorta.getText().trim());
+        String strategy = "";
         if(rdoDiario.isSelected()){
-            prop.setProperty("periodo_backup", "DIA");    
-        }else if(rdoSemanal.isSelected()){
-            prop.setProperty("periodo_backup", "SEMANA");            
+            strategy = "DIA";
+        }else{
+            strategy = "SEMANA";
         }
-        try{
-            FileOutputStream dados = new FileOutputStream("c:\\access\\db.properties");
-            prop.store(dados, "FILE DATABASE CONFIGS");
-            JOptionPane.showMessageDialog(this,"Salvo com sucesso!", "FAEDO CAMINHÕES ©", JOptionPane.INFORMATION_MESSAGE);
-            dados.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Config c = new Config(txtDriver.getText(), 
+                txtDialect.getText(), 
+                txtHost.getText(), 
+                txtPort.getText(), 
+                txtDados.getText(), 
+                txtUsuario.getText(), 
+                txtSenha.getText(), 
+                strategy);
+        
+        PropertyUtils.criarPropriedades(c);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void txtDriverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDriverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDriverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -784,6 +665,7 @@ public class BackupGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -792,26 +674,30 @@ public class BackupGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JProgressBar progressBar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel paneBackup;
+    private javax.swing.JPanel paneConf;
     private javax.swing.JRadioButton rdoBackup;
     private javax.swing.JRadioButton rdoCreate;
     private javax.swing.JRadioButton rdoDiario;
     private javax.swing.JRadioButton rdoRestore;
     private javax.swing.JRadioButton rdoSemanal;
+    private javax.swing.JTabbedPane tabPane;
+    private javax.swing.JTextField txtDados;
+    private javax.swing.JTextField txtDialect;
     private javax.swing.JTextField txtDiretorio;
     private javax.swing.JTextField txtDiretorioRes;
+    private javax.swing.JTextField txtDriver;
     private javax.swing.JTextField txtHost;
-    private javax.swing.JTextField txtNomeBanco;
-    private javax.swing.JTextField txtPorta;
+    private javax.swing.JTextArea txtOutput;
+    private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtSenha;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
@@ -819,4 +705,162 @@ public class BackupGUI extends javax.swing.JFrame {
     private void setIco() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png")));
     } 
+     
+    private void initComp() {
+        setIco();
+        txtDiretorio.setEditable(false);
+        txtDiretorio.setText("C:\\Next\\backup\\");
+        txtDiretorioRes.setEditable(false);
+        rdoSemanal.setSelected(true);
+        
+        this.tabPane.setBackground(new Color(50,75,143));
+
+        this.tabPane.setEnabledAt(1, true);
+
+        txtPort.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String caracteres = ".0987654321";
+                if (!caracteres.contains(e.getKeyChar() + "")) {
+                    e.consume();
+                }
+            }
+        });
+
+        Config c = PropertyUtils.lerPropriedades();
+
+        txtDriver.setText(c.getDriver());
+        txtDialect.setText(c.getDialect());
+        txtHost.setText(c.getHost());
+        txtPort.setText(c.getPort());
+        txtDados.setText(c.getData());
+        txtUsuario.setText(c.getUser());
+        txtSenha.setText(c.getPass());
+
+        if (c.getStrategy_bkp().equals("DIA")) {
+            rdoDiario.setSelected(true);
+        } else {
+            rdoSemanal.setSelected(true);
+        }
+
+    }
+    
+    private void backup() {
+
+        Config c = PropertyUtils.lerPropriedades();
+
+        if (txtDiretorio.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo do diretorio está vazio, impossível continuar o backup. \n"
+                    + "Informe o diretório na aba de comfiguração!", "Next Software ₢", JOptionPane.HEIGHT);
+            txtDiretorio.requestFocus();
+        }
+        String dir = txtDiretorio.getText();
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmm");
+        String diretorio = dir + "\\bkp" + sdf.format(dt) + ".sql";
+
+        if (c.getStrategy_bkp().equals("DIA")) {
+            List<String> out = obj.realizaBackup(diretorio, c.getHost(), c.getPort(), c.getUser(), c.getData(), c.getPass());
+            if (out.size() > 0) {
+                txtOutput.setText("");
+                for (int i = 0; i < out.size(); i++) {
+                    txtOutput.append(String.valueOf(out.get(i) + "\n"));
+                }
+                txtOutput.append(String.valueOf("Processo concluido!"));
+            }
+        } else {
+            Date date = new Date();
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(date);
+            int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
+            String ds = "";
+            if (diaDaSemana == 1) {
+                ds = "DOMINGO";
+            }
+            if (diaDaSemana == 2) {
+                ds = "SEGUNDA";
+            }
+            if (diaDaSemana == 3) {
+                ds = "TERÇA";
+            }
+            if (diaDaSemana == 4) {
+                ds = "QUARTA";
+            }
+            if (diaDaSemana == 5) {
+                ds = "QUINTA";
+            }
+            if (diaDaSemana == 6) {
+                ds = "SEXTA";
+            }
+            if (diaDaSemana == 7) {
+                ds = "SABADO";
+            }
+            
+            List<String> out = obj.realizaBackup(diretorio, c.getHost(), c.getPort(), c.getUser(), c.getData(), c.getPass());
+            if (out.size() > 0) {
+                txtOutput.setText("");
+                for (int i = 0; i < out.size(); i++) {
+                    txtOutput.append(String.valueOf(out.get(i) + "\n"));
+                }
+                txtOutput.append(String.valueOf("Processo concluido!"));
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Backup realizado com sucesso.", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+    
+    private void restore() {
+
+        Config c = PropertyUtils.lerPropriedades();
+        
+        if (txtDiretorioRes.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo do diretorio está vazio, impossível continuar a restauração. \n"
+                    + "Informe o diretório na aba de comfiguração!", "Next Software ₢", JOptionPane.HEIGHT);
+        } else {
+            String dir = txtDiretorioRes.getText();
+            List<String> out = obj.realizaRestore(c.getHost(), c.getPort(), c.getUser(), c.getData(), dir, c.getPass());
+            if (out.size() > 0) {
+                txtOutput.setText("");
+                for (int i = 0; i < out.size(); i++) {
+                    txtOutput.append(String.valueOf(out.get(i) + "\n"));
+                }
+                txtOutput.append(String.valueOf("Processo concluido!"));
+            }
+            JOptionPane.showMessageDialog(this, "Restore realizado com sucesso.", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+    
+    private void create() {
+
+        Config c = PropertyUtils.lerPropriedades();
+
+        int confirma = JOptionPane.showConfirmDialog(this, "Deseja criar um novo banco de dados?", "Next Software ₢", JOptionPane.YES_NO_OPTION);
+        
+        if (confirma == JOptionPane.YES_OPTION) {
+            List<String> out = obj.createDb(c.getHost(), c.getUser(), c.getData(), c.getPass());
+            if (out.size() > 0) {
+                txtOutput.setText("");
+                for (int i = 0; i < out.size(); i++) {
+                    txtOutput.append(String.valueOf(out.get(i) + "\n"));
+                }
+                txtOutput.append(String.valueOf("Processo concluido!"));
+            }
+            JOptionPane.showMessageDialog(this, "Banco criado com sucesso.\n"
+                    + "O programa será fechado, por favor inicie novamente!", "Next Software ₢", JOptionPane.INFORMATION_MESSAGE);
+
+        } else if (confirma == JOptionPane.NO_OPTION) {
+
+        }
+
+    }
 }

@@ -30,33 +30,43 @@ public class Abastecimento implements Serializable{
     private Integer id;
     private LocalDate data_abastecimento;
     private LocalDateTime instante_lancamento;
+    
     @ManyToOne
-    @JoinColumn(name = "idFornecedor", nullable = false)
+    @JoinColumn(name = "id_fornecedor", nullable = true)
     private Fornecedor fornecedor;
+    
     @ManyToOne
-    @JoinColumn(name = "idProduto", nullable = false)
+    @JoinColumn(name = "id_produto", nullable = true)
     private Produto produto;
     private BigDecimal quantidade;
     private Integer n_requisicao;
     private Integer n_cupom;
     private BigDecimal vlr_unitario;
     private BigDecimal vlr_total;
+    
     @ManyToOne
-    @JoinColumn(name = "idPessoa", nullable = false)
+    @JoinColumn(name = "id_pessoa", nullable = true)
     private Pessoa pessoa;
+    
     @ManyToOne
-    @JoinColumn(name = "idVeiculo", nullable = false)
+    @JoinColumn(name = "id_veiculo", nullable = true)
     private Veiculo veiculo;
     private String responsavel;
+    
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = true)
     private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_empresa", nullable = true)
+    private Empresa empresa;
+    private String observacao;
     
     public Abastecimento(){
         
     }
 
-    public Abastecimento(Integer id, LocalDate data_abastecimento, LocalDateTime instante_lancamento, Fornecedor fornecedor, Produto produto, BigDecimal quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel, Usuario usuario) {
+    public Abastecimento(Integer id, LocalDate data_abastecimento, LocalDateTime instante_lancamento, Fornecedor fornecedor, Produto produto, BigDecimal quantidade, Integer n_requisicao, Integer n_cupom, BigDecimal vlr_unitario, BigDecimal vlr_total, Pessoa pessoa, Veiculo veiculo, String responsavel, Usuario usuario, String observacao, Empresa empresa) {
         this.id = id;
         this.data_abastecimento = data_abastecimento;
         this.instante_lancamento = instante_lancamento;
@@ -71,7 +81,9 @@ public class Abastecimento implements Serializable{
         this.veiculo = veiculo;
         this.responsavel = responsavel;
         this.usuario = usuario;
-    }
+        this.observacao = observacao;
+        this.empresa = empresa;
+    }    
 
     public Integer getId() {
         return id;
@@ -183,6 +195,22 @@ public class Abastecimento implements Serializable{
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
     
     @Override

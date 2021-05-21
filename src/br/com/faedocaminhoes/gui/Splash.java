@@ -183,7 +183,8 @@ public final class Splash extends javax.swing.JDialog {
                 em = new ConnectionFactory().getConection();
             }
         }catch(Exception e){
-            JPaneError.showErrorDialog(this, "Erro ao iniciar o serviço.", e);
+            JPaneError.showErrorDialog(this, "Erro não catalogado!\nEncerrando aplicação.", e);
+            System.exit(0);
         }
     }
 }

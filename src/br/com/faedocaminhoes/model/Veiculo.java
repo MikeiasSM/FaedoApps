@@ -8,14 +8,12 @@ package br.com.faedocaminhoes.model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,38 +29,36 @@ public class Veiculo implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String modelo;
+    
     @ManyToOne
-    @JoinColumn(name = "idProvider", nullable = false)
-    private Fabricante provider;
+    @JoinColumn(name = "id_fabricante", nullable = false)
+    private Fabricante fabricante;
     private String cor;
     private String placa;
     
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "pessoa_veiculo", 
-            joinColumns = @JoinColumn(name = "veiculo_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "pessoa_id", nullable = false), 
-            foreignKey = @ForeignKey(name = "fk_veiculo_id"),
-            inverseForeignKey = @ForeignKey(name = "fk_pessoa_id"))
+    @ManyToMany(mappedBy = "veiculos", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Pessoa> pessoas;
     
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = true)
     private Usuario usuario;
-    
-    @OneToMany(mappedBy = "veiculo")
+        
+    @OneToMany(mappedBy = "veiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Abastecimento> abastecimentos;
 
     public Veiculo() {
         
     }
 
-    public Veiculo(Integer id, String modelo, Fabricante provider, String cor, String placa, Usuario usuario) {
+    public Veiculo(Integer id, String modelo, Fabricante fabricante, String cor, String placa, List<Pessoa> pessoas, Usuario usuario, List<Abastecimento> abastecimentos) {
         this.id = id;
         this.modelo = modelo;
-        this.provider = provider;
+        this.fabricante = fabricante;
         this.cor = cor;
         this.placa = placa;
+        this.pessoas = pessoas;
         this.usuario = usuario;
+        this.abastecimentos = abastecimentos;
     }
 
     public Integer getId() {
@@ -81,12 +77,12 @@ public class Veiculo implements Serializable{
         this.modelo = modelo;
     }
 
-    public Fabricante getProvider() {
-        return provider;
+    public Fabricante getFabricante() {
+        return fabricante;
     }
 
-    public void setProvider(Fabricante provider) {
-        this.provider = provider;
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 
     public String getCor() {
@@ -105,12 +101,12 @@ public class Veiculo implements Serializable{
         this.placa = placa;
     }
 
-    public List<Pessoa> getPersons() {
+    public List<Pessoa> getPessoas() {
         return pessoas;
     }
 
-    public void setPersons(List<Pessoa> pessoa) {
-        this.pessoas = pessoa;
+    public void setPessoas(List<Pessoa> pessoas) {
+        this.pessoas = pessoas;
     }
 
     public Usuario getUsuario() {
@@ -119,6 +115,14 @@ public class Veiculo implements Serializable{
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public List<Abastecimento> getAbastecimentos() {
+        return abastecimentos;
+    }
+
+    public void setAbastecimentos(List<Abastecimento> abastecimentos) {
+        this.abastecimentos = abastecimentos;
     }
     
     @Override
@@ -148,7 +152,7 @@ public class Veiculo implements Serializable{
 
     @Override
     public String toString() {
-        return this.getPlaca()+" - "+getProvider().getNome()+" - "+getModelo()+" - "+getCor();
+        return this.getPlaca()+" - "+getFabricante().getNome()+" - "+getModelo()+" - "+getCor();
 
     }
 }

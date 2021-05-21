@@ -16,7 +16,9 @@ import br.com.faedocaminhoes.model.service.PessoaService;
 import br.com.faedocaminhoes.uteis.JPaneError;
 import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -298,16 +300,12 @@ public class FindPessoaGUI extends javax.swing.JDialog {
         if(pessoaService == null){
             JOptionPane.showMessageDialog(this, "PessoaService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        List<Pessoa> list = pessoaService.findAll();
         
-        if(list != null){
-            tableModel.removeAll();
-            for(Pessoa p : list){
-                tableModel.addRow(p);
-            } 
-        }else{
-            throw new IllegalAccessError("List was null");
-        }    
+        Set<Pessoa> list = new HashSet<>(pessoaService.findAll());       
+        tableModel.removeAll();
+        for(Pessoa p : list){
+            tableModel.addRow(p);
+        }
     }
     
     public Pessoa getTable(){
@@ -323,7 +321,7 @@ public class FindPessoaGUI extends javax.swing.JDialog {
         em = new ConnectionFactory().getConection();
         try{
             //BUSCA REGISTRO PERSONALIZADO
-            String sql = "FROM Pessoa f WHERE 1=1 AND f.nome LIKE '%"+parametro+"%'";//OR f.fantasia LIKE '%"+parametro+"%'";
+            String sql = "SELECT p FROM Pessoa p JOIN FETCH p.veiculos WHERE 1=1 AND f.nome LIKE '%"+parametro+"%'";//OR f.fantasia LIKE '%"+parametro+"%'";
             
             Query query = em.createQuery(sql);
             //List filtrado

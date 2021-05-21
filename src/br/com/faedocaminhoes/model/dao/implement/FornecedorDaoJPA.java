@@ -125,7 +125,9 @@ public class FornecedorDaoJPA implements FornecedorDao{
         Fornecedor fornecedor = null;
         
         try{
-            fornecedor = em.find(Fornecedor.class, obj.getId());
+            
+            String sql = "SELECT u FROM Fornecedor u WHERE u.id = "+obj.getId();
+            fornecedor = (Fornecedor) em.createQuery(sql).getSingleResult();
         
             if(fornecedor == null){
                 JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);

@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.model;
 
 import br.com.faedocaminhoes.model.enumerado.TipoPessoa;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -33,29 +34,36 @@ public class Pessoa implements Serializable{
     private String cpf_cnpj;
     private String telefone;
     private String email;
-    @ManyToMany(mappedBy="pessoas",fetch = FetchType.EAGER)
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_veiculo")
     private List<Veiculo> veiculos;
+    
     @OneToMany(mappedBy = "pessoa")
-    private List<Abastecimento> abastecimentos;
+    private List<Abastecimento> abastecimentos =  new ArrayList<Abastecimento>();
     private Integer tipo_pessoa;
+    
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = true)
     private Usuario usuario;
+    
     
     public Pessoa(){
         
     }
-    
-    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email, Integer tipo_pessoa, Usuario usuario){
+
+    public Pessoa(Integer id, String nome, String cpf_cnpj, String telefone, String email, List<Veiculo> veiculos, List<Abastecimento> abastecimentos, Integer tipo_pessoa, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.cpf_cnpj = cpf_cnpj;
         this.telefone = telefone;
         this.email = email;
+        this.veiculos = veiculos;
+        this.abastecimentos = abastecimentos;
         this.tipo_pessoa = tipo_pessoa;
         this.usuario = usuario;
     }
-
+    
     public Integer getId() {
         return id;
     }
@@ -157,5 +165,7 @@ public class Pessoa implements Serializable{
     public String toString() {
         return getNome();
     }
-    
+    /*
+     *   
+     */
 }

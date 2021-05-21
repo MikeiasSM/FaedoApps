@@ -5,6 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Usuario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +22,8 @@ public class UsuarioTableModel extends AbstractTableModel{
     private final List<Usuario> dados = new ArrayList<>();
     private final String[] colunas = {"Código",
                                       "Nome",
-                                      "Dta. Cadastro"};
+                                      "Dta. Cadastro", 
+                                      "Usr. Cadastro"};
 
     
     @Override
@@ -50,6 +52,8 @@ public class UsuarioTableModel extends AbstractTableModel{
                 LocalDate d = dados.get(linhaIndex).getDataCad();
                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 return d.format(df);
+            case 3:
+                return dados.get(linhaIndex).getUsuario().getNome();
             default:
                 return null;
         }
@@ -64,6 +68,8 @@ public class UsuarioTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setNome((String) valor);
             case 2:
                 dados.get(linhaIndex).setDataCad((LocalDate) valor);
+            case 3:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     
@@ -83,6 +89,10 @@ public class UsuarioTableModel extends AbstractTableModel{
     public Usuario getObject(int linha){
         Usuario user = this.dados.get(linha);
         return user;
+    }
+    
+    public List<Usuario> getDados(int linha){
+        return this.dados;
     }
     
 }

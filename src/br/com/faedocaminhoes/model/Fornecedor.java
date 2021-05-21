@@ -35,20 +35,21 @@ public class Fornecedor implements Serializable{
     @OneToMany(mappedBy = "fornecedor")
     private List<Abastecimento> abastecimentos;
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = true)
     private Usuario usuario;
     
     public Fornecedor(){
         
     }
 
-    public Fornecedor(Integer id, String razao, String fantasia, String cpf_cnpj, String telefone, String email, Usuario usuario) {
+    public Fornecedor(Integer id, String razao, String fantasia, String cpf_cnpj, String telefone, String email, List<Abastecimento> abastecimentos, Usuario usuario) {
         this.id = id;
         this.razao = razao;
         this.fantasia = fantasia;
         this.cpf_cnpj = cpf_cnpj;
         this.telefone = telefone;
         this.email = email;
+        this.abastecimentos = abastecimentos;
         this.usuario = usuario;
     }
 
@@ -115,7 +116,7 @@ public class Fornecedor implements Serializable{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;

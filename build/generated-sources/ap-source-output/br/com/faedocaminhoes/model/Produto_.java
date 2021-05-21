@@ -14,12 +14,14 @@ public abstract class Produto_ {
 	public static volatile SingularAttribute<Produto, CategoriaProd> categoria;
 	public static volatile SingularAttribute<Produto, BigDecimal> valor;
 	public static volatile SingularAttribute<Produto, String> nome;
+	public static volatile SingularAttribute<Produto, Usuario> usuario;
 	public static volatile SingularAttribute<Produto, Integer> id;
 
 	public static final String ABASTECIMENTOS = "abastecimentos";
 	public static final String CATEGORIA = "categoria";
 	public static final String VALOR = "valor";
 	public static final String NOME = "nome";
+	public static final String USUARIO = "usuario";
 	public static final String ID = "id";
 
 }

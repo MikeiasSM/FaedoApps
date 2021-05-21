@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.model.service;
 
 import br.com.faedocaminhoes.model.Abastecimento;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.dao.DaoFactory;
 import br.com.faedocaminhoes.model.dao.implement.AbastecimentoDaoJPA;
 import java.util.List;
@@ -28,7 +29,7 @@ public class AbastecimentoService {
                 abastecimentoDao.update(abastecimento);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -38,7 +39,7 @@ public class AbastecimentoService {
         if(abastecimento != null && abastecimentoDao != null){
             abastecimentoDao.insert(abastecimento);
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -54,7 +55,7 @@ public class AbastecimentoService {
         if(abastecimento != null && abastecimentoDao != null){
             abastecimentoDao.delete(abastecimento);
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -63,7 +64,7 @@ public class AbastecimentoService {
            Abastecimento p = abastecimentoDao.findById(obj);
            return p;
         }else{
-            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Object or Parameter is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             return null;
         }                
     }
@@ -73,7 +74,17 @@ public class AbastecimentoService {
         List<Abastecimento> listPessoa = abastecimentoDao.findAll();
         return listPessoa;
         } else{
-            JOptionPane.showMessageDialog(null, "Service is null!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Service is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
+    public List<Abastecimento> findAll(Empresa obj) {
+        if(abastecimentoDao != null && obj != null){
+        List<Abastecimento> listPessoa = abastecimentoDao.findAll(obj);
+        return listPessoa;
+        } else{
+            JOptionPane.showMessageDialog(null, "Service is null!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
@@ -88,7 +99,7 @@ public class AbastecimentoService {
                 return null;
             }            
         }else{
-            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "FAEDO CAMINHÕES ©", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Variable or Service is null, check the informed parameter!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
             System.out.println(abastecimento);
             return null;
         }

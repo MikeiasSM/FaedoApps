@@ -144,11 +144,11 @@
                           <Component id="txtName" linkSize="5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbCategoria" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtValor" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="txtValor" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbCategoria" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" linkSize="4" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -237,10 +237,7 @@
                 <Property name="text" type="java.lang.String" value="Valor.:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtValor">
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JNumberFormatField(new DecimalFormat(&quot;#,##0.000&quot;))"/>
-              </AuxValues>
+            <Component class="JNumberField.JNumberField" name="txtValor">
             </Component>
           </SubComponents>
         </Container>

@@ -98,8 +98,8 @@ public class PessoaDaoJPA implements PessoaDao{
         em = new ConnectionFactory().getConection();
         List<Pessoa> pessoa = null;
         
-        try{
-            pessoa = em.createQuery("SELECT p FROM Pessoa p ORDER BY p.id").getResultList();
+        try{                                                
+            pessoa = em.createQuery("SELECT p FROM Pessoa p JOIN FETCH p.veiculos ORDER BY p.id").getResultList();
             
             if(pessoa.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Anyone regiter not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
@@ -125,10 +125,11 @@ public class PessoaDaoJPA implements PessoaDao{
         Pessoa person = null;
         
         try{
-            person = em.find(Pessoa.class, pPerson);
+            String sql = "SELECT u FROM Pessoa u WHERE u.id = "+pPerson.getId();
+            person = (Pessoa) em.createQuery(sql).getSingleResult();
         
             if(person == null){
-                JOptionPane.showMessageDialog(null, "Object not found!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!", "Next Software ₢", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalAccessError("Registro não encontrado!");
             }
             return person;                

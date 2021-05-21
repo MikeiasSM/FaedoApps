@@ -8,7 +8,6 @@ package br.com.faedocaminhoes.gui;
 import br.com.faedocaminhoes.connection.ConnectionFactory;
 import br.com.faedocaminhoes.gui.tablemodel.FornecedorTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.FornecedorTableRenderer;
-import br.com.faedocaminhoes.model.Abastecimento;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.service.FornecedorService;
 import br.com.faedocaminhoes.uteis.JPaneError;

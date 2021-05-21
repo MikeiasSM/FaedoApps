@@ -5,6 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Fornecedor;
 import br.com.faedocaminhoes.model.Usuario;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class FornecedorTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getEmail();
             case 6:
                 return dados.get(linhaIndex).getUsuario().getNome();
+                
             default:
                 return null;
         }

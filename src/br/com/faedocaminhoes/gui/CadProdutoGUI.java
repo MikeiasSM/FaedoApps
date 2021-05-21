@@ -8,17 +8,15 @@ package br.com.faedocaminhoes.gui;
 import br.com.faedocaminhoes.gui.tablemodel.ProdutoTableModel;
 import br.com.faedocaminhoes.gui.tablemodel.renderer.FabricanteTableRenderer;
 import br.com.faedocaminhoes.model.CategoriaProd;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Produto;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.service.CategoriaService;
 import br.com.faedocaminhoes.model.service.ProdutoService;
-import br.com.faedocaminhoes.uteis.JNumberFormatField;
 import br.com.faedocaminhoes.uteis.ParseInteger;
 import br.com.faedocaminhoes.uteis.UpperCase;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -29,11 +27,12 @@ import javax.swing.JOptionPane;
 public class CadProdutoGUI extends javax.swing.JDialog {
 
     private Produto produto;
+    private Usuario usuario;
+    private Empresa empresa;
     private ProdutoService produtoService;
     private CategoriaProd categoria;
     private CategoriaService categoriaService;
     private final ProdutoTableModel tableModel = new ProdutoTableModel();
-    private Usuario usuario;
     /**
      * Creates new form CadProviderGUI
      */
@@ -74,7 +73,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         cbCategoria = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        txtValor = new JNumberFormatField(new DecimalFormat("#,##0.000"));
+        txtValor = new JNumberField.JNumberField();
         jPanel3 = new javax.swing.JPanel();
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
@@ -185,11 +184,11 @@ public class CadProdutoGUI extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSair)
@@ -452,7 +451,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtValor;
+    private JNumberField.JNumberField txtValor;
     // End of variables declaration//GEN-END:variables
 
     private void setIco() {
@@ -485,11 +484,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         popCategoria();
         txtName.setDocument(new UpperCase());
         txtSearch.setDocument(new UpperCase());
-        txtValor.add(new JNumberFormatField(){
-            {
-                setLimit(6);
-            }
-        });
+        
         txtName.requestFocus();
         cbCategoria.setSelectedItem(null);
     }
@@ -499,14 +494,9 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         produto.setId(ParseInteger.tryParseToInt(txtCod.getText()));
         produto.setNome(txtName.getText());      
         produto.setCategoria((CategoriaProd)cbCategoria.getSelectedItem()); 
-        
-        String valor = txtValor.getText();
-        String valor1 = valor.replace(".", "");
-        String valor2 = valor1.replace(",", ".");
-        System.out.println(valor2);
-        
-        produto.setValor(new BigDecimal(valor2)); 
-        System.out.println(produto);
+        produto.setValor(txtValor.getValue());
+        produto.setUsuario(getSession());
+       
     }
     
     private void erasedComponents(){
@@ -543,11 +533,11 @@ public class CadProdutoGUI extends javax.swing.JDialog {
         if(produtoService == null){
             JOptionPane.showMessageDialog(this, "ProdutoService was null", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        List<Produto> list = produtoService.findAll();
+        List<Produto> set = produtoService.findAll();
         
-        if(list != null){
+        if(set != null){
             tableModel.removeAll();
-            for(Produto p : list){
+            for(Produto p : set){
                 tableModel.addRow(p);
             } 
         }else{
@@ -587,7 +577,7 @@ public class CadProdutoGUI extends javax.swing.JDialog {
             txtCod.setText(produto.getId().toString());
             txtName.setText(produto.getNome());
             cbCategoria.getModel().setSelectedItem((CategoriaProd)produto.getCategoria());
-            txtValor.setText(produto.getValor().toString());
+            txtValor.setValue(produto.getValor());
             btnDelete.setEnabled(true);
         }
     }
@@ -618,5 +608,12 @@ public class CadProdutoGUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, err,"FAEDO CAMINHÕES", JOptionPane.ERROR_MESSAGE);
             return false;
         }        
+    }
+    
+    private Usuario getSession(){
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuario was null!");
+        }
+        return usuario;  
     }
 }

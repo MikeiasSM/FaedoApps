@@ -6,6 +6,7 @@
 package br.com.faedocaminhoes.model.dao;
 
 import br.com.faedocaminhoes.model.Abastecimento;
+import br.com.faedocaminhoes.model.Empresa;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public interface AbastecimentoDao {
     public void update(Abastecimento obj);
     public void delete(Abastecimento obj);
     public List<Abastecimento> findAll();
+    public List<Abastecimento> findAll(Empresa obj);
     public Abastecimento findById(Abastecimento obj);
     
 }

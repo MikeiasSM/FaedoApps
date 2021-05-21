@@ -14,6 +14,7 @@ public abstract class Abastecimento_ {
 	public static volatile SingularAttribute<Abastecimento, Veiculo> veiculo;
 	public static volatile SingularAttribute<Abastecimento, Integer> n_requisicao;
 	public static volatile SingularAttribute<Abastecimento, BigDecimal> vlr_total;
+	public static volatile SingularAttribute<Abastecimento, String> observacao;
 	public static volatile SingularAttribute<Abastecimento, Pessoa> pessoa;
 	public static volatile SingularAttribute<Abastecimento, LocalDateTime> instante_lancamento;
 	public static volatile SingularAttribute<Abastecimento, Produto> produto;
@@ -22,6 +23,7 @@ public abstract class Abastecimento_ {
 	public static volatile SingularAttribute<Abastecimento, Usuario> usuario;
 	public static volatile SingularAttribute<Abastecimento, Integer> id;
 	public static volatile SingularAttribute<Abastecimento, Fornecedor> fornecedor;
+	public static volatile SingularAttribute<Abastecimento, Empresa> empresa;
 	public static volatile SingularAttribute<Abastecimento, BigDecimal> quantidade;
 	public static volatile SingularAttribute<Abastecimento, String> responsavel;
 	public static volatile SingularAttribute<Abastecimento, LocalDate> data_abastecimento;
@@ -29,6 +31,7 @@ public abstract class Abastecimento_ {
 	public static final String VEICULO = "veiculo";
 	public static final String N_REQUISICAO = "n_requisicao";
 	public static final String VLR_TOTAL = "vlr_total";
+	public static final String OBSERVACAO = "observacao";
 	public static final String PESSOA = "pessoa";
 	public static final String INSTANTE_LANCAMENTO = "instante_lancamento";
 	public static final String PRODUTO = "produto";
@@ -37,6 +40,7 @@ public abstract class Abastecimento_ {
 	public static final String USUARIO = "usuario";
 	public static final String ID = "id";
 	public static final String FORNECEDOR = "fornecedor";
+	public static final String EMPRESA = "empresa";
 	public static final String QUANTIDADE = "quantidade";
 	public static final String RESPONSAVEL = "responsavel";
 	public static final String DATA_ABASTECIMENTO = "data_abastecimento";

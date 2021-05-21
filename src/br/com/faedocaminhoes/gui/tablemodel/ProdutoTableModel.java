@@ -6,7 +6,9 @@
 package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.CategoriaProd;
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Produto;
+import br.com.faedocaminhoes.model.Usuario;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,8 @@ public class ProdutoTableModel extends AbstractTableModel{
     private final String[] colunas = {"Código",
                                       "Nome", 
                                       "Categoria",
-                                      "Valor"};
+                                      "Valor", 
+                                      "Usr. Cadastro"};
 
     
     @Override
@@ -51,6 +54,8 @@ public class ProdutoTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getCategoria().getNome();
             case 3:
                 return dados.get(linhaIndex).getValor();
+            case 4:
+                return dados.get(linhaIndex).getUsuario();
             default:
                 return null;
         }
@@ -67,6 +72,8 @@ public class ProdutoTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setCategoria((CategoriaProd) valor);
             case 3:
                 dados.get(linhaIndex).setValor((BigDecimal) valor);
+            case 4:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     

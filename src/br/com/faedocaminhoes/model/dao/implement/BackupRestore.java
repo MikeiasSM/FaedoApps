@@ -6,7 +6,6 @@
 package br.com.faedocaminhoes.model.dao.implement;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,168 +18,141 @@ import javax.swing.JOptionPane;
  */
 
 public class BackupRestore {
-    
-    private Integer id;
-    private String nomeArq;
-    private String nomeDir;
 
-    
-    public Integer getId() {
-        return id;
-    }
+    public static List<String> realizaRestore(String host, String port, String user, String base, String diretorio, String senha) {
+        final List<String> comandos = new ArrayList<String>();
+        final List<String> out = new ArrayList<>();
+        
+        comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\pg_restore.exe");
+        comandos.add("-h");
+        comandos.add(host);//Host postgres ex. localhost ou 127.0.0.1 
+        comandos.add("-p");
+        comandos.add(port);//Porta postgres ex. 5432      
+        comandos.add("-U");
+        comandos.add(user);//Usuario postgres ex. postgres
+        comandos.add("-d");
+        comandos.add(base);//Nome do banco de dados    
+        comandos.add("-v");
+        comandos.add(diretorio);//Diretorio do backup ex. C:\bkp.sql
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
-    public String getNomeArq() {
-        return nomeArq;
-    }
+        ProcessBuilder pb = new ProcessBuilder(comandos);
+        pb.environment().put("PGPASSWORD", senha);//Senha do postgres requerida        
 
-    public void setNomeArq(String nomeArq) {
-        this.nomeArq = nomeArq;
-    }
-
-    public String getNomeDir() {
-        return nomeDir;
-    }
-
-    public void setNomeDir(String nomeDir) {
-        this.nomeDir = nomeDir;
-    }
-    
-    public static void fazBackup(String arquivo, String diretorio){
-        File arq = new File(arquivo);
-        if (arq.exists()){
-                if (arq.length() > 0)
-                        arq.delete();
-        }
         try {
-                Process p = null;
-                String linha = "";
-                ProcessBuilder pb = new ProcessBuilder(diretorio+"pg_dump.exe", "-i", "-h", "127.0.0.1", "-U", "database", "-F", "c", "-b", "-v", "-f", arquivo, "postgres");
-                pb.environment().put("PGPASSWORD", "admin");
-                pb.redirectErrorStream(true);
-                p = pb.start();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                while ((linha = reader.readLine()) != null){
-                        System.out.println(linha);
-                }
-        }catch (Exception e) {
-                System.out.println("Erro:"+e);
+            final Process process = pb.start();
+            final BufferedReader r = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()));
+            String line = r.readLine();
+            int c = 0;
+            while (line != null) {
+                System.err.println(line);
+                c = c + 1;
+                line = r.readLine();
+                out.add("["+c+"] "+line);
+            }
+            r.close();
+            process.waitFor();
+            process.destroy();
+            return out;
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar.\n" + e, "Erro", JOptionPane.ERROR);
+            return null;
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao restaurar.\n" + ie, "Erro", JOptionPane.ERROR);
+            return null;
         }
     }
-    public static void realizaRestore(String diretorio) throws IOException, InterruptedException{      
-           final List<String> comandos = new ArrayList<String>();      
-           comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\pg_restore.exe"); //testado no windows xp
-           //comandos.add("-i");      
-           comandos.add("-h");      
-           comandos.add("localhost");    //ou   comandos.add("192.168.0.1"); 
-           comandos.add("-p");      
-           comandos.add("5432");      
-           comandos.add("-U");      
-           comandos.add("postgres");      
-           comandos.add("-d");      
-           comandos.add("database");     
-           //comandos.add(arquivo);     
-           comandos.add("-v");      
-           //comandos.add("C:\\Acess\\Dados\\bkp_24_03_19.backup");   // eu utilizei meu C:\ e D:\ para os testes e gravei o backup com sucesso.  
-           comandos.add(diretorio);   // eu utilizei meu C:\ e D:\ para os testes e gravei o backup com sucesso.  
-           ProcessBuilder pb = new ProcessBuilder(comandos);      
-           pb.environment().put("PGPASSWORD", "admin");     //Somente coloque sua senha         
-           try {      
-               final Process process = pb.start();      
-               final BufferedReader r = new BufferedReader(      
-                   new InputStreamReader(process.getErrorStream()));      
-               String line = r.readLine();      
-               while (line != null) {      
-               System.err.println(line);      
-               line = r.readLine();      
-               }      
-               r.close();      
-               process.waitFor();    
-               process.destroy();  
-           } catch (IOException e) {      
-               e.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao restaurar.\n"+e, "Erro", JOptionPane.ERROR);
-           } catch (InterruptedException ie) {      
-               ie.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao restaurar.\n"+ie, "Erro", JOptionPane.ERROR);
-           }         
-       }
-    public static void realizaBackup(String diretorio) throws IOException, InterruptedException{      
-           final List<String> comandos = new ArrayList<String>();      
-           //comandos.add("C:\\Program Files (x86)\\PostgreSQL\\8.4\\bin\\pg_dump.exe"); 
-          //comandos.add("C:\\Program Files\\PostgresPlus\\8.4SS\\bin\\pg_dump.exe"); 
-           comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\pg_dump.exe");    // esse é meu caminho  
-           //comandos.add("-i");      
-           comandos.add("-h");      
-           comandos.add("localhost");     //ou  comandos.add("192.168.0.1"); 
-           comandos.add("-p");      
-           comandos.add("5432");      
-           comandos.add("-U");      
-           comandos.add("postgres");      
-           comandos.add("-F");      
-           comandos.add("c");      
-           comandos.add("-b");      
-           comandos.add("-v");      
-           comandos.add("-f");      
-           //comandos.add("C:\\Acess\\Dados\\bkp_24_03_19.backup");   // eu utilizei meu C:\ e D:\ para os testes e gravei o backup com sucesso.  
-           comandos.add(diretorio);   // eu utilizei meu C:\ e D:\ para os testes e gravei o backup com sucesso.  
-           comandos.add("database");      
-           ProcessBuilder pb = new ProcessBuilder(comandos);      
-           pb.environment().put("PGPASSWORD", "admin");      //Somente coloque sua senha         
-           try {      
-               final Process process = pb.start();      
-               final BufferedReader r = new BufferedReader(      
-                   new InputStreamReader(process.getErrorStream()));      
-               String line = r.readLine();      
-               while (line != null) {      
-               System.err.println(line);      
-               line = r.readLine();      
-               }      
-               r.close();      
-               process.waitFor();    
-               process.destroy(); 
-           } catch (IOException e) {      
-               e.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao gerar backup.\n"+e, "Erro", JOptionPane.ERROR);
-           } catch (InterruptedException ie) {      
-               ie.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao gerar backup.\n"+ie, "Erro", JOptionPane.ERROR);
-           }
-    }
-    public static void createDb(String nomeDB, String usuario, String senha) throws IOException, InterruptedException{      
-           final List<String> comandos = new ArrayList<String>(); 
-           //createdb -h localhost -U postgres dados 
-           comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\createdb.exe");    // esse é meu caminho  
-           //comandos.add("createdb");      
-           comandos.add("-h");
-           comandos.add("localhost");      
-           comandos.add("-U");      
-           comandos.add(usuario);      
-           comandos.add(nomeDB);      
-           ProcessBuilder pb = new ProcessBuilder(comandos);      
-           pb.environment().put("PGPASSWORD", senha);       
-            try {      
-               final Process process = pb.start();      
-               final BufferedReader r = new BufferedReader(      
-                   new InputStreamReader(process.getErrorStream()));      
-               String line = r.readLine();      
-               while (line != null) {      
-               System.err.println(line);      
-               line = r.readLine();      
-               }      
-               r.close();      
-               process.waitFor();    
-               process.destroy(); 
-            } catch (IOException e) {      
-               e.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao criar banco de dados.\n"+e, "Erro", JOptionPane.ERROR);
-            } catch (InterruptedException ie) {      
-               ie.printStackTrace();
-               JOptionPane.showMessageDialog(null,"Erro ao criar banco de dados.\n"+ie, "Erro", JOptionPane.ERROR);
+
+    public static List<String> realizaBackup(String diretorio, String host, String port, String user, String base, String senha) {
+        final List<String> comandos = new ArrayList<String>();
+        final List<String> out = new ArrayList<String>();
+
+        comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\pg_dump.exe");//Patch do pg_Dump na pasta do postgres  
+        comandos.add("-h");
+        comandos.add(host);//Host postgres ex. localhost ou 127.0.0.1 
+        comandos.add("-p");
+        comandos.add(port);//Porta postgres ex. 5432      
+        comandos.add("-U");
+        comandos.add(user);//Usuario postgres ex. postgres      
+        comandos.add("-F");
+        comandos.add("c");
+        comandos.add("-b");
+        comandos.add("-v");
+        comandos.add("-f");
+        comandos.add(diretorio);//Diretorio do backup ex. C:\bkp.sql
+        comandos.add(base);//Nome do banco de dados
+
+        ProcessBuilder pb = new ProcessBuilder(comandos);
+        pb.environment().put("PGPASSWORD", senha);//Senha do postgres requerida
+
+        try {
+            final Process process = pb.start();
+            final BufferedReader r = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()));
+            String line = r.readLine();
+            int c = 0;
+            while (line != null) {
+                System.err.println(line);
+                c = c + 1;
+                line = r.readLine();
+                out.add("["+c+"] "+line);
             }
+            r.close();
+            process.waitFor();
+            process.destroy();
+            return out;
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar backup.\n" + e, "Erro", JOptionPane.ERROR);
+            return null;
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao gerar backup.\n" + ie, "Erro", JOptionPane.ERROR);
+            return null;
+        }
+    }
+
+    public static List<String> createDb(String host, String usuario, String base, String senha) {
+        final List<String> comandos = new ArrayList<String>();
+        final List<String> out = new ArrayList<String>();
+
+        comandos.add("C:\\Arquivos de programas\\PostgreSQL\\12\\bin\\createdb.exe");    // esse é meu caminho  
+        comandos.add("-h");
+        comandos.add(host);//Host postgres ex. localhost ou 127.0.0.1 
+        comandos.add("-U");
+        comandos.add(usuario);//Usuario postgres ex. postgres  
+        comandos.add(base);//Nome do banco de dados
+
+        ProcessBuilder pb = new ProcessBuilder(comandos);
+        pb.environment().put("PGPASSWORD", senha);
+
+        try {
+            final Process process = pb.start();
+            final BufferedReader r = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()));
+            String line = r.readLine();
+            int c = 0;
+            while (line != null) {
+                System.err.println(line);
+                c = c + 1;
+                line = r.readLine();
+                out.add("["+c+"] "+line);
+            }
+            r.close();
+            process.waitFor();
+            process.destroy();
+            return out;
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao criar banco de dados.\n" + e, "Erro", JOptionPane.ERROR);
+            return null;
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao criar banco de dados.\n" + ie, "Erro", JOptionPane.ERROR);
+            return null;
+        }
     }
 }
 

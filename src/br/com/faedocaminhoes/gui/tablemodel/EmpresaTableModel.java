@@ -7,6 +7,7 @@ package br.com.faedocaminhoes.gui.tablemodel;
 
 import br.com.faedocaminhoes.model.Cidade;
 import br.com.faedocaminhoes.model.Empresa;
+import br.com.faedocaminhoes.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -27,7 +28,8 @@ public class EmpresaTableModel extends AbstractTableModel{
                                       "Bairro", 
                                       "Cidade", 
                                       "Telefone", 
-                                      "E-mail"};
+                                      "E-mail", 
+                                      "Usuario"};
 
     
     @Override
@@ -68,6 +70,8 @@ public class EmpresaTableModel extends AbstractTableModel{
                 return dados.get(linhaIndex).getTelefone();
             case 9:
                 return dados.get(linhaIndex).getEmail();
+            case 10:
+                return dados.get(linhaIndex).getUsuario();
             default:
                 return null;
         }
@@ -96,6 +100,8 @@ public class EmpresaTableModel extends AbstractTableModel{
                 dados.get(linhaIndex).setTelefone((String) valor);
             case 9:
                 dados.get(linhaIndex).setEmail((String) valor);
+            case 10:
+                dados.get(linhaIndex).setUsuario((Usuario) valor);
             }
     }
     

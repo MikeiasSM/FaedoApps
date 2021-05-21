@@ -25,7 +25,14 @@ public class PropertyUtils {
         if (file.exists()) {
             return lerPropriedades();
         } else {
-            Config config = new Config("org.postgresql.Driver","org.hibernate.dialect.PostgreSQLDialect","jdbc:postgresql://localhost:5432/database", "postgres", "postgres");
+            Config config = new Config("org.postgresql.Driver", 
+                    "org.hibernate.dialect.PostgreSQLDialect", 
+                    "localhost", 
+                    "5432", 
+                    "database", 
+                    "postgres", 
+                    "postgres", 
+                    "DIA");
             criarPropriedades(config);
             return config;
         }
@@ -38,9 +45,12 @@ public class PropertyUtils {
         //setando as propriedades(key) e os seus valores(value)
         properties.setProperty("DATA.DRIVER", config.getDriver());
         properties.setProperty("DATA.DIALECT", config.getDialect());
-        properties.setProperty("DATA.PATCH", config.getPatch());
+        properties.setProperty("DATA.HOST", config.getHost());
+        properties.setProperty("DATA.PORT", config.getPort());
+        properties.setProperty("DATA.BASE", config.getData());
         properties.setProperty("DATA.USER", config.getUser());
         properties.setProperty("DATA.PASSWORD", config.getPass());
+        properties.setProperty("DATA.STRATEGY.BKP", config.getStrategy_bkp());
 
         try {
             //Criamos um objeto FileOutputStream        
@@ -66,9 +76,12 @@ public class PropertyUtils {
             //Alterando propriedades
             properties.setProperty("DATA.DRIVER", config.getDriver());
             properties.setProperty("DATA.DIALECT", config.getDialect());
-            properties.setProperty("DATA.PATCH", config.getPatch());
+            properties.setProperty("DATA.HOST", config.getHost());
+            properties.setProperty("DATA.PORT", config.getPort());
+            properties.setProperty("DATA.BASE", config.getData());
             properties.setProperty("DATA.USER", config.getUser());
             properties.setProperty("DATA.PASSWORD", config.getPass());
+            properties.setProperty("DATA.STRATEGY.BKP", config.getStrategy_bkp());
             //Alterando properties
             properties.store(out, "FILE CONFIGURATION PROPERTIES:");
             //Fechando properties
@@ -93,9 +106,12 @@ public class PropertyUtils {
             //Captura o valor da propriedade, atraves do nome da propriedade(Key)
             config.setDriver(properties.getProperty("DATA.DRIVER"));
             config.setDialect(properties.getProperty("DATA.DIALECT"));
-            config.setPatch(properties.getProperty("DATA.PATCH"));
+            config.setHost(properties.getProperty("DATA.HOST"));
+            config.setPort(properties.getProperty("DATA.PORT"));
+            config.setData(properties.getProperty("DATA.BASE"));
             config.setUser(properties.getProperty("DATA.USER"));
             config.setPass(properties.getProperty("DATA.PASSWORD"));
+            config.setStrategy_bkp(properties.getProperty("DATA.STRATEGY.BKP"));
 
             return config;
         } catch (IOException e) {

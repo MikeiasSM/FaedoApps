@@ -5,6 +5,7 @@
  */
 package br.com.faedocaminhoes.gui.tablemodel;
 
+import br.com.faedocaminhoes.model.Empresa;
 import br.com.faedocaminhoes.model.Pessoa;
 import br.com.faedocaminhoes.model.Usuario;
 import br.com.faedocaminhoes.model.enumerado.TipoPessoa;
