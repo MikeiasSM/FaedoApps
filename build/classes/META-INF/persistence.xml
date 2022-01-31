@@ -5,14 +5,14 @@
     <!-- Implementação do JPA -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Lista de entidades -->
-    <class>br.com.faedocaminhoes.model.Abastecimento</class>
-    <class>br.com.faedocaminhoes.model.CategoriaProd</class>
-    <class>br.com.faedocaminhoes.model.Fabricante</class>
-    <class>br.com.faedocaminhoes.model.Fornecedor</class>
-    <class>br.com.faedocaminhoes.model.Pessoa</class>
-    <class>br.com.faedocaminhoes.model.Produto</class>
-    <class>br.com.faedocaminhoes.model.Usuario</class>
-    <class>br.com.faedocaminhoes.model.Veiculo</class>
+    <class>br.com.floatsolutions.model.Usuario</class>
+    <class>br.com.floatsolutions.model.Veiculo</class>
+    <class>br.com.floatsolutions.model.Abastecimento</class>
+    <class>br.com.floatsolutions.model.Produto</class>
+    <class>br.com.floatsolutions.model.Fornecedor</class>
+    <class>br.com.floatsolutions.model.Pessoa</class>
+    <class>br.com.floatsolutions.model.Categoria_Produto</class>
+    <class>br.com.floatsolutions.model.Fabricante_Veiculo</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
